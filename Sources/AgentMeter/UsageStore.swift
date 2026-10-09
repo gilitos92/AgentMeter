@@ -202,6 +202,30 @@ final class UsageStore: ObservableObject {
         }
     }
 
+    /// One menu-bar-style entry per visible provider for the compact Usage
+    /// Details window. Unlike `menuBarEntries`, it ignores the menu bar style
+    /// and per-provider menu bar visibility.
+    var compactEntries: [CompactUsageEntry] {
+        visibleProviders.map { provider in
+            let providerState = state(for: provider.id)
+            return CompactUsageEntry(
+                provider: provider,
+                windows: providerState.usage?.windows ?? [],
+                summary: providerSummaryText(for: providerState),
+                severity: MenuBarTitleRenderer.severity(
+                    for: providerState,
+                    balanceThreshold: settings.balanceNotificationThreshold
+                ),
+                accessibilityLabel: MenuBarAccessibilitySummary.providerSegment(
+                    displayName: provider.displayName,
+                    state: providerState,
+                    countDirection: settings.countDirection,
+                    balanceThreshold: settings.balanceNotificationThreshold
+                )
+            )
+        }
+    }
+
     /// Worst severity across title providers (for icon-only menu bar style).
     var worstMenuBarSeverity: MenuBarSeverity {
         let providers = titleProviders
@@ -264,16 +288,17 @@ final class UsageStore: ObservableObject {
     }
 
     private func providerEntryText(for provider: any UsageProvider, state: ProviderState) -> String {
+        "\(provider.shortCode) \(providerSummaryText(for: state))"
+    }
+
+    private func providerSummaryText(for state: ProviderState) -> String {
         switch state {
         case .loading:
-            return "\(provider.shortCode) …"
+            return "…"
         case .error:
-            return "\(provider.shortCode) !"
+            return "!"
         case .ready(let usage), .stale(let usage, _, _):
-            guard let summary = usage.menuSummary(direction: settings.countDirection) else {
-                return "\(provider.shortCode) ?"
-            }
-            return "\(provider.shortCode) \(summary)"
+            return usage.menuSummary(direction: settings.countDirection) ?? "?"
         }
     }
 
@@ -358,4 +383,17 @@ final class UsageStore: ObservableObject {
         sessionWatcher = source
         watchedFile = newest
     }
+}
+
+/// A provider's limit windows plus its menu-bar-style summary, e.g. "42%",
+/// for the compact Usage Details window. The summary is shown for providers
+/// without limit windows (balances, loading, errors).
+struct CompactUsageEntry: Identifiable {
+    let provider: any UsageProvider
+    let windows: [UsageWindow]
+    let summary: String
+    let severity: MenuBarSeverity
+    let accessibilityLabel: String
+
+    var id: String { provider.id }
 }

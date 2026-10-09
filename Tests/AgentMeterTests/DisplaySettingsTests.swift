@@ -2,6 +2,19 @@ import XCTest
 @testable import AgentMeter
 
 final class DisplaySettingsTests: XCTestCase {
+    func testShortRemainingDescriptionDropsPrefix() {
+        let now = Date(timeIntervalSince1970: 1_790_000_000)
+        func short(_ seconds: TimeInterval) -> String? {
+            UsageWindow(label: "Weekly", usedPercent: 50, resetsAt: now.addingTimeInterval(seconds))
+                .shortRemainingDescription(now: now)
+        }
+        XCTAssertEqual(short(4 * 86400 + 23 * 3600 + 60), "4d 23h")
+        XCTAssertEqual(short(3 * 3600 + 32 * 60 + 5), "3h 32m")
+        XCTAssertEqual(short(12 * 60 + 30), "12m")
+        XCTAssertEqual(short(-5), "soon")
+        XCTAssertNil(UsageWindow(label: "Key", usedPercent: 5, resetsAt: nil).shortRemainingDescription(now: now))
+    }
+
     @MainActor
     func testUsageDetailsAlwaysOnTopDefaultsOffAndPersists() {
         let suite = "DisplaySettingsTests.\(UUID().uuidString)"

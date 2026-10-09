@@ -369,11 +369,7 @@ private struct WindowMeter: View {
     }
 
     private var color: Color {
-        switch severity {
-        case .normal: return .green
-        case .warning: return .yellow
-        case .critical: return .red
-        }
+        severity.color
     }
 
     private var meterAccessibilityLabel: String {
