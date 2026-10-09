@@ -22,6 +22,20 @@ struct UsageWindow: Equatable {
         resetDescription(style: .relative)
     }
 
+    /// Time left until reset without the "resets in" prefix, e.g. "3h 32m",
+    /// for tight layouts such as the compact Usage Details panel.
+    func shortRemainingDescription(now: Date = Date()) -> String? {
+        guard let resetsAt else { return nil }
+        let interval = resetsAt.timeIntervalSince(now)
+        guard interval > 0 else { return L("soon") }
+        let days = Int(interval) / 86400
+        let hours = (Int(interval) % 86400) / 3600
+        let minutes = (Int(interval) % 3600) / 60
+        if days > 0 { return L("\(String(days))d \(String(hours))h") }
+        if hours > 0 { return L("\(String(hours))h \(String(minutes))m") }
+        return L("\(String(minutes))m")
+    }
+
     func resetDescription(style: ResetTimeStyle, now: Date = Date()) -> String? {
         guard let resetsAt else { return nil }
         switch style {

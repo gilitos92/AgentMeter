@@ -29,3 +29,16 @@ enum UsageMeterSeverity: Equatable {
         }
     }
 }
+
+import SwiftUI
+
+extension UsageMeterSeverity {
+    /// Progress bar and percent tint.
+    var color: Color {
+        switch self {
+        case .normal: return .green
+        case .warning: return .yellow
+        case .critical: return .red
+        }
+    }
+}

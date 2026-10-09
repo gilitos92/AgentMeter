@@ -14,6 +14,12 @@
 	<string>%@, %@, %@</string>
 	<key>%@: %@</key>
 	<string>%@: %@</string>
+	<key>%@d %@h</key>
+	<string>%@d %@h</string>
+	<key>%@h %@m</key>
+	<string>%@h %@m</string>
+	<key>%@m</key>
+	<string>%@m</string>
 	<key>%lld%% remaining</key>
 	<string>%lld%% remaining</string>
 	<key>%lld%% used</key>
@@ -46,6 +52,8 @@
 	<string>Add account…</string>
 	<key>Adds this account to AgentMeter using the folder name as its label.</key>
 	<string>Adds this account to AgentMeter using the folder name as its label.</string>
+	<key>Adjust how see-through the window background is.</key>
+	<string>Adjust how see-through the window background is.</string>
 	<key>Admin key</key>
 	<string>Admin key</string>
 	<key>AgentMeter</key>
@@ -64,6 +72,8 @@
 	<string>Apple</string>
 	<key>Auto-updates powered by Sparkle (MIT License).</key>
 	<string>Auto-updates powered by Sparkle (MIT License).</string>
+	<key>Background opacity</key>
+	<string>Background opacity</string>
 	<key>Balance works through the limited rate-limits endpoint.</key>
 	<string>Balance works through the limited rate-limits endpoint.</string>
 	<key>Billed through</key>
@@ -88,6 +98,8 @@
 	<string>Claude API reporting rate limited (HTTP 429)</string>
 	<key>Claude API reporting returned HTTP %@</key>
 	<string>Claude API reporting returned HTTP %@</string>
+	<key>Close</key>
+	<string>Close</string>
 	<key>Codex CLI not found</key>
 	<string>Codex CLI not found</string>
 	<key>Codex accounts</key>
@@ -98,10 +110,14 @@
 	<string>Codex app-server timed out</string>
 	<key>Codex protocol error</key>
 	<string>Codex protocol error</string>
+	<key>Collapse into a small panel with each provider's limits.</key>
+	<string>Collapse into a small panel with each provider's limits.</string>
 	<key>Command-line tool installed at %@</key>
 	<string>Command-line tool installed at %@</string>
 	<key>Command-line tool not on your PATH.</key>
 	<string>Command-line tool not on your PATH.</string>
+	<key>Compact View</key>
+	<string>Compact View</string>
 	<key>Connection failed</key>
 	<string>Connection failed</string>
 	<key>Copies the Terminal command to sign in this Codex account</key>
@@ -128,6 +144,8 @@
 	<string>Enable agent &amp; CLI access</string>
 	<key>Enable notifications to change this.</key>
 	<string>Enable notifications to change this.</string>
+	<key>Expand</key>
+	<string>Expand</string>
 	<key>Failed to parse Venice response: %@</key>
 	<string>Failed to parse Venice response: %@</string>
 	<key>Found signed-in Codex home: %@</key>
@@ -196,6 +214,8 @@
 	<string>Not signed in</string>
 	<key>Not signed in — run the login command in Settings</key>
 	<string>Not signed in — run the login command in Settings</string>
+	<key>Opacity</key>
+	<string>Opacity</string>
 	<key>OpenAI doesn't publish subscription renewal dates, so confirm yours on the platform that bills you — ChatGPT, Apple, or Google Play. Renewal dates are separate from usage-limit resets.</key>
 	<string>OpenAI doesn't publish subscription renewal dates, so confirm yours on the platform that bills you — ChatGPT, Apple, or Google Play. Renewal dates are separate from usage-limit resets.</string>
 	<key>OpenRouter connect failed: key could not be saved</key>
@@ -328,5 +348,7 @@
 	<string>low balance</string>
 	<key>nearly used up</key>
 	<string>nearly used up</string>
+	<key>soon</key>
+	<string>soon</string>
 </dict>
 </plist>

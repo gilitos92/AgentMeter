@@ -30,6 +30,12 @@
 	<string>%@, %@, %@</string>
 	<key>%@: %@</key>
 	<string>%@: %@</string>
+	<key>%@d %@h</key>
+	<string>%@d %@h</string>
+	<key>%@h %@m</key>
+	<string>%@h %@m</string>
+	<key>%@m</key>
+	<string>%@m</string>
 	<key>%lld%%</key>
 	<string>%lld%%</string>
 	<key>%lld%% left</key>
@@ -84,6 +90,8 @@
 	<string>Agregar cuenta…</string>
 	<key>Adds this account to AgentMeter using the folder name as its label.</key>
 	<string>Agrega esta cuenta a AgentMeter usando el nombre de la carpeta como etiqueta.</string>
+	<key>Adjust how see-through the window background is.</key>
+	<string>Ajusta qué tan transparente es el fondo de la ventana.</string>
 	<key>Admin key</key>
 	<string>Clave de administrador</string>
 	<key>AgentMeter</key>
@@ -118,6 +126,8 @@
 	<string>Uso automático</string>
 	<key>Auto-updates powered by Sparkle (MIT License).</key>
 	<string>Actualizaciones automáticas con Sparkle (licencia MIT).</string>
+	<key>Background opacity</key>
+	<string>Opacidad del fondo</string>
 	<key>Balance</key>
 	<string>Saldo</string>
 	<key>Balance alert below</key>
@@ -148,6 +158,8 @@
 	<string>Límite de solicitudes de informes de Claude API alcanzado (HTTP 429)</string>
 	<key>Claude API reporting returned HTTP %@</key>
 	<string>Los informes de Claude API devolvieron HTTP %@</string>
+	<key>Close</key>
+	<string>Cerrar</string>
 	<key>Codex CLI not found</key>
 	<string>No se encontró la CLI de Codex</string>
 	<key>Codex accounts</key>
@@ -158,12 +170,16 @@
 	<string>Se agotó el tiempo de espera del servidor de Codex</string>
 	<key>Codex protocol error</key>
 	<string>Error de protocolo de Codex</string>
+	<key>Collapse into a small panel with each provider's limits.</key>
+	<string>Contrae la ventana en un panel pequeño con los límites de cada proveedor.</string>
 	<key>Command-line tool installed at %@</key>
 	<string>Herramienta de línea de comandos instalada en %@</string>
 	<key>Command-line tool not on your PATH.</key>
 	<string>La herramienta de línea de comandos no está en tu PATH.</string>
 	<key>Compact (worst only)</key>
 	<string>Compacto (solo el peor)</string>
+	<key>Compact View</key>
+	<string>Vista compacta</string>
 	<key>Compact menu bar (worst only)</key>
 	<string>Barra de menús compacta (solo el peor)</string>
 	<key>Connected</key>
@@ -228,6 +244,8 @@
 	<string>Activa las notificaciones para cambiar esto.</string>
 	<key>Exact</key>
 	<string>Exacto</string>
+	<key>Expand</key>
+	<string>Expandir</string>
 	<key>Failed to parse Venice response: %@</key>
 	<string>No se pudo interpretar la respuesta de Venice: %@</string>
 	<key>Flash (24h)</key>
@@ -348,6 +366,8 @@
 	<string>Una notificación por ventana de límite, reactivada cuando la ventana se restablece. "20% restante" es la misma alerta que "80% usado" — sigue tu configuración de Visualización.</string>
 	<key>One notification per limit window, re-armed when the window resets. Balance alerts apply to pay-as-you-go providers.</key>
 	<string>Una notificación por ventana de límite, reactivada cuando la ventana se restablece. Las alertas de saldo aplican a proveedores de pago por uso.</string>
+	<key>Opacity</key>
+	<string>Opacidad</string>
 	<key>OpenAI doesn't publish subscription renewal dates, so confirm yours on the platform that bills you — ChatGPT, Apple, or Google Play. Renewal dates are separate from usage-limit resets.</key>
 	<string>OpenAI no publica las fechas de renovación de suscripción, así que confirma la tuya en la plataforma que te factura — ChatGPT, Apple o Google Play. Las fechas de renovación son distintas de los reinicios de límites de uso.</string>
 	<key>OpenRouter connect failed: key could not be saved</key>
@@ -590,5 +610,7 @@
 	<string>se restablece en %@m</string>
 	<key>resets soon</key>
 	<string>se restablece pronto</string>
+	<key>soon</key>
+	<string>pronto</string>
 </dict>
 </plist>
