@@ -3,7 +3,7 @@
 All notable changes to AgentMeter. Format follows [Keep a Changelog](https://keepachangelog.com);
 versions follow semantic-ish `MAJOR.MINOR.PATCH`.
 
-## [Unreleased]
+## [1.12.2] — 2026-10-08
 
 ### Fixed
 - AgentMeter no longer renews Claude Code's sign-in token. Renewing it rotated
