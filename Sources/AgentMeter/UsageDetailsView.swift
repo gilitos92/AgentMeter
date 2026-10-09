@@ -14,6 +14,7 @@ struct UsageDetailsView: View {
             .frame(maxWidth: .infinity, alignment: .leading)
         }
         .frame(minWidth: 360, minHeight: 500)
+        .background(MenuMaterialBackground().ignoresSafeArea())
         .background(WindowLevelSetter(alwaysOnTop: settings.usageDetailsAlwaysOnTop,
                                       onAllSpaces: settings.usageDetailsOnAllSpaces))
         .toolbar {
@@ -61,6 +62,20 @@ private struct WindowOptionButton: View {
         .accessibilityValue(isOn ? L("On") : L("Off"))
         .accessibilityAddTraits(isOn ? .isSelected : [])
     }
+}
+
+/// The translucent material of the menu bar dropdown, kept active while the
+/// app is in the background so a floating window keeps the same look.
+private struct MenuMaterialBackground: NSViewRepresentable {
+    func makeNSView(context: Context) -> NSVisualEffectView {
+        let view = NSVisualEffectView()
+        view.material = .menu
+        view.blendingMode = .behindWindow
+        view.state = .active
+        return view
+    }
+
+    func updateNSView(_ nsView: NSVisualEffectView, context: Context) {}
 }
 
 /// Floats the hosting window above other apps' windows when enabled and, if
