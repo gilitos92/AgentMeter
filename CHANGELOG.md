@@ -3,6 +3,21 @@
 All notable changes to AgentMeter. Format follows [Keep a Changelog](https://keepachangelog.com);
 versions follow semantic-ish `MAJOR.MINOR.PATCH`.
 
+## [1.14.0] — 2026-10-09
+
+### Added
+- Compact Usage Details panel: a toolbar button collapses the window into a
+  small, chrome-free panel with one mini meter per limit (for example 5h and
+  weekly) for each provider, plus the time until each limit resets. Drag it
+  from anywhere. Close, Keep on Top, Show on All Desktops, Opacity and Expand
+  controls appear on hover (always with VoiceOver).
+- Opacity control for the Usage Details window, in the toolbar and the compact
+  panel: a slider fades the translucent background while text and meters stay
+  opaque.
+
+### Changed
+- The full Usage Details window is slightly wider so all toolbar buttons fit.
+
 ## [1.13.0] — 2026-10-08
 
 ### Added
