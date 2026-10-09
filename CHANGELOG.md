@@ -3,7 +3,7 @@
 All notable changes to AgentMeter. Format follows [Keep a Changelog](https://keepachangelog.com);
 versions follow semantic-ish `MAJOR.MINOR.PATCH`.
 
-## [Unreleased]
+## [1.13.0] — 2026-10-08
 
 ### Added
 - Usage Details window toolbar buttons: "Keep on Top" keeps the window above
