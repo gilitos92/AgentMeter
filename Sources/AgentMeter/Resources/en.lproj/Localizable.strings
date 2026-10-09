@@ -46,6 +46,8 @@
 	<string>Add account…</string>
 	<key>Adds this account to AgentMeter using the folder name as its label.</key>
 	<string>Adds this account to AgentMeter using the folder name as its label.</string>
+	<key>Adjust how see-through the window background is.</key>
+	<string>Adjust how see-through the window background is.</string>
 	<key>Admin key</key>
 	<string>Admin key</string>
 	<key>AgentMeter</key>
@@ -64,6 +66,8 @@
 	<string>Apple</string>
 	<key>Auto-updates powered by Sparkle (MIT License).</key>
 	<string>Auto-updates powered by Sparkle (MIT License).</string>
+	<key>Background opacity</key>
+	<string>Background opacity</string>
 	<key>Balance works through the limited rate-limits endpoint.</key>
 	<string>Balance works through the limited rate-limits endpoint.</string>
 	<key>Billed through</key>
@@ -204,6 +208,8 @@
 	<string>Not signed in</string>
 	<key>Not signed in — run the login command in Settings</key>
 	<string>Not signed in — run the login command in Settings</string>
+	<key>Opacity</key>
+	<string>Opacity</string>
 	<key>OpenAI doesn't publish subscription renewal dates, so confirm yours on the platform that bills you — ChatGPT, Apple, or Google Play. Renewal dates are separate from usage-limit resets.</key>
 	<string>OpenAI doesn't publish subscription renewal dates, so confirm yours on the platform that bills you — ChatGPT, Apple, or Google Play. Renewal dates are separate from usage-limit resets.</string>
 	<key>OpenRouter connect failed: key could not be saved</key>

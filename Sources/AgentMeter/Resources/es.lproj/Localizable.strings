@@ -84,6 +84,8 @@
 	<string>Agregar cuenta…</string>
 	<key>Adds this account to AgentMeter using the folder name as its label.</key>
 	<string>Agrega esta cuenta a AgentMeter usando el nombre de la carpeta como etiqueta.</string>
+	<key>Adjust how see-through the window background is.</key>
+	<string>Ajusta qué tan transparente es el fondo de la ventana.</string>
 	<key>Admin key</key>
 	<string>Clave de administrador</string>
 	<key>AgentMeter</key>
@@ -118,6 +120,8 @@
 	<string>Uso automático</string>
 	<key>Auto-updates powered by Sparkle (MIT License).</key>
 	<string>Actualizaciones automáticas con Sparkle (licencia MIT).</string>
+	<key>Background opacity</key>
+	<string>Opacidad del fondo</string>
 	<key>Balance</key>
 	<string>Saldo</string>
 	<key>Balance alert below</key>
@@ -356,6 +360,8 @@
 	<string>Una notificación por ventana de límite, reactivada cuando la ventana se restablece. "20% restante" es la misma alerta que "80% usado" — sigue tu configuración de Visualización.</string>
 	<key>One notification per limit window, re-armed when the window resets. Balance alerts apply to pay-as-you-go providers.</key>
 	<string>Una notificación por ventana de límite, reactivada cuando la ventana se restablece. Las alertas de saldo aplican a proveedores de pago por uso.</string>
+	<key>Opacity</key>
+	<string>Opacidad</string>
 	<key>OpenAI doesn't publish subscription renewal dates, so confirm yours on the platform that bills you — ChatGPT, Apple, or Google Play. Renewal dates are separate from usage-limit resets.</key>
 	<string>OpenAI no publica las fechas de renovación de suscripción, así que confirma la tuya en la plataforma que te factura — ChatGPT, Apple o Google Play. Las fechas de renovación son distintas de los reinicios de límites de uso.</string>
 	<key>OpenRouter connect failed: key could not be saved</key>

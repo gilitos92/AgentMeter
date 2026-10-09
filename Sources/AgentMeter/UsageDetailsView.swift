@@ -23,7 +23,7 @@ struct UsageDetailsView: View {
                 expandedContent
             }
         }
-        .background(MenuMaterialBackground().ignoresSafeArea())
+        .background(MenuMaterialBackground(opacity: settings.usageDetailsBackgroundOpacity).ignoresSafeArea())
         .background {
             GeometryReader { proxy in
                 Color.clear
@@ -56,6 +56,8 @@ struct UsageDetailsView: View {
                 )
                 .disabled(!settings.usageDetailsAlwaysOnTop)
 
+                OpacityButton(opacity: $settings.usageDetailsBackgroundOpacity, compact: false)
+
                 WindowOptionButton(
                     title: L("Compact View"),
                     help: L("Collapse into a small panel with each provider's limits."),
@@ -87,7 +89,7 @@ struct UsageDetailsView: View {
         // The window fits its content (see `windowResizability(.contentSize)`)
         // and scrolls only when the content is taller than the screen allows.
         // Wide enough for the title and all toolbar buttons without overflow.
-        .frame(minWidth: 400, idealWidth: 400, maxWidth: .infinity)
+        .frame(minWidth: 440, idealWidth: 440, maxWidth: .infinity)
         .frame(height: min(contentHeight ?? 500, Self.maxHeight))
     }
 }
@@ -100,7 +102,12 @@ private struct CompactUsageView: View {
     @ObservedObject var settings: SettingsStore
     let close: () -> Void
     @State private var isHovering = false
+    @State private var isAdjustingOpacity = false
     @Environment(\.accessibilityVoiceOverEnabled) private var voiceOverEnabled
+
+    private var showsControls: Bool {
+        isHovering || isAdjustingOpacity || voiceOverEnabled
+    }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -116,8 +123,8 @@ private struct CompactUsageView: View {
         .overlay(alignment: .topTrailing) {
             controls
                 .padding(6)
-                .opacity(isHovering || voiceOverEnabled ? 1 : 0)
-                .allowsHitTesting(isHovering || voiceOverEnabled)
+                .opacity(showsControls ? 1 : 0)
+                .allowsHitTesting(showsControls)
         }
         .contentShape(Rectangle())
         .onHover { hovering in
@@ -142,6 +149,11 @@ private struct CompactUsageView: View {
                 isOn: settings.usageDetailsOnAllSpaces
             ) { settings.usageDetailsOnAllSpaces.toggle() }
             .disabled(!settings.usageDetailsAlwaysOnTop)
+            OpacityButton(
+                opacity: $settings.usageDetailsBackgroundOpacity,
+                compact: true,
+                isPresented: $isAdjustingOpacity
+            )
             CompactControlButton(
                 title: L("Expand"),
                 symbol: "rectangle.expand.vertical",
@@ -308,18 +320,82 @@ private struct UsageDetailsContentHeightKey: PreferenceKey {
     }
 }
 
+/// Opens a slider for the window background's opacity. The toolbar and the
+/// compact panel's hover controls each show one.
+private struct OpacityButton: View {
+    @Binding var opacity: Double
+    let compact: Bool
+    var isPresented: Binding<Bool>?
+    @State private var localIsPresented = false
+
+    private var presented: Binding<Bool> {
+        isPresented ?? $localIsPresented
+    }
+
+    var body: some View {
+        Group {
+            if compact {
+                CompactControlButton(title: L("Opacity"), symbol: "circle.lefthalf.filled", isOn: false) {
+                    presented.wrappedValue.toggle()
+                }
+            } else {
+                Button {
+                    presented.wrappedValue.toggle()
+                } label: {
+                    Label(L("Opacity"), systemImage: "circle.lefthalf.filled")
+                        .foregroundStyle(.secondary)
+                }
+                .help(L("Adjust how see-through the window background is."))
+            }
+        }
+        .popover(isPresented: presented, arrowEdge: .bottom) {
+            OpacitySlider(opacity: $opacity)
+        }
+    }
+}
+
+private struct OpacitySlider: View {
+    @Binding var opacity: Double
+
+    private var percent: String {
+        "\(Int((opacity * 100).rounded()))%"
+    }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            HStack {
+                Text(L("Background opacity")).font(.caption)
+                Spacer()
+                Text(percent).font(.caption.monospacedDigit()).foregroundStyle(.secondary)
+            }
+            .accessibilityHidden(true)
+            Slider(value: $opacity, in: 0...1, step: 0.05)
+                .accessibilityLabel(L("Background opacity"))
+                .accessibilityValue(percent)
+        }
+        .padding(12)
+        .frame(width: 220)
+    }
+}
+
 /// The translucent material of the menu bar dropdown, kept active while the
-/// app is in the background so a floating window keeps the same look.
+/// app is in the background so a floating window keeps the same look. Its
+/// opacity is adjustable; content drawn on top stays fully opaque.
 private struct MenuMaterialBackground: NSViewRepresentable {
+    let opacity: Double
+
     func makeNSView(context: Context) -> NSVisualEffectView {
         let view = NSVisualEffectView()
         view.material = .menu
         view.blendingMode = .behindWindow
         view.state = .active
+        view.alphaValue = opacity
         return view
     }
 
-    func updateNSView(_ nsView: NSVisualEffectView, context: Context) {}
+    func updateNSView(_ nsView: NSVisualEffectView, context: Context) {
+        nsView.alphaValue = opacity
+    }
 }
 
 /// Floats the hosting window above other apps' windows when enabled and, if
@@ -370,8 +446,11 @@ struct WindowLevelSetter: NSViewRepresentable {
         private func applyLevel() {
             guard let window else { return }
             window.level = alwaysOnTop ? .floating : .normal
-            // Let the window's material show through the title bar.
+            // Let the window's material show through the title bar, and let a
+            // faded material show what is behind the window.
             window.titlebarAppearsTransparent = true
+            window.isOpaque = false
+            window.backgroundColor = .clear
             applyCompactChrome(to: window)
             // Over full-screen apps the window must also float, so all-Spaces
             // behavior only applies together with always-on-top.

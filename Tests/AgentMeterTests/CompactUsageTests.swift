@@ -39,6 +39,21 @@ final class CompactUsageTests: XCTestCase {
         settings.usageDetailsCompact = true
         XCTAssertTrue(SettingsStore(defaults: defaults).usageDetailsCompact)
     }
+
+    @MainActor
+    func testBackgroundOpacityDefaultsOpaqueAndPersistsClamped() {
+        let suite = "CompactUsageTests.\(UUID().uuidString)"
+        let defaults = UserDefaults(suiteName: suite)!
+        defer { defaults.removePersistentDomain(forName: suite) }
+
+        let settings = SettingsStore(defaults: defaults)
+        XCTAssertEqual(settings.usageDetailsBackgroundOpacity, 1)
+        settings.usageDetailsBackgroundOpacity = 0.35
+        XCTAssertEqual(SettingsStore(defaults: defaults).usageDetailsBackgroundOpacity, 0.35, accuracy: 0.0001)
+
+        defaults.set(4.0, forKey: "usageDetailsBackgroundOpacity")
+        XCTAssertEqual(SettingsStore(defaults: defaults).usageDetailsBackgroundOpacity, 1)
+    }
 }
 
 private struct CompactProvider: UsageProvider {
