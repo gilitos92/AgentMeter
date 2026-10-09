@@ -3,6 +3,21 @@
 All notable changes to AgentMeter. Format follows [Keep a Changelog](https://keepachangelog.com);
 versions follow semantic-ish `MAJOR.MINOR.PATCH`.
 
+## [Unreleased]
+
+### Fixed
+- AgentMeter no longer renews Claude Code's sign-in token. Renewing it rotated
+  the shared refresh token without saving the new one, so Claude Code could be
+  signed out. When the token has expired, AgentMeter now asks you to run
+  Claude Code and then refresh.
+- The menu bar popup resizes to fit its content instead of keeping empty space
+  from its first layout.
+- Packaging works with Swift 6.4 by building with SwiftPM's native build system.
+
+### Changed
+- Builds that set `AgentMeterLocalAuthRepair` in Info.plist pause Sparkle
+  updates, so an official release without this fix cannot replace them.
+
 ## [1.12.1] — 2026-09-25
 
 ### Fixed

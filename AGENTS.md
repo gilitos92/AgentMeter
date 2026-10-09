@@ -4,7 +4,7 @@ macOS menu bar app (SwiftUI, Swift Package, macOS 14+) showing AI coding usage
 limits for Codex (multiple accounts), Cursor, Claude Code, Gemini, Claude API reporting, and
 pay-as-you-go balances for OpenRouter, DeepSeek, Kimi, Z.ai, and Venice.
 Public repo: https://github.com/fdtorres1/AgentMeter. Current release line:
-1.12.x (see CHANGELOG.md). Test suite: 164 tests (`swift test`).
+1.12.x (see CHANGELOG.md). Test suite: 166 tests (`swift test`).
 
 **If `HANDOFF.md` exists in the repo root, read it first.** It is the
 gitignored, machine-local session handoff (current state, pending work,
