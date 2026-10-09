@@ -17,11 +17,14 @@ struct MenuContent: View {
         }
         .padding(14)
         .frame(width: 320)
+        .fixedSize(horizontal: false, vertical: true)
         .background {
-            MenuWindowScreenReader { height in
-                DispatchQueue.main.async {
-                    guard menuScreenVisibleHeight != height else { return }
-                    menuScreenVisibleHeight = height
+            GeometryReader { proxy in
+                MenuWindowScreenReader(contentSize: proxy.size) { height in
+                    DispatchQueue.main.async {
+                        guard menuScreenVisibleHeight != height else { return }
+                        menuScreenVisibleHeight = height
+                    }
                 }
             }
         }
@@ -85,7 +88,7 @@ struct MenuContent: View {
         // covers the first layout pass, before the popup has an owning window.
         let screenHeight = menuScreenVisibleHeight ?? 820
         let maxHeight = max(1, min(680, screenHeight - 150))
-        guard let providerContentHeight else { return maxHeight }
+        guard let providerContentHeight else { return 1 }
         return min(providerContentHeight, maxHeight)
     }
 
@@ -136,6 +139,7 @@ struct MenuContent: View {
                     Self.closeMenuBarWindow()
                     Updater.shared.checkForUpdates()
                 }
+                .disabled(Bundle.main.object(forInfoDictionaryKey: "AgentMeterLocalAuthRepair") as? Bool == true)
                 .buttonStyle(.plain)
                 .font(.caption)
                 .help(L("Check for Updates…"))
@@ -193,6 +197,7 @@ private struct ProviderContentBottomKey: PreferenceKey {
 /// zero-size probe rather than a GeometryReader that could participate in a
 /// layout feedback loop.
 private struct MenuWindowScreenReader: NSViewRepresentable {
+    let contentSize: CGSize
     let onVisibleHeightChange: (CGFloat) -> Void
 
     func makeNSView(context: Context) -> ScreenProbeView {
@@ -201,12 +206,41 @@ private struct MenuWindowScreenReader: NSViewRepresentable {
 
     func updateNSView(_ nsView: ScreenProbeView, context: Context) {
         nsView.onVisibleHeightChange = onVisibleHeightChange
+        nsView.contentSize = contentSize
+        nsView.scheduleContentResize()
     }
 
     final class ScreenProbeView: NSView {
         var onVisibleHeightChange: (CGFloat) -> Void
         private weak var observedWindow: NSWindow?
         private var lastReportedHeight: CGFloat?
+        var contentSize: CGSize = .zero
+        private var resizeScheduled = false
+
+        // MenuBarExtra can retain its first layout's native window height even
+        // after SwiftUI has measured and contracted the provider list.
+        func scheduleContentResize() {
+            guard !resizeScheduled else { return }
+            resizeScheduled = true
+            DispatchQueue.main.async { [weak self] in
+                guard let self else { return }
+                self.resizeScheduled = false
+                guard let window = self.window,
+                      window.className.contains("MenuBarExtraWindow"),
+                      self.contentSize.width > 0, self.contentSize.height > 0 else { return }
+                let size = NSSize(width: ceil(self.contentSize.width),
+                                  height: ceil(self.contentSize.height))
+                let current = window.contentRect(forFrameRect: window.frame).size
+                guard abs(current.height - size.height) > 1 ||
+                      abs(current.width - size.width) > 1 else { return }
+                let top = window.frame.maxY
+                window.contentMinSize = size
+                window.contentMaxSize = size
+                window.setContentSize(size)
+                window.setFrameOrigin(NSPoint(x: window.frame.minX,
+                                              y: top - window.frame.height))
+            }
+        }
 
         init(onVisibleHeightChange: @escaping (CGFloat) -> Void) {
             self.onVisibleHeightChange = onVisibleHeightChange
@@ -238,6 +272,7 @@ private struct MenuWindowScreenReader: NSViewRepresentable {
                 )
             }
             reportVisibleHeight()
+            scheduleContentResize()
         }
 
         deinit {

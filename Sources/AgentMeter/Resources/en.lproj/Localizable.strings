@@ -230,6 +230,8 @@
 	<string>Reporting may lag the Anthropic website. Priority Tier costs excluded.</string>
 	<key>Reports before %@ UTC</key>
 	<string>Reports before %@ UTC</string>
+	<key>Run Claude Code to renew its credentials, then refresh AgentMeter</key>
+	<string>Run Claude Code to renew its credentials, then refresh AgentMeter</string>
 	<key>Run from AgentMeter.app to install the command-line tool.</key>
 	<string>Run from AgentMeter.app to install the command-line tool.</string>
 	<key>Run this in Terminal to sign in that account. AgentMeter never handles your login or tokens — the Codex CLI does.</key>

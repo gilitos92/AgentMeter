@@ -146,8 +146,6 @@
 	<string>Límite de solicitudes de informes de Claude API alcanzado (HTTP 429)</string>
 	<key>Claude API reporting returned HTTP %@</key>
 	<string>Los informes de Claude API devolvieron HTTP %@</string>
-	<key>Claude token refresh failed (HTTP %lld)</key>
-	<string>Error al actualizar el token de Claude (HTTP %lld)</string>
 	<key>Codex CLI not found</key>
 	<string>No se encontró la CLI de Codex</string>
 	<key>Codex accounts</key>
@@ -410,6 +408,8 @@
 	<string>Datos anteriores a %@ UTC</string>
 	<key>Reset times</key>
 	<string>Tiempos de restablecimiento</string>
+	<key>Run Claude Code to renew its credentials, then refresh AgentMeter</key>
+	<string>Ejecuta Claude Code para renovar sus credenciales y luego actualiza AgentMeter</string>
 	<key>Run from AgentMeter.app to install the command-line tool.</key>
 	<string>Ejecuta desde AgentMeter.app para instalar la herramienta de línea de comandos.</string>
 	<key>Run this in Terminal to sign in that account. AgentMeter never handles your login or tokens — the Codex CLI does.</key>
