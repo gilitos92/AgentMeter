@@ -14,6 +14,12 @@
 	<string>%@, %@, %@</string>
 	<key>%@: %@</key>
 	<string>%@: %@</string>
+	<key>%@d %@h</key>
+	<string>%@d %@h</string>
+	<key>%@h %@m</key>
+	<string>%@h %@m</string>
+	<key>%@m</key>
+	<string>%@m</string>
 	<key>%lld%% remaining</key>
 	<string>%lld%% remaining</string>
 	<key>%lld%% used</key>
@@ -342,5 +348,7 @@
 	<string>low balance</string>
 	<key>nearly used up</key>
 	<string>nearly used up</string>
+	<key>soon</key>
+	<string>soon</string>
 </dict>
 </plist>

@@ -103,6 +103,7 @@ private struct CompactUsageView: View {
     let close: () -> Void
     @State private var isHovering = false
     @State private var isAdjustingOpacity = false
+    @State private var labelWidth: CGFloat?
     @Environment(\.accessibilityVoiceOverEnabled) private var voiceOverEnabled
 
     private var showsControls: Bool {
@@ -112,8 +113,14 @@ private struct CompactUsageView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             ForEach(entries) { entry in
-                CompactProviderRow(entry: entry, countDirection: settings.countDirection)
+                CompactProviderRow(entry: entry, countDirection: settings.countDirection, labelWidth: labelWidth)
             }
+        }
+        // Size the label column to the widest label so bars sit close to it
+        // and stay aligned across rows.
+        .onPreferenceChange(CompactLabelWidthKey.self) { width in
+            guard width > 0, labelWidth != width else { return }
+            labelWidth = width
         }
         .padding(.horizontal, 12)
         .padding(.top, 12)
@@ -190,6 +197,7 @@ private struct CompactControlButton: View {
 private struct CompactProviderRow: View {
     let entry: CompactUsageEntry
     let countDirection: CountDirection
+    let labelWidth: CGFloat?
 
     var body: some View {
         HStack(alignment: .top, spacing: 8) {
@@ -202,7 +210,8 @@ private struct CompactProviderRow: View {
                         CompactWindowMeter(
                             providerName: entry.provider.displayName,
                             window: window,
-                            countDirection: countDirection
+                            countDirection: countDirection,
+                            labelWidth: labelWidth
                         )
                     }
                 }
@@ -239,17 +248,37 @@ private struct CompactWindowMeter: View {
     let providerName: String
     let window: UsageWindow
     let countDirection: CountDirection
+    let labelWidth: CGFloat?
 
     private static let barWidth: CGFloat = 80
 
     var body: some View {
+        TimelineView(.periodic(from: .now, by: 30)) { context in
+            meter(at: context.date)
+        }
+    }
+
+    private func meter(at now: Date) -> some View {
         let severity = UsageMeterSeverity.forUsedPercent(window.usedPercent)
-        HStack(spacing: 8) {
-            Text(window.label)
-                .font(.caption)
-                .foregroundStyle(.secondary)
-                .frame(width: 84, alignment: .leading)
-                .lineLimit(1)
+        return HStack(spacing: 8) {
+            HStack(spacing: 5) {
+                Text(window.label)
+                    .foregroundStyle(.secondary)
+                if let remaining = window.shortRemainingDescription(now: now) {
+                    Text(remaining)
+                        .monospacedDigit()
+                        .foregroundStyle(.tertiary)
+                }
+            }
+            .font(.caption)
+            .lineLimit(1)
+            .fixedSize()
+            .background {
+                GeometryReader { proxy in
+                    Color.clear.preference(key: CompactLabelWidthKey.self, value: proxy.size.width)
+                }
+            }
+            .frame(width: labelWidth, alignment: .leading)
             Capsule()
                 .fill(.quaternary)
                 .frame(width: Self.barWidth, height: 5)
@@ -272,13 +301,23 @@ private struct CompactWindowMeter: View {
         .frame(height: 16)
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(String(format: L("%@, %@"), providerName, window.label))
-        .accessibilityValue(accessibilityValue(severity: severity))
+        .accessibilityValue(accessibilityValue(severity: severity, now: now))
     }
 
-    private func accessibilityValue(severity: UsageMeterSeverity) -> String {
-        let value = countDirection.accessibilityPercentPhrase(window.usedPercent)
+    private func accessibilityValue(severity: UsageMeterSeverity, now: Date) -> String {
+        var value = countDirection.accessibilityPercentPhrase(window.usedPercent)
+        if let reset = window.resetDescription(style: .relative, now: now) {
+            value = "\(value), \(reset)"
+        }
         guard let qualifier = severity.qualifier else { return value }
         return MenuBarAccessibilitySummary.appendQualifier(value, qualifier)
+    }
+}
+
+private struct CompactLabelWidthKey: PreferenceKey {
+    static var defaultValue: CGFloat = 0
+    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
+        value = max(value, nextValue())
     }
 }
 

@@ -30,6 +30,12 @@
 	<string>%@, %@, %@</string>
 	<key>%@: %@</key>
 	<string>%@: %@</string>
+	<key>%@d %@h</key>
+	<string>%@d %@h</string>
+	<key>%@h %@m</key>
+	<string>%@h %@m</string>
+	<key>%@m</key>
+	<string>%@m</string>
 	<key>%lld%%</key>
 	<string>%lld%%</string>
 	<key>%lld%% left</key>
@@ -604,5 +610,7 @@
 	<string>se restablece en %@m</string>
 	<key>resets soon</key>
 	<string>se restablece pronto</string>
+	<key>soon</key>
+	<string>pronto</string>
 </dict>
 </plist>
