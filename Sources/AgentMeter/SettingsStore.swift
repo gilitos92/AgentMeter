@@ -63,6 +63,10 @@ final class SettingsStore: ObservableObject {
         didSet { defaults.set(usageDetailsAlwaysOnTop, forKey: Keys.usageDetailsAlwaysOnTop) }
     }
 
+    @Published var usageDetailsCompact: Bool {
+        didSet { defaults.set(usageDetailsCompact, forKey: Keys.usageDetailsCompact) }
+    }
+
     /// Only applies while `usageDetailsAlwaysOnTop` is on.
     @Published var usageDetailsOnAllSpaces: Bool {
         didSet { defaults.set(usageDetailsOnAllSpaces, forKey: Keys.usageDetailsOnAllSpaces) }
@@ -121,6 +125,7 @@ final class SettingsStore: ObservableObject {
         static let agentAccessEnabled = "agentAccessEnabled"
         static let usageDetailsAlwaysOnTop = "usageDetailsAlwaysOnTop"
         static let usageDetailsOnAllSpaces = "usageDetailsOnAllSpaces"
+        static let usageDetailsCompact = "usageDetailsCompact"
         static let codexExtraAccounts = "codexExtraAccounts"
         static let subscriptionRenewals = "subscriptionRenewals"
         static let compactMenuBar = "compactMenuBar"
@@ -156,6 +161,7 @@ final class SettingsStore: ObservableObject {
         }
         self.usageDetailsAlwaysOnTop = defaults.bool(forKey: Keys.usageDetailsAlwaysOnTop)
         self.usageDetailsOnAllSpaces = defaults.bool(forKey: Keys.usageDetailsOnAllSpaces)
+        self.usageDetailsCompact = defaults.bool(forKey: Keys.usageDetailsCompact)
         self.agentAccessEnabled = defaults.bool(forKey: Keys.agentAccessEnabled)
         if let data = defaults.data(forKey: Keys.codexExtraAccounts),
            let accounts = try? JSONDecoder().decode([CodexAccountConfig].self, from: data) {

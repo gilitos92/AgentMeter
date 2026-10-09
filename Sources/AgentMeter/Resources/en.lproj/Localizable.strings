@@ -88,6 +88,8 @@
 	<string>Claude API reporting rate limited (HTTP 429)</string>
 	<key>Claude API reporting returned HTTP %@</key>
 	<string>Claude API reporting returned HTTP %@</string>
+	<key>Close</key>
+	<string>Close</string>
 	<key>Codex CLI not found</key>
 	<string>Codex CLI not found</string>
 	<key>Codex accounts</key>
@@ -98,10 +100,14 @@
 	<string>Codex app-server timed out</string>
 	<key>Codex protocol error</key>
 	<string>Codex protocol error</string>
+	<key>Collapse into a small panel with each provider's limits.</key>
+	<string>Collapse into a small panel with each provider's limits.</string>
 	<key>Command-line tool installed at %@</key>
 	<string>Command-line tool installed at %@</string>
 	<key>Command-line tool not on your PATH.</key>
 	<string>Command-line tool not on your PATH.</string>
+	<key>Compact View</key>
+	<string>Compact View</string>
 	<key>Connection failed</key>
 	<string>Connection failed</string>
 	<key>Copies the Terminal command to sign in this Codex account</key>
@@ -128,6 +134,8 @@
 	<string>Enable agent &amp; CLI access</string>
 	<key>Enable notifications to change this.</key>
 	<string>Enable notifications to change this.</string>
+	<key>Expand</key>
+	<string>Expand</string>
 	<key>Failed to parse Venice response: %@</key>
 	<string>Failed to parse Venice response: %@</string>
 	<key>Found signed-in Codex home: %@</key>

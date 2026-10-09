@@ -148,6 +148,8 @@
 	<string>Límite de solicitudes de informes de Claude API alcanzado (HTTP 429)</string>
 	<key>Claude API reporting returned HTTP %@</key>
 	<string>Los informes de Claude API devolvieron HTTP %@</string>
+	<key>Close</key>
+	<string>Cerrar</string>
 	<key>Codex CLI not found</key>
 	<string>No se encontró la CLI de Codex</string>
 	<key>Codex accounts</key>
@@ -158,12 +160,16 @@
 	<string>Se agotó el tiempo de espera del servidor de Codex</string>
 	<key>Codex protocol error</key>
 	<string>Error de protocolo de Codex</string>
+	<key>Collapse into a small panel with each provider's limits.</key>
+	<string>Contrae la ventana en un panel pequeño con los límites de cada proveedor.</string>
 	<key>Command-line tool installed at %@</key>
 	<string>Herramienta de línea de comandos instalada en %@</string>
 	<key>Command-line tool not on your PATH.</key>
 	<string>La herramienta de línea de comandos no está en tu PATH.</string>
 	<key>Compact (worst only)</key>
 	<string>Compacto (solo el peor)</string>
+	<key>Compact View</key>
+	<string>Vista compacta</string>
 	<key>Compact menu bar (worst only)</key>
 	<string>Barra de menús compacta (solo el peor)</string>
 	<key>Connected</key>
@@ -228,6 +234,8 @@
 	<string>Activa las notificaciones para cambiar esto.</string>
 	<key>Exact</key>
 	<string>Exacto</string>
+	<key>Expand</key>
+	<string>Expandir</string>
 	<key>Failed to parse Venice response: %@</key>
 	<string>No se pudo interpretar la respuesta de Venice: %@</string>
 	<key>Flash (24h)</key>
