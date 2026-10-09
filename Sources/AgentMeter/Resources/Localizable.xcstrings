@@ -3247,6 +3247,70 @@
         }
       }
     },
+    "Keep on Top": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keep on Top"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mantener encima"
+          }
+        }
+      }
+    },
+    "Keep this window above other windows, even when you switch apps.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keep this window above other windows, even when you switch apps."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mantén esta ventana encima de las demás, incluso al cambiar de app."
+          }
+        }
+      }
+    },
+    "Show on All Desktops": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show on All Desktops"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mostrar en todos los escritorios"
+          }
+        }
+      }
+    },
+    "Also show this window on every desktop and over full-screen apps. Requires Keep on Top.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Also show this window on every desktop and over full-screen apps. Requires Keep on Top."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Muestra también esta ventana en todos los escritorios y sobre apps en pantalla completa. Requiere Mantener encima."
+          }
+        }
+      }
+    },
     "Usage Details": {
       "localizations": {
         "en": {
