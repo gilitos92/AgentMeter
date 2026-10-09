@@ -2,6 +2,33 @@ import XCTest
 @testable import AgentMeter
 
 final class DisplaySettingsTests: XCTestCase {
+    @MainActor
+    func testUsageDetailsAlwaysOnTopDefaultsOffAndPersists() {
+        let suite = "DisplaySettingsTests.\(UUID().uuidString)"
+        let defaults = UserDefaults(suiteName: suite)!
+        defer { defaults.removePersistentDomain(forName: suite) }
+
+        let settings = SettingsStore(defaults: defaults)
+        XCTAssertFalse(settings.usageDetailsAlwaysOnTop)
+        settings.usageDetailsAlwaysOnTop = true
+        XCTAssertTrue(SettingsStore(defaults: defaults).usageDetailsAlwaysOnTop)
+    }
+
+    @MainActor
+    func testWindowLevelSetterFloatsAndRestoresWindow() {
+        _ = NSApplication.shared
+        let window = NSWindow(contentRect: NSRect(x: 0, y: 0, width: 100, height: 100),
+                              styleMask: .titled, backing: .buffered, defer: true)
+        window.isReleasedWhenClosed = false
+        let probe = WindowLevelSetter.ProbeView()
+        probe.alwaysOnTop = true
+        window.contentView = probe
+        XCTAssertEqual(window.level, .floating)
+
+        probe.alwaysOnTop = false
+        XCTAssertEqual(window.level, .normal)
+    }
+
     func testCountDirectionDisplayPercent() {
         XCTAssertEqual(CountDirection.used.displayPercent(84), 84, accuracy: 0.001)
         XCTAssertEqual(CountDirection.remaining.displayPercent(84), 16, accuracy: 0.001)

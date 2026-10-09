@@ -156,6 +156,8 @@
 	<string>Install Command-Line Tool…</string>
 	<key>Installed. Open a new terminal and run agentmeter --help.</key>
 	<string>Installed. Open a new terminal and run agentmeter --help.</string>
+	<key>Keep Usage Details on top</key>
+	<string>Keep Usage Details on top</string>
 	<key>Key limit</key>
 	<string>Key limit</string>
 	<key>Key not working</key>
@@ -250,6 +252,8 @@
 	<string>Subscription renewal</string>
 	<key>Subscription renews soon</key>
 	<string>Subscription renews soon</string>
+	<key>The Usage Details window stays above other windows, even when you switch apps.</key>
+	<string>The Usage Details window stays above other windows, even when you switch apps.</string>
 	<key>The key was rejected by Venice.</key>
 	<string>The key was rejected by Venice.</string>
 	<key>This API key lets apps use your OpenRouter credits up to a spending limit you set. AgentMeter only reads how much has been used; it cannot spend money or change your account. If you used Connect, OpenRouter created a dedicated key just for AgentMeter that you can revoke anytime.</key>

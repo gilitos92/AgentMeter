@@ -59,6 +59,10 @@ final class SettingsStore: ObservableObject {
         didSet { defaults.set(menuBarStyle.rawValue, forKey: Keys.menuBarStyle) }
     }
 
+    @Published var usageDetailsAlwaysOnTop: Bool {
+        didSet { defaults.set(usageDetailsAlwaysOnTop, forKey: Keys.usageDetailsAlwaysOnTop) }
+    }
+
     @Published var agentAccessEnabled: Bool {
         didSet {
             defaults.set(agentAccessEnabled, forKey: Keys.agentAccessEnabled)
@@ -110,6 +114,7 @@ final class SettingsStore: ObservableObject {
         static let balanceNotificationThreshold = "balanceNotificationThreshold"
         static let menuBarStyle = "menuBarStyle"
         static let agentAccessEnabled = "agentAccessEnabled"
+        static let usageDetailsAlwaysOnTop = "usageDetailsAlwaysOnTop"
         static let codexExtraAccounts = "codexExtraAccounts"
         static let subscriptionRenewals = "subscriptionRenewals"
         static let compactMenuBar = "compactMenuBar"
@@ -143,6 +148,7 @@ final class SettingsStore: ObservableObject {
         } else {
             self.menuBarStyle = .full
         }
+        self.usageDetailsAlwaysOnTop = defaults.bool(forKey: Keys.usageDetailsAlwaysOnTop)
         self.agentAccessEnabled = defaults.bool(forKey: Keys.agentAccessEnabled)
         if let data = defaults.data(forKey: Keys.codexExtraAccounts),
            let accounts = try? JSONDecoder().decode([CodexAccountConfig].self, from: data) {

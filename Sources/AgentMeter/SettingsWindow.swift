@@ -800,6 +800,14 @@ private struct DisplaySettingsTab: View {
                 }
                 .pickerStyle(.segmented)
             }
+
+            Section {
+                Toggle(L("Keep Usage Details on top"), isOn: $settings.usageDetailsAlwaysOnTop)
+            } footer: {
+                Text(L("The Usage Details window stays above other windows, even when you switch apps."))
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
         }
         .formStyle(.grouped)
     }

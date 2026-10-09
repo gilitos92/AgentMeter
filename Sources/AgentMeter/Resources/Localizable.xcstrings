@@ -3247,6 +3247,38 @@
         }
       }
     },
+    "Keep Usage Details on top": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keep Usage Details on top"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mantener Detalles de uso encima"
+          }
+        }
+      }
+    },
+    "The Usage Details window stays above other windows, even when you switch apps.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Usage Details window stays above other windows, even when you switch apps."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La ventana Detalles de uso permanece encima de las demás ventanas, incluso al cambiar de app."
+          }
+        }
+      }
+    },
     "Usage Details": {
       "localizations": {
         "en": {

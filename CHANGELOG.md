@@ -3,6 +3,12 @@
 All notable changes to AgentMeter. Format follows [Keep a Changelog](https://keepachangelog.com);
 versions follow semantic-ish `MAJOR.MINOR.PATCH`.
 
+## [Unreleased]
+
+### Added
+- Settings → Display → "Keep Usage Details on top" keeps the Usage Details
+  window above other windows, even when you switch apps. Off by default.
+
 ## [1.12.2] — 2026-10-08
 
 ### Fixed

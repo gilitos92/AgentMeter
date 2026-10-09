@@ -272,6 +272,8 @@
 	<string>Instalar herramienta de línea de comandos…</string>
 	<key>Installed. Open a new terminal and run agentmeter --help.</key>
 	<string>Instalada. Abre una terminal nueva y ejecuta agentmeter --help.</string>
+	<key>Keep Usage Details on top</key>
+	<string>Mantener Detalles de uso encima</string>
 	<key>Key limit</key>
 	<string>Límite de la clave</string>
 	<key>Key not working</key>
@@ -444,6 +446,8 @@
 	<string>Apoyar ♥</string>
 	<key>Team pool</key>
 	<string>Pool del equipo</string>
+	<key>The Usage Details window stays above other windows, even when you switch apps.</key>
+	<string>La ventana Detalles de uso permanece encima de las demás ventanas, incluso al cambiar de app.</string>
 	<key>The key was rejected by Venice.</key>
 	<string>Venice rechazó la clave.</string>
 	<key>This API key lets apps use your OpenRouter credits up to a spending limit you set. AgentMeter only reads how much has been used; it cannot spend money or change your account. If you used Connect, OpenRouter created a dedicated key just for AgentMeter that you can revoke anytime.</key>
