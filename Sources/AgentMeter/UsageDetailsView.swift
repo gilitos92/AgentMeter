@@ -18,19 +18,48 @@ struct UsageDetailsView: View {
                                       onAllSpaces: settings.usageDetailsOnAllSpaces))
         .toolbar {
             ToolbarItemGroup(placement: .primaryAction) {
-                Toggle(isOn: $settings.usageDetailsAlwaysOnTop) {
-                    Label(L("Keep on Top"),
-                          systemImage: settings.usageDetailsAlwaysOnTop ? "pin.fill" : "pin")
-                }
-                .help(L("Keep this window above other windows, even when you switch apps."))
+                WindowOptionButton(
+                    title: L("Keep on Top"),
+                    help: L("Keep this window above other windows, even when you switch apps."),
+                    offSymbol: "pin",
+                    onSymbol: "pin.fill",
+                    isOn: $settings.usageDetailsAlwaysOnTop
+                )
 
-                Toggle(isOn: $settings.usageDetailsOnAllSpaces) {
-                    Label(L("Show on All Desktops"), systemImage: "rectangle.on.rectangle")
-                }
+                WindowOptionButton(
+                    title: L("Show on All Desktops"),
+                    help: L("Also show this window on every desktop and over full-screen apps. Requires Keep on Top."),
+                    offSymbol: "rectangle.on.rectangle",
+                    onSymbol: "rectangle.fill.on.rectangle.fill",
+                    isOn: $settings.usageDetailsOnAllSpaces
+                )
                 .disabled(!settings.usageDetailsAlwaysOnTop)
-                .help(L("Also show this window on every desktop and over full-screen apps. Requires Keep on Top."))
             }
         }
+    }
+}
+
+/// A plain toolbar button that toggles a window option. Toolbar `Toggle`s draw
+/// as filled accent-colored buttons when on; this keeps the standard toolbar
+/// look and shows the state through a filled, accent-tinted symbol instead.
+private struct WindowOptionButton: View {
+    let title: String
+    let help: String
+    let offSymbol: String
+    let onSymbol: String
+    @Binding var isOn: Bool
+    @Environment(\.isEnabled) private var isEnabled
+
+    var body: some View {
+        Button {
+            isOn.toggle()
+        } label: {
+            Label(title, systemImage: isOn ? onSymbol : offSymbol)
+                .foregroundStyle(isOn && isEnabled ? AnyShapeStyle(.tint) : AnyShapeStyle(.secondary))
+        }
+        .help(help)
+        .accessibilityValue(isOn ? L("On") : L("Off"))
+        .accessibilityAddTraits(isOn ? .isSelected : [])
     }
 }
 
