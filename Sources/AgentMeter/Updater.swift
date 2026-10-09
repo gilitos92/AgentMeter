@@ -12,20 +12,24 @@ final class Updater {
     static let shared = Updater()
 
     private let controller: SPUStandardUpdaterController
+    private let localAuthRepair: Bool
 
     private init() {
+        // Local auth repairs must not be overwritten by an unpatched release.
+        localAuthRepair = Bundle.main.object(forInfoDictionaryKey: "AgentMeterLocalAuthRepair") as? Bool == true
         controller = SPUStandardUpdaterController(
-            startingUpdater: Bundle.main.bundleIdentifier != nil,
+            startingUpdater: Bundle.main.bundleIdentifier != nil && !localAuthRepair,
             updaterDelegate: nil,
             userDriverDelegate: nil
         )
     }
 
     var canCheck: Bool {
-        controller.updater.canCheckForUpdates
+        !localAuthRepair && controller.updater.canCheckForUpdates
     }
 
     func checkForUpdates() {
+        guard canCheck else { return }
         controller.checkForUpdates(nil)
     }
 }

@@ -20,7 +20,9 @@ SIGN_IDENTITY="${SIGN_IDENTITY:--}"
 xcrun xcstringstool compile Sources/AgentMeter/Resources/Localizable.xcstrings \
     --output-directory Sources/AgentMeter/Resources
 
-swift build -c release
+# Swift 6.4's default Swift Build backend rejects the checked-in .lproj files
+# next to the String Catalog (duplicate outputs); the native backend accepts them.
+swift build -c release --build-system native
 
 APP="${APP_NAME}.app"
 rm -rf "$APP"
