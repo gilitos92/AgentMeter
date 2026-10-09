@@ -54,7 +54,7 @@ private struct GeneralSettingsTab: View {
                 cliToolInstallSection
             } footer: {
                 Text(L("Writes a machine-readable usage snapshot (never credentials) to Application Support for the agentmeter command-line tool and other local agents."))
-                    .font(.caption)
+                    .font(.callout)
                     .foregroundStyle(.secondary)
             }
             Section {
@@ -83,7 +83,7 @@ private struct GeneralSettingsTab: View {
                 }
             } footer: {
                 Text(L("Copies redacted troubleshooting info to the clipboard — never includes keys or tokens."))
-                    .font(.caption)
+                    .font(.callout)
                     .foregroundStyle(.secondary)
             }
             Section {
@@ -113,7 +113,7 @@ private struct GeneralSettingsTab: View {
                     Text(cliInstallResultMessage)
                 }
             }
-            .font(.caption)
+            .font(.callout)
             .foregroundStyle(.secondary)
 
             Button(CLIToolInstaller.isInstalledAtLocalPath()
@@ -123,7 +123,7 @@ private struct GeneralSettingsTab: View {
             }
         } else {
             Text(L("Run from AgentMeter.app to install the command-line tool."))
-                .font(.caption)
+                .font(.callout)
                 .foregroundStyle(.secondary)
         }
     }
@@ -231,7 +231,7 @@ private struct CodexAccountsSection: View {
     var body: some View {
         Group {
             Text(L("Codex accounts"))
-                .font(.caption)
+                .font(.callout)
                 .foregroundStyle(.secondary)
 
             primaryAccountRow
@@ -256,11 +256,11 @@ private struct CodexAccountsSection: View {
             }
 
             Text(L("OpenAI doesn't publish subscription renewal dates, so confirm yours on the platform that bills you — ChatGPT, Apple, or Google Play. Renewal dates are separate from usage-limit resets."))
-                .font(.caption2)
+                .font(.subheadline)
                 .foregroundStyle(.tertiary)
 
             Text(L("Removing only forgets the path; it does not sign out."))
-                .font(.caption2)
+                .font(.subheadline)
                 .foregroundStyle(.tertiary)
         }
         .onAppear(perform: refreshDiscovered)
@@ -277,9 +277,9 @@ private struct CodexAccountsSection: View {
         HStack(alignment: .firstTextBaseline) {
             VStack(alignment: .leading, spacing: 2) {
                 Text(String(format: L("Found signed-in Codex home: %@"), candidate.suggestedLabel))
-                    .font(.caption)
+                    .font(.callout)
                 Text(candidate.homePath)
-                    .font(.caption2.monospaced())
+                    .font(.subheadline.monospaced())
                     .foregroundStyle(.secondary)
             }
             Spacer()
@@ -290,7 +290,7 @@ private struct CodexAccountsSection: View {
                 ))
                 refreshDiscovered()
             }
-            .font(.caption)
+            .font(.callout)
             .help(L("Adds this account to AgentMeter using the folder name as its label."))
         }
         .accessibilityElement(children: .combine)
@@ -303,14 +303,14 @@ private struct CodexAccountsSection: View {
             HStack(alignment: .firstTextBaseline) {
                 VStack(alignment: .leading, spacing: 2) {
                     Text(L("Default (~/.codex)"))
-                        .font(.caption)
+                        .font(.callout)
                     Text("~/.codex")
-                        .font(.caption2)
+                        .font(.subheadline)
                         .foregroundStyle(.secondary)
                 }
                 Spacer()
                 Text(status)
-                    .font(.caption)
+                    .font(.callout)
                     .foregroundStyle(.secondary)
                     .multilineTextAlignment(.trailing)
             }
@@ -328,20 +328,20 @@ private struct CodexAccountsSection: View {
             HStack(alignment: .firstTextBaseline) {
                 VStack(alignment: .leading, spacing: 2) {
                     Text(account.label)
-                        .font(.caption)
+                        .font(.callout)
                     Text(account.codexHomePath)
-                        .font(.caption2.monospaced())
+                        .font(.subheadline.monospaced())
                         .foregroundStyle(.secondary)
                 }
                 Spacer()
                 Text(status)
-                    .font(.caption)
+                    .font(.callout)
                     .foregroundStyle(.secondary)
                     .multilineTextAlignment(.trailing)
                 Button(L("Remove")) {
                     settings.removeCodexAccount(id: account.id)
                 }
-                .font(.caption)
+                .font(.callout)
             }
             .accessibilityElement(children: .combine)
             .accessibilityLabel(String(format: L("%@, %@, %@"), account.label, account.codexHomePath, status))
@@ -388,10 +388,10 @@ private struct CodexAccountsSection: View {
                     }
                 }
             TextField(L("Home path"), text: $draftHomePath)
-                .font(.caption.monospaced())
+                .font(.callout.monospaced())
 
             Text(loginCommand)
-                .font(.caption.monospaced())
+                .font(.callout.monospaced())
                 .textSelection(.enabled)
                 .padding(6)
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -402,17 +402,17 @@ private struct CodexAccountsSection: View {
                 NSPasteboard.general.setString(loginCommand, forType: .string)
                 AccessibilityNotification.Announcement(L("Login command copied")).post()
             }
-            .font(.caption)
+            .font(.callout)
             .accessibilityLabel(L("Copy login command"))
             .accessibilityHint(L("Copies the Terminal command to sign in this Codex account"))
 
             Text(L("Run this in Terminal to sign in that account. AgentMeter never handles your login or tokens — the Codex CLI does."))
-                .font(.caption2)
+                .font(.subheadline)
                 .foregroundStyle(.secondary)
 
             if let addFormError {
                 Text(addFormError)
-                    .font(.caption)
+                    .font(.callout)
                     .foregroundStyle(.orange)
             }
 
@@ -489,7 +489,7 @@ private struct CodexSubscriptionSettings: View {
                 subscriptionForm(renewal)
             }
         }
-        .font(.caption)
+        .font(.callout)
     }
 
     @ViewBuilder
@@ -522,11 +522,11 @@ private struct CodexSubscriptionSettings: View {
                 format: L("Last confirmed %@"),
                 confirmedAt.formatted(date: .abbreviated, time: .omitted)
             ))
-            .font(.caption2)
+            .font(.subheadline)
             .foregroundStyle(.secondary)
         } else {
             Text(L("Not confirmed yet — check the platform that bills you."))
-                .font(.caption2)
+                .font(.subheadline)
                 .foregroundStyle(.secondary)
         }
     }
@@ -587,16 +587,16 @@ private struct ProviderCredentialSection: View {
         case .apiKey(let keyURL):
             Group {
                 if let credentialError {
-                    Text(credentialError).font(.caption).foregroundStyle(.orange)
+                    Text(credentialError).font(.callout).foregroundStyle(.orange)
                 }
                 if let help = provider.credentialHelpText {
                     Text(help)
-                        .font(.caption)
+                        .font(.callout)
                         .foregroundStyle(.secondary)
                 }
                 if provider.id == "claude-api" {
                     Link(L("View prepaid credits"), destination: URL(string: "https://platform.claude.com/settings/billing")!)
-                        .font(.caption)
+                        .font(.callout)
                 }
                 if hasKey {
                     LabeledContent(provider.apiKeyPlaceholder) {
@@ -623,7 +623,7 @@ private struct ProviderCredentialSection: View {
         case .oauth:
             Group {
                 if let credentialError {
-                    Text(credentialError).font(.caption).foregroundStyle(.orange)
+                    Text(credentialError).font(.callout).foregroundStyle(.orange)
                 }
                 if hasKey {
                     LabeledContent(L("Status")) {
@@ -643,13 +643,13 @@ private struct ProviderCredentialSection: View {
                         if openRouterAuth.status == .connecting {
                             ProgressView().controlSize(.small)
                             Text(L("Waiting for browser authorization…"))
-                                .font(.caption)
+                                .font(.callout)
                                 .foregroundStyle(.secondary)
                         }
                     }
                     if case .failed(let message) = openRouterAuth.status {
                         Text(message)
-                            .font(.caption)
+                            .font(.callout)
                             .foregroundStyle(.orange)
                     }
                     SecureField(L("Or paste an API key"), text: $draftKey)
@@ -722,19 +722,19 @@ private struct CredentialAssessmentView: View {
                     ProgressView()
                         .controlSize(.small)
                     Text(L("Checking key…"))
-                        .font(.caption)
+                        .font(.callout)
                         .foregroundStyle(.secondary)
                 }
             } else if let assessment {
                 HStack(alignment: .firstTextBaseline, spacing: 8) {
                     Text(assessment.keyTypeLabel)
-                        .font(.caption2)
+                        .font(.subheadline)
                         .padding(.horizontal, 6)
                         .padding(.vertical, 2)
                         .background(.quaternary, in: Capsule())
                         .help(assessment.summary)
                     Text(assessment.summary)
-                        .font(.caption)
+                        .font(.callout)
                         .foregroundStyle(.secondary)
                 }
                 .accessibilityElement(children: .combine)
@@ -749,22 +749,22 @@ private struct CredentialAssessmentView: View {
                 DisclosureGroup(L("About this key")) {
                     VStack(alignment: .leading, spacing: 6) {
                         Text(assessment.detail)
-                            .font(.caption)
+                            .font(.callout)
                             .foregroundStyle(.secondary)
                         if let hint = assessment.upgradeHint {
                             Text(hint)
-                                .font(.caption)
+                                .font(.callout)
                                 .foregroundStyle(.orange)
                         }
                         if let url = assessment.manageURL {
                             Link(L("Manage keys"), destination: url)
-                                .font(.caption)
+                                .font(.callout)
                         }
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.top, 4)
                 }
-                .font(.caption)
+                .font(.callout)
             }
         }
         .task(id: assessmentGeneration) {
@@ -858,7 +858,7 @@ private struct AlertsSettingsTab: View {
                     ? L("One notification per limit window, re-armed when the window resets. \"20% left\" is the same alert as \"80% used\" — it follows your Display setting.")
                     : L("One notification per limit window, re-armed when the window resets. Balance alerts apply to pay-as-you-go providers.")
                 )
-                    .font(.caption)
+                    .font(.callout)
                     .foregroundStyle(.secondary)
             }
         }
