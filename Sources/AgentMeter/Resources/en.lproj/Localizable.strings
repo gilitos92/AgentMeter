@@ -52,6 +52,8 @@
 	<string>AgentMeter</string>
 	<key>AgentMeter could not reach the provider to check this key. That is usually a network issue or a temporary API change. Your saved key was not removed.</key>
 	<string>AgentMeter could not reach the provider to check this key. That is usually a network issue or a temporary API change. Your saved key was not removed.</string>
+	<key>Also show this window on every desktop and over full-screen apps. Requires Keep on Top.</key>
+	<string>Also show this window on every desktop and over full-screen apps. Requires Keep on Top.</string>
 	<key>An Admin key can see billing details and manage other keys. AgentMeter only reads your balance; it cannot spend credits or change settings. An Inference key is safer and also works with AgentMeter.</key>
 	<string>An Admin key can see billing details and manage other keys. AgentMeter only reads your balance; it cannot spend credits or change settings. An Inference key is safer and also works with AgentMeter.</string>
 	<key>An Admin key shows richer billing detail but is more powerful — only switch if you need that extra detail.</key>
@@ -156,6 +158,10 @@
 	<string>Install Command-Line Tool…</string>
 	<key>Installed. Open a new terminal and run agentmeter --help.</key>
 	<string>Installed. Open a new terminal and run agentmeter --help.</string>
+	<key>Keep on Top</key>
+	<string>Keep on Top</string>
+	<key>Keep this window above other windows, even when you switch apps.</key>
+	<string>Keep this window above other windows, even when you switch apps.</string>
 	<key>Key limit</key>
 	<string>Key limit</string>
 	<key>Key not working</key>
@@ -236,6 +242,8 @@
 	<string>Run from AgentMeter.app to install the command-line tool.</string>
 	<key>Run this in Terminal to sign in that account. AgentMeter never handles your login or tokens — the Codex CLI does.</key>
 	<string>Run this in Terminal to sign in that account. AgentMeter never handles your login or tokens — the Codex CLI does.</string>
+	<key>Show on All Desktops</key>
+	<string>Show on All Desktops</string>
 	<key>Shows your 5-hour and token quotas.</key>
 	<string>Shows your 5-hour and token quotas.</string>
 	<key>Spending capped — AgentMeter can read usage within this limit.</key>

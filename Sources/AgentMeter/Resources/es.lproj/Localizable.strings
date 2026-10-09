@@ -98,6 +98,8 @@
 	<string>Avisar cuando el uso alcance</string>
 	<key>Alerts</key>
 	<string>Alertas</string>
+	<key>Also show this window on every desktop and over full-screen apps. Requires Keep on Top.</key>
+	<string>Muestra también esta ventana en todos los escritorios y sobre apps en pantalla completa. Requiere Mantener encima.</string>
 	<key>An Admin key can see billing details and manage other keys. AgentMeter only reads your balance; it cannot spend credits or change settings. An Inference key is safer and also works with AgentMeter.</key>
 	<string>Una clave de administrador puede ver detalles de facturación y administrar otras claves. AgentMeter solo lee tu saldo; no puede gastar créditos ni cambiar la configuración. Una clave de inferencia es más segura y también funciona con AgentMeter.</string>
 	<key>An Admin key shows richer billing detail but is more powerful — only switch if you need that extra detail.</key>
@@ -272,6 +274,10 @@
 	<string>Instalar herramienta de línea de comandos…</string>
 	<key>Installed. Open a new terminal and run agentmeter --help.</key>
 	<string>Instalada. Abre una terminal nueva y ejecuta agentmeter --help.</string>
+	<key>Keep on Top</key>
+	<string>Mantener encima</string>
+	<key>Keep this window above other windows, even when you switch apps.</key>
+	<string>Mantén esta ventana encima de las demás, incluso al cambiar de app.</string>
 	<key>Key limit</key>
 	<string>Límite de la clave</string>
 	<key>Key not working</key>
@@ -422,6 +428,8 @@
 	<string>Ajustes…</string>
 	<key>Show in menu bar</key>
 	<string>Mostrar en la barra de menús</string>
+	<key>Show on All Desktops</key>
+	<string>Mostrar en todos los escritorios</string>
 	<key>Shows your 5-hour and token quotas.</key>
 	<string>Muestra tus cuotas de 5 horas y de tokens.</string>
 	<key>Spending capped — AgentMeter can read usage within this limit.</key>

@@ -3,6 +3,19 @@
 All notable changes to AgentMeter. Format follows [Keep a Changelog](https://keepachangelog.com);
 versions follow semantic-ish `MAJOR.MINOR.PATCH`.
 
+## [1.13.0] — 2026-10-08
+
+### Added
+- Usage Details window toolbar buttons: "Keep on Top" keeps the window above
+  other windows, even when you switch apps; "Show on All Desktops" also shows
+  it on every desktop (Space) and over full-screen apps (requires Keep on Top).
+  Both are off by default and remembered.
+
+### Changed
+- The Usage Details window uses the menu dropdown's translucent material.
+- The Usage Details window fits its content instead of keeping a fixed
+  minimum height, and scrolls only when the content is taller than the screen.
+
 ## [1.12.2] — 2026-10-08
 
 ### Fixed

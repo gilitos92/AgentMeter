@@ -2,6 +2,62 @@ import XCTest
 @testable import AgentMeter
 
 final class DisplaySettingsTests: XCTestCase {
+    @MainActor
+    func testUsageDetailsAlwaysOnTopDefaultsOffAndPersists() {
+        let suite = "DisplaySettingsTests.\(UUID().uuidString)"
+        let defaults = UserDefaults(suiteName: suite)!
+        defer { defaults.removePersistentDomain(forName: suite) }
+
+        let settings = SettingsStore(defaults: defaults)
+        XCTAssertFalse(settings.usageDetailsAlwaysOnTop)
+        XCTAssertFalse(settings.usageDetailsOnAllSpaces)
+        settings.usageDetailsAlwaysOnTop = true
+        settings.usageDetailsOnAllSpaces = true
+        let reloaded = SettingsStore(defaults: defaults)
+        XCTAssertTrue(reloaded.usageDetailsAlwaysOnTop)
+        XCTAssertTrue(reloaded.usageDetailsOnAllSpaces)
+    }
+
+    @MainActor
+    func testWindowLevelSetterFloatsAndRestoresWindow() {
+        _ = NSApplication.shared
+        let window = NSWindow(contentRect: NSRect(x: 0, y: 0, width: 100, height: 100),
+                              styleMask: .titled, backing: .buffered, defer: true)
+        window.isReleasedWhenClosed = false
+        let probe = WindowLevelSetter.ProbeView()
+        probe.alwaysOnTop = true
+        window.contentView = probe
+        XCTAssertEqual(window.level, .floating)
+        XCTAssertFalse(window.collectionBehavior.contains(.canJoinAllSpaces))
+
+        probe.alwaysOnTop = false
+        XCTAssertEqual(window.level, .normal)
+    }
+
+    @MainActor
+    func testWindowLevelSetterAllSpacesRequiresAlwaysOnTop() {
+        _ = NSApplication.shared
+        let window = NSWindow(contentRect: NSRect(x: 0, y: 0, width: 100, height: 100),
+                              styleMask: .titled, backing: .buffered, defer: true)
+        window.isReleasedWhenClosed = false
+        let probe = WindowLevelSetter.ProbeView()
+        window.contentView = probe
+
+        probe.onAllSpaces = true
+        XCTAssertEqual(window.level, .normal)
+        XCTAssertFalse(window.collectionBehavior.contains(.canJoinAllSpaces))
+
+        probe.alwaysOnTop = true
+        XCTAssertEqual(window.level, .floating)
+        XCTAssertTrue(window.collectionBehavior.contains(.canJoinAllSpaces))
+        XCTAssertTrue(window.collectionBehavior.contains(.fullScreenAuxiliary))
+
+        probe.onAllSpaces = false
+        XCTAssertEqual(window.level, .floating)
+        XCTAssertFalse(window.collectionBehavior.contains(.canJoinAllSpaces))
+        XCTAssertFalse(window.collectionBehavior.contains(.fullScreenAuxiliary))
+    }
+
     func testCountDirectionDisplayPercent() {
         XCTAssertEqual(CountDirection.used.displayPercent(84), 84, accuracy: 0.001)
         XCTAssertEqual(CountDirection.remaining.displayPercent(84), 16, accuracy: 0.001)
