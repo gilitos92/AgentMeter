@@ -11,6 +11,11 @@ versions follow semantic-ish `MAJOR.MINOR.PATCH`.
   it on every desktop (Space) and over full-screen apps (requires Keep on Top).
   Both are off by default and remembered.
 
+### Changed
+- The Usage Details window uses the menu dropdown's translucent material.
+- The Usage Details window fits its content instead of keeping a fixed
+  minimum height, and scrolls only when the content is taller than the screen.
+
 ## [1.12.2] — 2026-10-08
 
 ### Fixed
