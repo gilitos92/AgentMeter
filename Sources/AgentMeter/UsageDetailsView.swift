@@ -89,7 +89,7 @@ struct UsageDetailsView: View {
         // The window fits its content (see `windowResizability(.contentSize)`)
         // and scrolls only when the content is taller than the screen allows.
         // Wide enough for the title and all toolbar buttons without overflow.
-        .frame(minWidth: 440, idealWidth: 440, maxWidth: .infinity)
+        .frame(minWidth: 480, idealWidth: 480, maxWidth: .infinity)
         .frame(height: min(contentHeight ?? 500, Self.maxHeight))
     }
 }
@@ -125,7 +125,7 @@ private struct CompactUsageView: View {
         .padding(.horizontal, 12)
         .padding(.top, 12)
         .padding(.bottom, 10)
-        .frame(minWidth: 250, alignment: .leading)
+        .frame(minWidth: 300, alignment: .leading)
         .fixedSize()
         .overlay(alignment: .topTrailing) {
             controls
@@ -182,7 +182,7 @@ private struct CompactControlButton: View {
     var body: some View {
         Button(action: action) {
             Image(systemName: symbol)
-                .font(.system(size: 10, weight: .semibold))
+                .font(.system(size: 12, weight: .semibold))
                 .frame(width: 20, height: 20)
                 .contentShape(Rectangle())
                 .foregroundStyle(isOn && isEnabled ? AnyShapeStyle(.tint) : AnyShapeStyle(.secondary))
@@ -201,7 +201,7 @@ private struct CompactProviderRow: View {
 
     var body: some View {
         HStack(alignment: .top, spacing: 8) {
-            ProviderBadge(provider: entry.provider, size: 16)
+            ProviderBadge(provider: entry.provider, size: 18)
             if entry.windows.isEmpty {
                 summary
             } else {
@@ -223,13 +223,13 @@ private struct CompactProviderRow: View {
         let color = Color(nsColor: MenuBarTitleRenderer.nsColor(for: entry.severity))
         return HStack(spacing: 4) {
             Text(entry.summary)
-                .font(.caption.monospacedDigit())
+                .font(.callout.monospacedDigit().weight(.semibold))
                 .foregroundStyle(color)
             if let symbol = Self.symbolName(for: entry.severity) {
-                Image(systemName: symbol).font(.caption2).foregroundStyle(color)
+                Image(systemName: symbol).font(.subheadline.weight(.medium)).foregroundStyle(color)
             }
         }
-        .frame(height: 16)
+        .frame(height: 20)
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(entry.accessibilityLabel)
     }
@@ -270,7 +270,7 @@ private struct CompactWindowMeter: View {
                         .foregroundStyle(.tertiary)
                 }
             }
-            .font(.caption)
+            .font(.callout.weight(.medium))
             .lineLimit(1)
             .fixedSize()
             .background {
@@ -289,16 +289,16 @@ private struct CompactWindowMeter: View {
                 }
             HStack(spacing: 3) {
                 Text(countDirection.percentLabel(window.usedPercent, menuBar: true))
-                    .font(.caption.monospacedDigit())
+                    .font(.callout.monospacedDigit().weight(.semibold))
                     .foregroundStyle(severity.color)
                 // Severity is never shown by color alone.
                 if let symbol = severity.symbolName {
-                    Image(systemName: symbol).font(.system(size: 9)).foregroundStyle(severity.color)
+                    Image(systemName: symbol).font(.system(size: 11, weight: .semibold)).foregroundStyle(severity.color)
                 }
             }
-            .frame(width: 46, alignment: .trailing)
+            .frame(width: 60, alignment: .trailing)
         }
-        .frame(height: 16)
+        .frame(height: 20)
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(String(format: L("%@, %@"), providerName, window.label))
         .accessibilityValue(accessibilityValue(severity: severity, now: now))
@@ -403,9 +403,9 @@ private struct OpacitySlider: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
             HStack {
-                Text(L("Background opacity")).font(.caption)
+                Text(L("Background opacity")).font(.callout.weight(.medium))
                 Spacer()
-                Text(percent).font(.caption.monospacedDigit()).foregroundStyle(.secondary)
+                Text(percent).font(.callout.monospacedDigit().weight(.semibold)).foregroundStyle(.secondary)
             }
             .accessibilityHidden(true)
             Slider(value: $opacity, in: 0...1, step: 0.05)

@@ -16,7 +16,7 @@ struct AboutView: View {
             Text("AgentMeter")
                 .font(.title2.bold())
             Text(L("Version \(version)"))
-                .font(.caption)
+                .font(.callout)
                 .foregroundStyle(.secondary)
 
             Text(L("Menu bar monitor for AI coding usage limits."))
@@ -38,12 +38,12 @@ struct AboutView: View {
                 Text(L("Auto-updates powered by Sparkle (MIT License)."))
                 Text(L("Provider endpoint research credits CodexBar by Peter Steinberger."))
             }
-            .font(.caption2)
+            .font(.subheadline)
             .foregroundStyle(.secondary)
             .multilineTextAlignment(.center)
 
             Text("© 2026 Felix Torres · MIT License")
-                .font(.caption2)
+                .font(.subheadline)
                 .foregroundStyle(.tertiary)
         }
         .padding(24)
