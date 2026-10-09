@@ -356,6 +356,11 @@ struct WindowLevelSetter: NSViewRepresentable {
             didSet { applyLevel() }
         }
         private var fullSizeContentBeforeCompact: Bool?
+        private var dragMonitor: Any?
+
+        deinit {
+            if let dragMonitor { NSEvent.removeMonitor(dragMonitor) }
+        }
 
         override func viewDidMoveToWindow() {
             super.viewDidMoveToWindow()
@@ -379,11 +384,29 @@ struct WindowLevelSetter: NSViewRepresentable {
             }
         }
 
+        /// SwiftUI content swallows clicks, so isMovableByWindowBackground only
+        /// works over the reserved title bar strip, and an inactive window's
+        /// first click never reaches SwiftUI gestures. While compact, any drag
+        /// inside the window moves it, even when another app is active.
+        private func updateDragMonitor() {
+            if compact, dragMonitor == nil {
+                dragMonitor = NSEvent.addLocalMonitorForEvents(matching: .leftMouseDragged) { [weak self] event in
+                    guard let window = self?.window, event.window === window else { return event }
+                    window.performDrag(with: event)
+                    return nil
+                }
+            } else if !compact, let monitor = dragMonitor {
+                NSEvent.removeMonitor(monitor)
+                dragMonitor = nil
+            }
+        }
+
         /// The compact panel has no visible title bar: content fills the whole
         /// window, the window buttons are hidden, and it drags by its background.
         private func applyCompactChrome(to window: NSWindow) {
             window.titleVisibility = compact ? .hidden : .visible
             window.isMovableByWindowBackground = compact
+            updateDragMonitor()
             for kind: NSWindow.ButtonType in [.closeButton, .miniaturizeButton, .zoomButton] {
                 window.standardWindowButton(kind)?.isHidden = compact
             }
