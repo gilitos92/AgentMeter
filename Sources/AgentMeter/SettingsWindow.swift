@@ -800,16 +800,6 @@ private struct DisplaySettingsTab: View {
                 }
                 .pickerStyle(.segmented)
             }
-
-            Section {
-                Toggle(L("Keep Usage Details on top"), isOn: $settings.usageDetailsAlwaysOnTop)
-                Toggle(L("Show on all desktops and over full-screen apps"), isOn: $settings.usageDetailsOnAllSpaces)
-                    .disabled(!settings.usageDetailsAlwaysOnTop)
-            } footer: {
-                Text(L("The Usage Details window stays above other windows, even when you switch apps. It can also follow you to every desktop and appear over full-screen apps."))
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-            }
         }
         .formStyle(.grouped)
     }

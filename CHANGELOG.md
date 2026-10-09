@@ -6,11 +6,10 @@ versions follow semantic-ish `MAJOR.MINOR.PATCH`.
 ## [Unreleased]
 
 ### Added
-- Settings → Display → "Keep Usage Details on top" keeps the Usage Details
-  window above other windows, even when you switch apps. Off by default.
-- A second Display option, "Show on all desktops and over full-screen apps",
-  also shows the floating Usage Details window on every desktop (Space) and
-  over full-screen apps. Requires "Keep Usage Details on top"; off by default.
+- Usage Details window toolbar buttons: "Keep on Top" keeps the window above
+  other windows, even when you switch apps; "Show on All Desktops" also shows
+  it on every desktop (Space) and over full-screen apps (requires Keep on Top).
+  Both are off by default and remembered.
 
 ## [1.12.2] — 2026-10-08
 

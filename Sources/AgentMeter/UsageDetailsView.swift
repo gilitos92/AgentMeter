@@ -16,6 +16,21 @@ struct UsageDetailsView: View {
         .frame(minWidth: 360, minHeight: 500)
         .background(WindowLevelSetter(alwaysOnTop: settings.usageDetailsAlwaysOnTop,
                                       onAllSpaces: settings.usageDetailsOnAllSpaces))
+        .toolbar {
+            ToolbarItemGroup(placement: .primaryAction) {
+                Toggle(isOn: $settings.usageDetailsAlwaysOnTop) {
+                    Label(L("Keep on Top"),
+                          systemImage: settings.usageDetailsAlwaysOnTop ? "pin.fill" : "pin")
+                }
+                .help(L("Keep this window above other windows, even when you switch apps."))
+
+                Toggle(isOn: $settings.usageDetailsOnAllSpaces) {
+                    Label(L("Show on All Desktops"), systemImage: "rectangle.on.rectangle")
+                }
+                .disabled(!settings.usageDetailsAlwaysOnTop)
+                .help(L("Also show this window on every desktop and over full-screen apps. Requires Keep on Top."))
+            }
+        }
     }
 }
 

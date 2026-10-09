@@ -3247,50 +3247,66 @@
         }
       }
     },
-    "Keep Usage Details on top": {
+    "Keep on Top": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Keep Usage Details on top"
+            "value": "Keep on Top"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Mantener Detalles de uso encima"
+            "value": "Mantener encima"
           }
         }
       }
     },
-    "The Usage Details window stays above other windows, even when you switch apps. It can also follow you to every desktop and appear over full-screen apps.": {
+    "Keep this window above other windows, even when you switch apps.": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "The Usage Details window stays above other windows, even when you switch apps. It can also follow you to every desktop and appear over full-screen apps."
+            "value": "Keep this window above other windows, even when you switch apps."
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "La ventana Detalles de uso permanece encima de las demás ventanas, incluso al cambiar de app. También puede acompañarte en todos los escritorios y aparecer sobre apps en pantalla completa."
+            "value": "Mantén esta ventana encima de las demás, incluso al cambiar de app."
           }
         }
       }
     },
-    "Show on all desktops and over full-screen apps": {
+    "Show on All Desktops": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Show on all desktops and over full-screen apps"
+            "value": "Show on All Desktops"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Mostrar en todos los escritorios y sobre apps en pantalla completa"
+            "value": "Mostrar en todos los escritorios"
+          }
+        }
+      }
+    },
+    "Also show this window on every desktop and over full-screen apps. Requires Keep on Top.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Also show this window on every desktop and over full-screen apps. Requires Keep on Top."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Muestra también esta ventana en todos los escritorios y sobre apps en pantalla completa. Requiere Mantener encima."
           }
         }
       }
