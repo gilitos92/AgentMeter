@@ -14,15 +14,18 @@ struct UsageDetailsView: View {
             .frame(maxWidth: .infinity, alignment: .leading)
         }
         .frame(minWidth: 360, minHeight: 500)
-        .background(WindowLevelSetter(alwaysOnTop: settings.usageDetailsAlwaysOnTop))
+        .background(WindowLevelSetter(alwaysOnTop: settings.usageDetailsAlwaysOnTop,
+                                      onAllSpaces: settings.usageDetailsOnAllSpaces))
     }
 }
 
-/// Floats the hosting window above other apps' windows when enabled.
-/// SwiftUI's `windowLevel(_:)` requires macOS 15, so this sets the level on the
-/// owning NSWindow through a zero-size probe view.
+/// Floats the hosting window above other apps' windows when enabled and, if
+/// also requested, shows it on every Space and over full-screen apps.
+/// SwiftUI's `windowLevel(_:)` requires macOS 15, so this configures the owning
+/// NSWindow through a zero-size probe view.
 struct WindowLevelSetter: NSViewRepresentable {
     let alwaysOnTop: Bool
+    let onAllSpaces: Bool
 
     func makeNSView(context: Context) -> ProbeView {
         ProbeView()
@@ -30,10 +33,17 @@ struct WindowLevelSetter: NSViewRepresentable {
 
     func updateNSView(_ nsView: ProbeView, context: Context) {
         nsView.alwaysOnTop = alwaysOnTop
+        nsView.onAllSpaces = onAllSpaces
     }
 
     final class ProbeView: NSView {
+        static let allSpacesBehavior: NSWindow.CollectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary]
+
         var alwaysOnTop = false {
+            didSet { applyLevel() }
+        }
+
+        var onAllSpaces = false {
             didSet { applyLevel() }
         }
 
@@ -43,7 +53,17 @@ struct WindowLevelSetter: NSViewRepresentable {
         }
 
         private func applyLevel() {
-            window?.level = alwaysOnTop ? .floating : .normal
+            guard let window else { return }
+            window.level = alwaysOnTop ? .floating : .normal
+            // Over full-screen apps the window must also float, so all-Spaces
+            // behavior only applies together with always-on-top.
+            if alwaysOnTop && onAllSpaces {
+                // canJoinAllSpaces and moveToActiveSpace are mutually exclusive.
+                window.collectionBehavior.remove(.moveToActiveSpace)
+                window.collectionBehavior.formUnion(Self.allSpacesBehavior)
+            } else {
+                window.collectionBehavior.subtract(Self.allSpacesBehavior)
+            }
         }
     }
 }

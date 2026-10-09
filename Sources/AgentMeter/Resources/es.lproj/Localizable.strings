@@ -424,6 +424,8 @@
 	<string>Ajustes…</string>
 	<key>Show in menu bar</key>
 	<string>Mostrar en la barra de menús</string>
+	<key>Show on all desktops and over full-screen apps</key>
+	<string>Mostrar en todos los escritorios y sobre apps en pantalla completa</string>
 	<key>Shows your 5-hour and token quotas.</key>
 	<string>Muestra tus cuotas de 5 horas y de tokens.</string>
 	<key>Spending capped — AgentMeter can read usage within this limit.</key>
@@ -446,8 +448,8 @@
 	<string>Apoyar ♥</string>
 	<key>Team pool</key>
 	<string>Pool del equipo</string>
-	<key>The Usage Details window stays above other windows, even when you switch apps.</key>
-	<string>La ventana Detalles de uso permanece encima de las demás ventanas, incluso al cambiar de app.</string>
+	<key>The Usage Details window stays above other windows, even when you switch apps. It can also follow you to every desktop and appear over full-screen apps.</key>
+	<string>La ventana Detalles de uso permanece encima de las demás ventanas, incluso al cambiar de app. También puede acompañarte en todos los escritorios y aparecer sobre apps en pantalla completa.</string>
 	<key>The key was rejected by Venice.</key>
 	<string>Venice rechazó la clave.</string>
 	<key>This API key lets apps use your OpenRouter credits up to a spending limit you set. AgentMeter only reads how much has been used; it cannot spend money or change your account. If you used Connect, OpenRouter created a dedicated key just for AgentMeter that you can revoke anytime.</key>

@@ -10,8 +10,12 @@ final class DisplaySettingsTests: XCTestCase {
 
         let settings = SettingsStore(defaults: defaults)
         XCTAssertFalse(settings.usageDetailsAlwaysOnTop)
+        XCTAssertFalse(settings.usageDetailsOnAllSpaces)
         settings.usageDetailsAlwaysOnTop = true
-        XCTAssertTrue(SettingsStore(defaults: defaults).usageDetailsAlwaysOnTop)
+        settings.usageDetailsOnAllSpaces = true
+        let reloaded = SettingsStore(defaults: defaults)
+        XCTAssertTrue(reloaded.usageDetailsAlwaysOnTop)
+        XCTAssertTrue(reloaded.usageDetailsOnAllSpaces)
     }
 
     @MainActor
@@ -24,9 +28,34 @@ final class DisplaySettingsTests: XCTestCase {
         probe.alwaysOnTop = true
         window.contentView = probe
         XCTAssertEqual(window.level, .floating)
+        XCTAssertFalse(window.collectionBehavior.contains(.canJoinAllSpaces))
 
         probe.alwaysOnTop = false
         XCTAssertEqual(window.level, .normal)
+    }
+
+    @MainActor
+    func testWindowLevelSetterAllSpacesRequiresAlwaysOnTop() {
+        _ = NSApplication.shared
+        let window = NSWindow(contentRect: NSRect(x: 0, y: 0, width: 100, height: 100),
+                              styleMask: .titled, backing: .buffered, defer: true)
+        window.isReleasedWhenClosed = false
+        let probe = WindowLevelSetter.ProbeView()
+        window.contentView = probe
+
+        probe.onAllSpaces = true
+        XCTAssertEqual(window.level, .normal)
+        XCTAssertFalse(window.collectionBehavior.contains(.canJoinAllSpaces))
+
+        probe.alwaysOnTop = true
+        XCTAssertEqual(window.level, .floating)
+        XCTAssertTrue(window.collectionBehavior.contains(.canJoinAllSpaces))
+        XCTAssertTrue(window.collectionBehavior.contains(.fullScreenAuxiliary))
+
+        probe.onAllSpaces = false
+        XCTAssertEqual(window.level, .floating)
+        XCTAssertFalse(window.collectionBehavior.contains(.canJoinAllSpaces))
+        XCTAssertFalse(window.collectionBehavior.contains(.fullScreenAuxiliary))
     }
 
     func testCountDirectionDisplayPercent() {

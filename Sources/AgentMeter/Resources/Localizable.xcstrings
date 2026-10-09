@@ -3263,18 +3263,34 @@
         }
       }
     },
-    "The Usage Details window stays above other windows, even when you switch apps.": {
+    "The Usage Details window stays above other windows, even when you switch apps. It can also follow you to every desktop and appear over full-screen apps.": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "The Usage Details window stays above other windows, even when you switch apps."
+            "value": "The Usage Details window stays above other windows, even when you switch apps. It can also follow you to every desktop and appear over full-screen apps."
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "La ventana Detalles de uso permanece encima de las demás ventanas, incluso al cambiar de app."
+            "value": "La ventana Detalles de uso permanece encima de las demás ventanas, incluso al cambiar de app. También puede acompañarte en todos los escritorios y aparecer sobre apps en pantalla completa."
+          }
+        }
+      }
+    },
+    "Show on all desktops and over full-screen apps": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show on all desktops and over full-screen apps"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mostrar en todos los escritorios y sobre apps en pantalla completa"
           }
         }
       }
