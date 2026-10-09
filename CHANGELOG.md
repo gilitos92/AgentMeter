@@ -3,6 +3,18 @@
 All notable changes to AgentMeter. Format follows [Keep a Changelog](https://keepachangelog.com);
 versions follow semantic-ish `MAJOR.MINOR.PATCH`.
 
+## [1.14.1] — 2026-10-09
+
+### Changed
+- Larger, bolder text for easier reading. Usage text in the menu, the Usage
+  Details window and the compact panel moves from 10 pt to 11–12 pt with
+  heavier weights, and percentages are semibold. Settings and About text is
+  larger too. The menu and details views are a little wider to fit.
+
+### Fixed
+- `swift build` works again with Swift 6.4's default build backend, which
+  failed on duplicate `Localizable.strings` outputs.
+
 ## [1.14.0] — 2026-10-09
 
 ### Added
