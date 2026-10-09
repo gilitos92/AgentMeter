@@ -25,7 +25,7 @@ struct AgentMeterApp: App {
         Window(L("Usage Details"), id: "usage-details") {
             UsageDetailsView(store: store, settings: settings)
         }
-        .defaultSize(width: 360, height: 500)
+        .windowResizability(.contentSize)
 
         Window("About AgentMeter", id: "about") {
             AboutView()
