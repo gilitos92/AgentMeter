@@ -16,7 +16,7 @@ struct MenuContent: View {
             usageView
         }
         .padding(14)
-        .frame(width: 320)
+        .frame(width: 360)
         .fixedSize(horizontal: false, vertical: true)
         .background {
             GeometryReader { proxy in
@@ -69,7 +69,7 @@ struct MenuContent: View {
                         .frame(height: 36)
                         .overlay(alignment: .bottom) {
                             Image(systemName: "chevron.down")
-                                .font(.system(size: 10, weight: .semibold))
+                                .font(.system(size: 12, weight: .semibold))
                                 .foregroundStyle(.secondary)
                                 .padding(.bottom, 4)
                         }
@@ -97,7 +97,7 @@ struct MenuContent: View {
             HStack {
                 if let refreshed = store.lastRefreshed {
                     Text(L("Updated \(refreshed.formatted(date: .omitted, time: .shortened))"))
-                        .font(.caption)
+                        .font(.callout.weight(.medium))
                         .foregroundStyle(.secondary)
                 }
                 Spacer()
@@ -108,7 +108,7 @@ struct MenuContent: View {
                         .labelStyle(.titleAndIcon)
                 }
                 .buttonStyle(.plain)
-                .font(.caption)
+                .font(.callout.weight(.medium))
                 .help(L("Refresh"))
                 .accessibilityLabel(L("Refresh"))
             }
@@ -119,7 +119,7 @@ struct MenuContent: View {
                     Text(L("Usage Details"))
                 }
                 .buttonStyle(.plain)
-                .font(.caption)
+                .font(.callout.weight(.medium))
                 .keyboardShortcut("d", modifiers: [.command])
                 .help(L("Usage Details"))
                 .accessibilityLabel(L("Usage Details"))
@@ -127,7 +127,7 @@ struct MenuContent: View {
                     Text(L("Settings…"))
                 }
                 .buttonStyle(.plain)
-                .font(.caption)
+                .font(.callout.weight(.medium))
                 .help(L("Settings…"))
                 .accessibilityLabel(L("Settings…"))
                 .simultaneousGesture(TapGesture().onEnded {
@@ -141,20 +141,20 @@ struct MenuContent: View {
                 }
                 .disabled(Bundle.main.object(forInfoDictionaryKey: "AgentMeterLocalAuthRepair") as? Bool == true)
                 .buttonStyle(.plain)
-                .font(.caption)
+                .font(.callout.weight(.medium))
                 .help(L("Check for Updates…"))
                 .accessibilityLabel(L("Check for Updates…"))
                 Spacer()
                 Link(destination: tipJarURL) {
                     Text(L("Support ♥"))
                 }
-                .font(.caption)
+                .font(.callout.weight(.medium))
                 .help(L("Support ♥"))
                 .accessibilityLabel(L("Support ♥"))
                 Spacer()
                 Button(L("Quit")) { NSApp.terminate(nil) }
                     .buttonStyle(.plain)
-                    .font(.caption)
+                    .font(.callout.weight(.medium))
                     .help(L("Quit"))
                     .accessibilityLabel(L("Quit"))
             }

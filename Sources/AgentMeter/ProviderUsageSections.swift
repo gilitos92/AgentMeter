@@ -8,7 +8,7 @@ struct ProviderUsageSections: View {
         let visible = store.visibleProviders
         if visible.isEmpty {
             Text(L("No providers enabled. Open Settings to turn some on."))
-                .font(.caption)
+                .font(.callout.weight(.medium))
                 .foregroundStyle(.secondary)
         } else {
             ForEach(Array(visible.enumerated()), id: \.element.id) { index, provider in
@@ -56,14 +56,14 @@ struct ProviderSection: View {
                        !codex.isPrimary,
                        let email = codex.accountEmail {
                         Text(email)
-                            .font(.caption2)
+                            .font(.subheadline.weight(.medium))
                             .foregroundStyle(.secondary)
                     }
                 }
                 Spacer()
                 if let usage = state.usage, let plan = usage.planName {
                     Text(plan)
-                        .font(.caption)
+                        .font(.callout.weight(.medium))
                         .padding(.horizontal, 6)
                         .padding(.vertical, 2)
                         .background(.quaternary, in: Capsule())
@@ -72,10 +72,10 @@ struct ProviderSection: View {
 
             switch state {
             case .loading:
-                Text(L("Loading…")).font(.caption).foregroundStyle(.secondary)
+                Text(L("Loading…")).font(.callout.weight(.medium)).foregroundStyle(.secondary)
             case .error(let message):
                 Label(message, systemImage: "exclamationmark.triangle")
-                    .font(.caption)
+                    .font(.callout.weight(.medium))
                     .foregroundStyle(.orange)
             case .ready(let usage):
                 UsageMetersView(
@@ -94,10 +94,10 @@ struct ProviderSection: View {
                 subscriptionRenewalRow
                 VStack(alignment: .leading, spacing: 2) {
                     Text(L("Stale since \(since.formatted(date: .omitted, time: .shortened))"))
-                        .font(.caption)
+                        .font(.callout.weight(.medium))
                         .foregroundStyle(.orange)
                     Text(error)
-                        .font(.caption2)
+                        .font(.subheadline.weight(.medium))
                         .foregroundStyle(.secondary)
                 }
             }
@@ -134,15 +134,15 @@ struct SubscriptionRenewalRow: View {
 
         HStack(alignment: .firstTextBaseline, spacing: 4) {
             Image(systemName: "calendar")
-                .font(.caption2)
+                .font(.subheadline.weight(.medium))
                 .foregroundStyle(.secondary)
                 .accessibilityHidden(true)
             VStack(alignment: .leading, spacing: 1) {
                 Text(String(format: L("Renews %@"), dateText))
-                    .font(.caption)
+                    .font(.callout.weight(.medium))
                     .foregroundStyle(.secondary)
                 Text("\(renewal.platform.displayName) \(statusText)")
-                    .font(.caption2)
+                    .font(.subheadline.weight(.medium))
                     .foregroundStyle(.secondary)
             }
         }
@@ -172,7 +172,7 @@ struct UsageMetersView: View {
     var body: some View {
         Group {
             if usage.windows.isEmpty && usage.balance == nil && usage.apiUsage == nil {
-                Text(L("No usage data")).font(.caption).foregroundStyle(.secondary)
+                Text(L("No usage data")).font(.callout.weight(.medium)).foregroundStyle(.secondary)
             }
             ForEach(usage.windows, id: \.label) { window in
                 WindowMeter(
@@ -194,7 +194,7 @@ struct UsageMetersView: View {
                 Text(usage.apiUsage == nil
                      ? L("Data as of \(asOf.formatted(date: .omitted, time: .shortened))")
                      : L("Last checked \(asOf.formatted(date: .omitted, time: .shortened))"))
-                    .font(.caption2)
+                    .font(.subheadline.weight(.medium))
                     .foregroundStyle(.tertiary)
             }
         }
@@ -211,7 +211,7 @@ private struct APIUsageRows: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
             Text(L("Month to date (UTC)"))
-                .font(.caption2)
+                .font(.subheadline.weight(.medium))
                 .foregroundStyle(.secondary)
             valueRow(label: L("API spending"), value: summary.costUSD.formatted(.currency(code: "USD")))
             valueRow(label: L("Input tokens"), value: summary.inputTokens.formatted())
@@ -220,21 +220,21 @@ private struct APIUsageRows: View {
             valueRow(label: L("Cache creation tokens"), value: summary.cacheCreationTokens.formatted())
             if summary.isAwaitingCurrentDay() {
                 Text(L("Today's totals are not yet fully reported by Anthropic."))
-                    .font(.caption)
+                    .font(.callout.weight(.medium))
                     .foregroundStyle(.secondary)
                     .fixedSize(horizontal: false, vertical: true)
                     .accessibilityElement(children: .combine)
             }
             Text(L("Reports before \(summary.periodEnd.formatted(Date.FormatStyle(date: .abbreviated, time: .shortened, timeZone: TimeZone(secondsFromGMT: 0)!))) UTC"))
-                .font(.caption2)
+                .font(.subheadline.weight(.medium))
                 .foregroundStyle(.secondary)
                 .fixedSize(horizontal: false, vertical: true)
             valueRow(label: L("Prepaid credits"), value: L("Unavailable via API"))
             Link(L("View prepaid credits"), destination: Self.prepaidCreditsURL)
-                .font(.caption)
+                .font(.callout.weight(.medium))
                 .fixedSize(horizontal: false, vertical: true)
             Text(L("Reporting may lag the Anthropic website. Priority Tier costs excluded."))
-                .font(.caption2)
+                .font(.subheadline.weight(.medium))
                 .foregroundStyle(.tertiary)
                 .fixedSize(horizontal: false, vertical: true)
         }
@@ -244,11 +244,11 @@ private struct APIUsageRows: View {
     private func valueRow(label: String, value: String) -> some View {
         HStack(alignment: .firstTextBaseline, spacing: 8) {
             Text(label)
-                .font(.caption)
+                .font(.callout.weight(.medium))
                 .fixedSize(horizontal: false, vertical: true)
             Spacer(minLength: 4)
             Text(value)
-                .font(.caption.monospacedDigit())
+                .font(.callout.monospacedDigit().weight(.semibold))
                 .multilineTextAlignment(.trailing)
                 .fixedSize(horizontal: false, vertical: true)
         }
@@ -270,15 +270,15 @@ private struct BalanceRow: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 2) {
             HStack {
-                Text(balance.kind == .remaining ? L("Balance") : L("Usage")).font(.caption)
+                Text(balance.kind == .remaining ? L("Balance") : L("Usage")).font(.callout.weight(.medium))
                 Spacer()
                 HStack(spacing: 4) {
                     Text(balance.display)
-                        .font(.caption.monospacedDigit())
+                        .font(.callout.monospacedDigit().weight(.semibold))
                         .foregroundStyle(balanceColor)
                     if isLowBalance {
                         Image(systemName: "exclamationmark.triangle.fill")
-                            .font(.caption2)
+                            .font(.subheadline.weight(.medium))
                             .foregroundStyle(.orange)
                             .accessibilityHidden(true)
                     }
@@ -286,7 +286,7 @@ private struct BalanceRow: View {
             }
             if balance.kind == .remaining, let used = balance.used {
                 Text(L("\(balance.currencySymbol)\(BalanceInfo.format(used)) used all-time"))
-                    .font(.caption2)
+                    .font(.subheadline.weight(.medium))
                     .foregroundStyle(.secondary)
             }
         }
@@ -331,15 +331,15 @@ private struct WindowMeter: View {
     private func meter(at now: Date) -> some View {
         VStack(alignment: .leading, spacing: 2) {
             HStack {
-                Text(window.label).font(.caption)
+                Text(window.label).font(.callout.weight(.medium))
                 Spacer()
                 HStack(spacing: 4) {
                     Text(settings.countDirection.percentLabel(window.usedPercent))
-                        .font(.caption.monospacedDigit())
+                        .font(.callout.monospacedDigit().weight(.semibold))
                         .foregroundStyle(color)
                     if let symbol = severity.symbolName {
                         Image(systemName: symbol)
-                            .font(.caption2)
+                            .font(.subheadline.weight(.medium))
                             .foregroundStyle(color)
                             .accessibilityHidden(true)
                     }
@@ -350,7 +350,7 @@ private struct WindowMeter: View {
                 .accessibilityHidden(true)
             if let reset = window.resetDescription(style: settings.resetTimeStyle, now: now) {
                 Text(reset)
-                    .font(.caption2)
+                    .font(.subheadline.weight(.medium))
                     .foregroundStyle(.secondary)
                     .fixedSize(horizontal: false, vertical: true)
             }

@@ -13,8 +13,8 @@ final class APIUsagePresentationTests: XCTestCase {
             repeated.window.close()
         }
 
-        XCTAssertLessThanOrEqual(short.host.fittingSize.width, 320)
-        XCTAssertLessThanOrEqual(repeated.host.fittingSize.width, 320)
+        XCTAssertLessThanOrEqual(short.host.fittingSize.width, 360)
+        XCTAssertLessThanOrEqual(repeated.host.fittingSize.width, 360)
         XCTAssertLessThan(short.host.fittingSize.height, 420)
 
         let scroll = try XCTUnwrap(findScrollView(in: repeated.host))
