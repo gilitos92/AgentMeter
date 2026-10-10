@@ -1,19 +1,25 @@
 #!/bin/zsh
-# Builds AgentMeter.app (menu-bar-only bundle) into the repo root.
+# Builds "Allowance Bar.app" (menu-bar-only bundle) into the repo root.
 #
 # Usage:
 #   scripts/bundle.sh [--install]
 #     --install   also copy the app to /Applications
 #
 # Optional environment for signing (used by scripts/release.sh and CI):
-#   SIGN_IDENTITY   Developer ID Application identity; defaults to ad-hoc "-"
+#   SIGN_IDENTITY   code-signing identity; defaults to ad-hoc "-". A Developer ID
+#                   identity also gets the hardened runtime + timestamp needed for
+#                   notarization; any other identity (e.g. the self-signed "GGV"
+#                   certificate) signs without them.
 set -euo pipefail
 
 cd "$(dirname "$0")/.."
 
-APP_NAME="AgentMeter"
-BUNDLE_ID="com.felixtorres.agentmeter"
-VERSION="${AGENTMETER_VERSION:-1.0}"
+# Display/bundle name, and the SwiftPM executable product built for it.
+APP_NAME="Allowance Bar"
+EXECUTABLE="AllowanceBar"
+BUNDLE_ID="com.ggv.AllowanceBar"
+CLI_NAME="allowancebar"
+VERSION="${ALLOWANCEBAR_VERSION:-1.0.0}"
 SIGN_IDENTITY="${SIGN_IDENTITY:--}"
 
 # Compile Spanish strings from the catalog; en.lproj is checked in separately.
@@ -26,11 +32,11 @@ APP="${APP_NAME}.app"
 rm -rf "$APP"
 mkdir -p "$APP/Contents/MacOS" "$APP/Contents/Resources" "$APP/Contents/Frameworks"
 
-cp ".build/release/${APP_NAME}" "$APP/Contents/MacOS/${APP_NAME}"
-# CLI ships in Helpers/ (not MacOS/) because "agentmeter" and "AgentMeter"
+cp ".build/release/${EXECUTABLE}" "$APP/Contents/MacOS/${EXECUTABLE}"
+# CLI ships in Helpers/ (not MacOS/) because "allowancebar" and "AllowanceBar"
 # collide on case-insensitive filesystems.
 mkdir -p "$APP/Contents/Helpers"
-cp ".build/release/agentmeter-cli" "$APP/Contents/Helpers/agentmeter"
+cp ".build/release/${CLI_NAME}-cli" "$APP/Contents/Helpers/${CLI_NAME}"
 RESOURCE_BUNDLE=".build/release/AgentMeter_AgentMeter.bundle"
 if [[ ! -d "$RESOURCE_BUNDLE" ]]; then
     echo "error: required resource bundle missing: $RESOURCE_BUNDLE" >&2
@@ -48,7 +54,7 @@ if [[ -z "$SPARKLE_FRAMEWORK" ]]; then
     exit 1
 fi
 cp -R "$SPARKLE_FRAMEWORK" "$APP/Contents/Frameworks/"
-install_name_tool -add_rpath "@executable_path/../Frameworks" "$APP/Contents/MacOS/${APP_NAME}" 2>/dev/null || true
+install_name_tool -add_rpath "@executable_path/../Frameworks" "$APP/Contents/MacOS/${EXECUTABLE}" 2>/dev/null || true
 
 cat > "$APP/Contents/Info.plist" <<PLIST
 <?xml version="1.0" encoding="UTF-8"?>
@@ -56,10 +62,12 @@ cat > "$APP/Contents/Info.plist" <<PLIST
 <plist version="1.0">
 <dict>
 	<key>CFBundleExecutable</key>
-	<string>${APP_NAME}</string>
+	<string>${EXECUTABLE}</string>
 	<key>CFBundleIdentifier</key>
 	<string>${BUNDLE_ID}</string>
 	<key>CFBundleName</key>
+	<string>${APP_NAME}</string>
+	<key>CFBundleDisplayName</key>
 	<string>${APP_NAME}</string>
 	<key>CFBundleIconFile</key>
 	<string>AppIcon</string>
@@ -87,28 +95,36 @@ cat > "$APP/Contents/Info.plist" <<PLIST
 			<string>${BUNDLE_ID}.oauth</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>agentmeter</string>
+				<string>${CLI_NAME}</string>
 			</array>
 		</dict>
 	</array>
 	<key>SUFeedURL</key>
-	<string>https://github.com/fdtorres1/AgentMeter/releases/latest/download/appcast.xml</string>
+	<string>https://github.com/gilitos92/AllowanceBar/releases/latest/download/appcast.xml</string>
 	<key>SUPublicEDKey</key>
-	<string>pwHih7xHwBmiGn3ky45I4HSoDDJEYPxB3ltBcptRnwE=</string>
+	<string>7o1HfBuTkUSilLky6JprZxUSSOY0dZFt23kO68roYrQ=</string>
 	<key>SUEnableAutomaticChecks</key>
 	<true/>
 </dict>
 </plist>
 PLIST
 
-# Sign. Ad-hoc ("-") for local dev; Developer ID for distribution.
-# --options runtime enables the hardened runtime required for notarization.
-# Sparkle.framework (including its XPC services) must be signed before the app;
-# --deep is discouraged, so sign inside-out.
-if [[ "$SIGN_IDENTITY" == "-" ]]; then
-    codesign --force --sign - "$APP/Contents/Frameworks/Sparkle.framework"
-    codesign --force --sign - "$APP/Contents/Helpers/agentmeter"
-    codesign --force --sign - "$APP"
+# Sign inside-out (--deep is discouraged): Sparkle.framework, including its
+# XPC services, before the app. Only Developer ID builds get the hardened
+# runtime (--options runtime) and a secure timestamp, both needed for
+# notarization: Apple's timestamp server rejects other certificates, and
+# the runtime's library validation would refuse to load Sparkle when the
+# certificate has no Team ID (self-signed).
+if [[ "$SIGN_IDENTITY" != *"Developer ID"* ]]; then
+    for xpc in "$APP/Contents/Frameworks/Sparkle.framework/Versions/B/XPCServices/"*.xpc; do
+        codesign --force --sign "$SIGN_IDENTITY" "$xpc"
+    done
+    codesign --force --sign "$SIGN_IDENTITY" \
+        "$APP/Contents/Frameworks/Sparkle.framework/Versions/B/Autoupdate" \
+        "$APP/Contents/Frameworks/Sparkle.framework/Versions/B/Updater.app" \
+        "$APP/Contents/Frameworks/Sparkle.framework"
+    codesign --force --sign "$SIGN_IDENTITY" "$APP/Contents/Helpers/${CLI_NAME}"
+    codesign --force --sign "$SIGN_IDENTITY" "$APP"
 else
     for xpc in "$APP/Contents/Frameworks/Sparkle.framework/Versions/B/XPCServices/"*.xpc; do
         codesign --force --options runtime --timestamp --sign "$SIGN_IDENTITY" "$xpc"
@@ -118,7 +134,7 @@ else
         "$APP/Contents/Frameworks/Sparkle.framework/Versions/B/Updater.app" \
         "$APP/Contents/Frameworks/Sparkle.framework"
     codesign --force --options runtime --timestamp --sign "$SIGN_IDENTITY" \
-        "$APP/Contents/Helpers/agentmeter"
+        "$APP/Contents/Helpers/${CLI_NAME}"
     codesign --force --options runtime --timestamp --sign "$SIGN_IDENTITY" "$APP"
 fi
 

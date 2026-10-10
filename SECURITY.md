@@ -1,6 +1,6 @@
 # Security Policy
 
-AgentMeter reads authentication tokens that other apps (Codex CLI, Cursor,
+Allowance Bar reads authentication tokens that other apps (Codex CLI, Cursor,
 Claude Code, Gemini CLI) store locally, so security reports are taken
 seriously.
 
@@ -11,7 +11,7 @@ GitHub's private reporting: go to the repository's **Security** tab →
 **Report a vulnerability** (GitHub private vulnerability reporting).
 
 You can expect an acknowledgment within a few days. Please include steps to
-reproduce and the version of AgentMeter affected.
+reproduce and the version of Allowance Bar affected.
 
 ## Scope
 

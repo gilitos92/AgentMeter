@@ -1,10 +1,15 @@
-# AgentMeter — Agent Context
+# Allowance Bar — Agent Context
 
 macOS menu bar app (SwiftUI, Swift Package, macOS 14+) showing AI coding usage
 limits for Codex (multiple accounts), Cursor, Claude Code, Gemini, Claude API reporting, and
 pay-as-you-go balances for OpenRouter, DeepSeek, Kimi, Z.ai, and Venice.
-Public repo: https://github.com/fdtorres1/AgentMeter. Current release line:
-1.12.x (see CHANGELOG.md). Test suite: 166 tests (`swift test`).
+Public repo: https://github.com/gilitos92/AllowanceBar, a fork of
+https://github.com/fdtorres1/AgentMeter (MIT; remote `origin` = upstream,
+read-only). Rebranded to Allowance Bar at 1.0.0 (bundle ID
+`com.ggv.AllowanceBar`, URL scheme `allowancebar://`, CLI `allowancebar`).
+Source folders, Swift targets/modules, and type names deliberately keep the
+`AgentMeter` naming to ease upstream merges; only user-facing names changed.
+Test suite: `swift test`.
 
 **If `HANDOFF.md` exists in the repo root, read it first.** It is the
 gitignored, machine-local session handoff (current state, pending work,
@@ -34,7 +39,7 @@ announcement drafts, environment specifics) and complements this file.
 - UI: `MenuContent` (dropdown with a display-bounded scrolling provider list
   and a fixed footer; short lists shrink to their content; provider sections live in
   `ProviderUsageSections.swift` and are shared with `UsageDetailsView`, the
-  ⌘D / `agentmeter://details` window), `SettingsWindow` (native tabbed
+  ⌘D / `allowancebar://details` window), `SettingsWindow` (native tabbed
   Settings: General / Providers / Display / Alerts; includes
   `CodexAccountsSection` with auto-discovery of `~/.codex-*` homes and
   `CodexSubscriptionSettings`), `AboutWindow`. Menu bar title is a rendered
@@ -44,16 +49,18 @@ announcement drafts, environment specifics) and complements this file.
   spoken qualifiers), `NotificationManager` (`ThresholdTracker`,
   `RenewalTracker`), `SubscriptionRenewal` (anniversary math; billing dates
   are NEVER merged with usage windows), `ErrorRedaction`, `Diagnostics`,
-  `DebugLog` (`AGENTMETER_DEBUG=1` stderr tracing; never credentials).
+  `DebugLog` (`ALLOWANCEBAR_DEBUG=1` stderr tracing; never credentials).
 - Agent/CLI interface (v1.9.0): opt-in `status.json` snapshot in Application
   Support written by `StatusSnapshotWriter` after each refresh; shared schema
-  lives in the `AgentMeterStatusKit` library target; `agentmeter-cli` is a
-  read-only executable product installed as `Contents/Helpers/agentmeter`.
-  GOTCHA: the product MUST stay named `agentmeter-cli` and ship in `Helpers/`
-  — "agentmeter" and "AgentMeter" clobber each other on case-insensitive APFS
-  (both in `.build/release/` and in `Contents/MacOS/`). Schema doc:
+  lives in the `AgentMeterStatusKit` library target; target `agentmeter-cli`
+  builds the read-only executable product `allowancebar-cli`, installed as
+  `Contents/Helpers/allowancebar`. The app binary is product `AllowanceBar`
+  (target `AgentMeter`). GOTCHA: the CLI product MUST keep its `-cli` suffix
+  and ship in `Helpers/` — "allowancebar" and "AllowanceBar" clobber each
+  other on case-insensitive APFS (both in `.build/release/` and in
+  `Contents/MacOS/`). Schema doc:
   docs/AGENT_INTERFACE.md (additive changes only within schemaVersion 1).
-  `agentmeter skill` prints `docs/agent-skill/SKILL.md`, embedded as
+  `allowancebar skill` prints `docs/agent-skill/SKILL.md`, embedded as
   `AgentSkill.markdown` — a test enforces byte identity, so edit the .md and
   regenerate the Swift constant together (see Conventions).
 
@@ -72,14 +79,14 @@ announcement drafts, environment specifics) and complements this file.
   every 5 min per account (`CodexAppServerClient.pollInterval`), cached in
   `CodexAccountCache`. Extra accounts = `CodexAccountConfig` entries in
   `SettingsStore.codexExtraAccounts`, each with its own `CODEX_HOME`; the
-  user signs in via `mkdir -p <home> && CODEX_HOME=<home> codex login` (Codex refuses a nonexistent CODEX_HOME) — AgentMeter never logs
+  user signs in via `mkdir -p <home> && CODEX_HOME=<home> codex login` (Codex refuses a nonexistent CODEX_HOME) — Allowance Bar never logs
   in or reads auth.json. The protocol has NO account-switch method;
   `~/.codex/accounts.json` is written by the Codex desktop app only.
   FALLBACK (primary account only): parse newest
   `~/.codex/sessions/YYYY/MM/DD/rollout-*.jsonl` backwards for the last
   `rate_limits` snapshot (`primary`/`secondary`, `used_percent`, `resets_at`,
   `plan_type`); also preferred when its timestamp is newer than the cache.
-  `agentmeter` tracing: `AGENTMETER_DEBUG=1` (DebugLog) prints structural
+  `allowancebar` tracing: `ALLOWANCEBAR_DEBUG=1` (DebugLog) prints structural
   info to stderr — NOTE: when launched directly from a shell (not via `open`)
   the initial refresh may not complete; test with `open`.
 - **Cursor**: reads `cursorAuth/accessToken` from
@@ -148,7 +155,7 @@ swift build                 # NOTE: run outside the tool sandbox; SwiftPM's own
                             # Operation not permitted". Use full permissions.
 swift test                  # live-network tests are opt-in via env
                             # (CURSOR_LIVE_TEST=1) and skip by default.
-scripts/bundle.sh [--install]   # builds AgentMeter.app (ad-hoc signed by default)
+scripts/bundle.sh [--install]   # builds "Allowance Bar.app" (ad-hoc signed by default)
 ```
 
 - CI (`.github/workflows/ci.yml`) runs build+test on `macos-15` for push/PR.
@@ -157,56 +164,50 @@ scripts/bundle.sh [--install]   # builds AgentMeter.app (ad-hoc signed by defaul
 
 ## Release runbook (the actual, tested end-to-end flow)
 
-Releases are cut locally. This is the exact sequence run each time — reproduce
-it faithfully. Full detail in [docs/RELEASING.md](docs/RELEASING.md).
+Releases are cut locally. Full detail in [docs/RELEASING.md](docs/RELEASING.md).
 
-Credentials (do NOT prompt for them):
-- Signing identity: `Developer ID Application: Felix Torres (77Z6XS8JU8)`
-  (login keychain) — pass as `SIGN_IDENTITY`.
-- Notarization (App Store Connect API key, key-id, issuer): stored in 1Password,
-  fetched automatically by `release.sh` via `op-sa` (vault Sage-Openclaw, item
-  "AgentMeter Notarization (App Store Connect API)"; the `.p8` is stored
-  base64 in field `private key b64`). No env vars needed.
-- Sparkle EdDSA signing key: login keychain item "Private key for signing
-  Sparkle updates"; backed up in 1Password (vault Sage-Openclaw, item
-  "AgentMeter Sparkle EdDSA Private Key").
+Credentials (do NOT prompt for them; never print them):
+- Signing identity: self-signed `GGV` certificate in the login keychain
+  (default `SIGN_IDENTITY` in `release.sh`). No Developer ID, so builds are
+  NOT notarized. Backup: 1Password vault Personal, "Allowance Bar Code
+  Signing Certificate (GGV).p12" + "… p12 password".
+- Sparkle EdDSA key: login keychain, account `AllowanceBar`
+  (`generate_keys --account AllowanceBar`). Backup: 1Password vault Personal,
+  "Allowance Bar Sparkle EdDSA Private Key".
+- Never sign public builds with the Apple Development certificate: it embeds
+  the owner's legal name.
 
 Steps (bump `X.Y.Z`, keep `CHANGELOG.md` updated first):
-1. `git add -A && git commit && git push` on `main`.
-2. Run `SIGN_IDENTITY="Developer ID Application: Felix Torres (77Z6XS8JU8)" \
-   AGENTMETER_VERSION=X.Y.Z scripts/release.sh`. It pulls notarization creds
-   from op-sa, builds, signs (inside-out incl. Sparkle framework), notarizes +
-   waits, staples, zips, and writes a signed `appcast.xml`.
-3. `git tag vX.Y.Z && git push origin vX.Y.Z`.
-4. `gh release create vX.Y.Z AgentMeter.zip appcast.xml --title "AgentMeter X.Y.Z" --notes ...`
-   — BOTH assets; the app's SUFeedURL is `releases/latest/download/appcast.xml`.
-5. Bump the Homebrew cask in the separate repo `fdtorres1/homebrew-tap`
-   (`/tmp/homebrew-tap` clone): update `version` + `sha256`
-   (`shasum -a 256 AgentMeter.zip`), commit, push. The cask has a `binary`
-   stanza for `Contents/Helpers/agentmeter` (added in 1.9.0) — keep it.
-6. Install locally to verify (`cp -R AgentMeter.app /Applications/`), tick the
-   roadmap (issue #1), close the milestone.
+1. Branch `Release-X.Y.Z` from `Development`, commit "Prepare Allowance Bar
+   X.Y.Z release", merge `--no-ff` into `main` and `Development`.
+2. `ALLOWANCEBAR_VERSION=X.Y.Z scripts/release.sh` — builds, signs with GGV
+   (inside-out incl. Sparkle), zips `AllowanceBar.zip`, writes a signed
+   `appcast.xml`.
+3. `git tag vX.Y.Z` on `main`; `git push fork main Development vX.Y.Z`.
+4. `gh release create vX.Y.Z AllowanceBar.zip appcast.xml -R gilitos92/AllowanceBar
+   --title "Allowance Bar X.Y.Z" --notes ...` — BOTH assets; the app's
+   SUFeedURL is `releases/latest/download/appcast.xml`. Notes mention the
+   self-signed, not-notarized build and the one-time "Open Anyway" step.
+5. Install locally to verify (`cp -R "Allowance Bar.app" /Applications/`).
 
 Gotchas:
-- `generate_appcast` (in `release.sh`) may trigger a macOS Keychain prompt for
-  the Sparkle key if the Sparkle tool binary changed (e.g. after an SPM
-  re-resolve). Approve with "Always Allow" — it blocks the release until then.
-- `appcast.xml` is gitignored (build artifact); it lives only as a release asset.
-- `.build/`, `*.app/`, `HANDOFF.md` are gitignored. `AgentMeter.zip` IS
-  tracked (historical); `release.sh` overwrites it — run
-  `git checkout -- AgentMeter.zip` before committing unrelated work.
-- `/tmp/homebrew-tap` may be gone between sessions; reclone
-  `https://github.com/fdtorres1/homebrew-tap` before bumping the cask.
-- Running the app binary directly from a shell (for `AGENTMETER_DEBUG`) can
+- `generate_appcast` or `codesign` may trigger a Keychain prompt for the
+  Sparkle or GGV key. Approve with "Always Allow".
+- `appcast.xml` and `AllowanceBar.zip` are gitignored (release assets only).
+  The old `AgentMeter.zip` is still tracked (historical); leave it alone.
+- `.build/`, `*.app/`, `HANDOFF.md` are gitignored.
+- Running the app binary directly from a shell (for `ALLOWANCEBAR_DEBUG`) can
   leave the initial refresh incomplete; verify behavior with `open`.
+- Known failing test: `LocalizationTests.testSpanishTranslationsExistInCatalog`
+  (the catalog is excluded from the package since 1.14.1); not a regression.
 
 ## Conventions
 
 - Keep PR titles human-readable — the release workflow uses
   `generate_release_notes: true`, so they become the changelog.
-- Public issue tracking only (no Discussions). Roadmap is pinned+locked issue #1.
-- Author commits with a real identity; the repo's initial history was recreated
-  once to strip a secret-scanner false positive, so avoid rewriting history.
+- Public issue tracking only (no Discussions).
+- Avoid rewriting history (the upstream history was recreated once to strip a
+  secret-scanner false positive).
 - Localization: every user-facing string goes through `L()` and gets en + es
   entries in `Sources/AgentMeter/Resources/Localizable.xcstrings`; then run
   `xcrun xcstringstool compile Sources/AgentMeter/Resources/Localizable.xcstrings

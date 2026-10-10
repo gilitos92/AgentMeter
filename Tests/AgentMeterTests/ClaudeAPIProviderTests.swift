@@ -43,7 +43,7 @@ final class ClaudeAPIProviderTests: XCTestCase {
             XCTAssertEqual(request.value(forHTTPHeaderField: "x-api-key"), "test-admin-key")
             XCTAssertEqual(request.value(forHTTPHeaderField: "anthropic-version"), "2023-06-01")
             XCTAssertEqual(request.value(forHTTPHeaderField: "Accept"), "application/json")
-            XCTAssertEqual(request.value(forHTTPHeaderField: "User-Agent"), "AgentMeter/1.0")
+            XCTAssertEqual(request.value(forHTTPHeaderField: "User-Agent"), "AllowanceBar/1.0")
             XCTAssertFalse(url.absoluteString.contains("test-admin-key"))
         }
         XCTAssertEqual(requests.compactMap { URLComponents(url: $0.url!, resolvingAgainstBaseURL: false)?.queryItems?.first(where: { $0.name == "page" })?.value }, ["second", "second"])

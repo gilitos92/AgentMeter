@@ -183,7 +183,7 @@ enum ClaudeError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .notSignedIn: return L("Not signed in to Claude Code")
-        case .refreshRequired: return L("Run Claude Code to renew its credentials, then refresh AgentMeter")
+        case .refreshRequired: return L("Run Claude Code to renew its credentials, then refresh Allowance Bar")
         case .rateLimited: return L("Anthropic rate-limited the usage request")
         case .badResponse: return L("Unexpected response from Anthropic")
         case .httpStatus(let code): return L("Anthropic returned HTTP \(code))")

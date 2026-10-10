@@ -1,11 +1,16 @@
-# AgentMeter
+# Allowance Bar
 
 A tiny macOS menu bar app (no Dock icon) that keeps your AI coding usage limits
 visible at a glance — Codex/ChatGPT (one or several accounts), Cursor, Claude
 Code, and Gemini, Claude API spending and token usage, plus pay-as-you-go balances for OpenRouter, DeepSeek, Kimi,
 Z.ai, and Venice — with a dropdown showing detailed meters, reset countdowns,
-and balances. Your coding agents can read the same numbers through a small
-read-only CLI.
+and balances. Keep every limit on screen in a floating window that stays
+above your work, full size or as a compact mini panel. Your coding agents can
+read the same numbers through a small read-only CLI.
+
+Allowance Bar is based on [AgentMeter](https://github.com/fdtorres1/AgentMeter)
+by Felix Torres (MIT License). It is an independent project, not affiliated
+with or endorsed by the original author.
 
 The menu bar shows the most constrained window per enabled provider, e.g.:
 
@@ -14,8 +19,8 @@ Cx 5% · CxW 62% · Cu 20% · Cl 40% · OR $8.06
 ```
 
 <p align="center">
-  <img src="Resources/screenshot-dropdown.png" alt="AgentMeter dropdown showing Codex and Cursor usage meters with provider badges, percent-left display, and exact reset times" width="360" />
-  <img src="Resources/screenshot-settings.png" alt="AgentMeter Settings window, Providers tab, with per-provider mode, menu bar visibility, and credential status" width="400" />
+  <img src="Resources/screenshot-dropdown.png" alt="Allowance Bar dropdown showing Codex and Cursor usage meters with provider badges, percent-left display, and exact reset times" width="360" />
+  <img src="Resources/screenshot-settings.png" alt="Allowance Bar Settings window, Providers tab, with per-provider mode, menu bar visibility, and credential status" width="400" />
 </p>
 
 ## Providers
@@ -41,18 +46,18 @@ percentage to measure.
 
 In **Settings → Providers → Claude API**, save an organization Admin API key
 or an eligible personal/service-account key that is not scoped to a workspace.
-AgentMeter stores the key in its own macOS Keychain item and only sends read-only
+Allowance Bar stores the key in its own macOS Keychain item and only sends read-only
 report requests to Anthropic. Ordinary workspace keys and individual accounts
 cannot use the reporting API. These reports cover the organization, not just
 requests made with the saved key. Claude Code subscription limits remain in the
 separate **Claude** entry.
 
 Spending covers the current calendar month in UTC, excludes Priority Tier
-costs, and may lag the Anthropic website. AgentMeter shows the returned report
+costs, and may lag the Anthropic website. Allowance Bar shows the returned report
 cutoff and flags when today's totals are not yet fully reported. "Last checked"
-means when AgentMeter fetched the report, not how current Anthropic's data is.
+means when Allowance Bar fetched the report, not how current Anthropic's data is.
 Reports are cached for five
-minutes during automatic polling. The Refresh button and `agentmeter refresh`
+minutes during automatic polling. The Refresh button and `allowancebar refresh`
 bypass that cache; after an API failure, retries wait one minute. Input tokens
 exclude cache reads and cache creation, which have their
 own rows. **Prepaid credits are not inferred from spending**: use the billing
@@ -66,6 +71,27 @@ independently. Refresh runs every 30s/1m/5m (configurable); Codex also
 refreshes instantly after CLI activity via a file watcher, and the app
 refreshes on wake.
 
+## Why Allowance Bar
+
+**A floating usage window that stays where you can see it.** Most usage
+meters live only in the menu bar: you click, look, and the numbers disappear.
+Allowance Bar's Usage Details window (⌘D, or `allowancebar://details`) keeps
+every limit visible while you work:
+
+- **Two sizes.** The full window shows every provider's meters, reset times,
+  and balances. One click collapses it into a small, chrome-free **mini
+  panel** with one meter per limit (for example 5-hour and weekly) and the
+  time until each resets. Drag it anywhere; one click expands it again.
+- **Keep on Top.** The window stays above other windows, even when you switch
+  apps.
+- **Show on All Desktops.** It follows you to every desktop (Space) and over
+  full-screen apps.
+- **Made to sit on top of your work.** On macOS 26 and later it uses Liquid
+  Glass (Regular or Clear) so text stays readable over anything behind it;
+  earlier macOS versions get an opacity slider.
+
+Your choices are remembered, so the window comes back the way you left it.
+
 ## Highlights
 
 - **Reads well before it runs out** — count usage up ("80% used") or down
@@ -74,7 +100,7 @@ refreshes on wake.
 - **Never cries wolf** — if a provider briefly fails to respond, the last
   known numbers stay visible (dimmed, with a "stale since…" note) instead of
   an alarming error in your menu bar.
-- **Knows what key you pasted** — AgentMeter detects the key type (for
+- **Knows what key you pasted** — Allowance Bar detects the key type (for
   example Venice Admin vs. Inference, OpenRouter management vs. standard) and
   explains in plain language what it can do, always recommending the
   least-privileged key that works.
@@ -87,36 +113,37 @@ refreshes on wake.
   subscriptions each get their own meter, label, and menu bar code, with
   optional billing-renewal reminders kept strictly separate from usage
   windows. See [docs/CODEX_ACCOUNTS.md](docs/CODEX_ACCOUNTS.md).
-- **Stays current** — Sparkle auto-updates from signed, notarized releases.
+- **Stays current** — built-in auto-updates (Sparkle) from signed GitHub
+  releases.
 - **Your agents can read it too** — an opt-in, read-only JSON snapshot, an
-  `agentmeter` CLI, and a drop-in agent skill let scripts and coding agents
+  `allowancebar` CLI, and a drop-in agent skill let scripts and coding agents
   check remaining quota before starting a big task. See
   [docs/AGENT_INTERFACE.md](docs/AGENT_INTERFACE.md).
 - **Bilingual** — English and Spanish, following your macOS language.
 
 ## Privacy and trust
 
-AgentMeter is open source (MIT) so you can verify exactly what it does:
+Allowance Bar is open source (MIT) so you can verify exactly what it does:
 
 - For Cursor, Claude, and Gemini, credentials are **read fresh on each
   refresh** from the locations the official CLIs/apps already use. They are
-  **never written anywhere** by AgentMeter and never leave your machine except
+  **never written anywhere** by Allowance Bar and never leave your machine except
   as the `Authorization`/`Cookie` header on the request to that provider's own
   API.
 - For API-key providers (OpenRouter, DeepSeek, Kimi, Z.ai, Venice), the key you
   provide is stored **only in your macOS Keychain** as an item private to
-  AgentMeter, shown masked in Settings, removable with one click, and sent
+  Allowance Bar, shown masked in Settings, removable with one click, and sent
   only to that provider's own API. We recommend creating a dedicated key named
-  "AgentMeter" so you can revoke it independently. OpenRouter can instead be
+  "Allowance Bar" so you can revoke it independently. OpenRouter can instead be
   connected via OAuth, which provisions its own revocable key without you
   handling one at all.
-- For Codex, AgentMeter never touches tokens at all: it launches your own
+- For Codex, Allowance Bar never touches tokens at all: it launches your own
   `codex` CLI for about a second and asks it over its documented JSON-RPC
   protocol; Codex handles auth and talks to OpenAI itself. Session-log
-  parsing remains as a fully offline fallback. AgentMeter never performs
+  parsing remains as a fully offline fallback. Allowance Bar never performs
   logins — you sign in extra accounts with `codex login` yourself.
 - Nothing runs in the background besides the menu bar app itself: the Codex
-  helper exits after each ~1-second query, and the `agentmeter` CLI is a
+  helper exits after each ~1-second query, and the `allowancebar` CLI is a
   read-only client that never sees credentials.
 - No analytics, no telemetry, no accounts.
 
@@ -129,23 +156,27 @@ AgentMeter is open source (MIT) so you can verify exactly what it does:
 
 ## Install
 
-```bash
-brew install --cask fdtorres1/tap/agentmeter
-```
+1. Download the latest `AllowanceBar.zip` from
+   [Releases](https://github.com/gilitos92/AllowanceBar/releases/latest).
+2. Unzip it and drag `Allowance Bar.app` to `/Applications`.
+3. Open it. The first time, macOS says it can't verify the developer, because
+   Allowance Bar is not notarized by Apple. Click **Done**, then open
+   **System Settings → Privacy & Security**, scroll down, and click
+   **Open Anyway** next to "Allowance Bar" ([Apple's
+   instructions](https://support.apple.com/guide/mac-help/open-a-mac-app-from-an-unknown-developer-mh40616/mac)).
+   You only do this once.
 
-Or download the latest `AgentMeter.zip` from
-[Releases](https://github.com/fdtorres1/AgentMeter/releases/latest), unzip,
-and drag `AgentMeter.app` to `/Applications`. Signed and notarized builds open
-without Gatekeeper warnings, and the app keeps itself up to date (Sparkle).
+After that, the app keeps itself up to date. Updates are verified with the
+project's signing key before they install.
 
 ### Build from source
 
 ```bash
 swift build              # debug build
 swift test               # unit tests (live-network tests are opt-in)
-scripts/bundle.sh         # builds AgentMeter.app in the repo root
+scripts/bundle.sh         # builds "Allowance Bar.app" in the repo root
 scripts/bundle.sh --install   # also copies it to /Applications
-open AgentMeter.app
+open "Allowance Bar.app"
 ```
 
 Use the "Launch at Login" toggle in Settings → General to start it automatically.
@@ -153,14 +184,14 @@ Use the "Launch at Login" toggle in Settings → General to start it automatical
 ## Multiple Codex accounts
 
 Sign in another account into its own Codex home, then add it in Settings —
-AgentMeter discovers signed-in `~/.codex-*` folders automatically:
+Allowance Bar discovers signed-in `~/.codex-*` folders automatically:
 
 ```bash
 mkdir -p ~/.codex-work && CODEX_HOME=~/.codex-work codex login
 ```
 
 Each account becomes its own provider (`Codex — work`, menu bar `CxW`) with
-independent visibility and alerts. AgentMeter never performs the login or
+independent visibility and alerts. Allowance Bar never performs the login or
 reads the resulting tokens; it only asks your Codex CLI for the numbers.
 You can also record each subscription's renewal date and billing platform and
 get a reminder a few days before. Full guide:
@@ -168,24 +199,24 @@ get a reminder a few days before. Full guide:
 
 ## Agent & CLI access
 
-Turn on **Settings → General → Enable agent & CLI access** and AgentMeter
+Turn on **Settings → General → Enable agent & CLI access** and Allowance Bar
 writes a machine-readable snapshot (usage numbers only — never credentials) to
-`~/Library/Application Support/AgentMeter/status.json` after each refresh. The
+`~/Library/Application Support/AllowanceBar/status.json` after each refresh. The
 bundled CLI reads it:
 
 ```bash
-agentmeter status          # human-readable table
-agentmeter status --json   # stable, versioned JSON for scripts/agents
-agentmeter refresh --wait 15
-agentmeter doctor          # redacted troubleshooting report
-agentmeter skill           # prints the agent skill (see below)
+allowancebar status          # human-readable table
+allowancebar status --json   # stable, versioned JSON for scripts/agents
+allowancebar refresh --wait 15
+allowancebar doctor          # redacted troubleshooting report
+allowancebar skill           # prints the agent skill (see below)
 ```
 
 Every provider — including each Codex account — appears as its own entry with
 usage windows, balance, freshness, plan, account email, and any tracked
 renewal date.
 
-Homebrew puts `agentmeter` on your PATH; otherwise use **Settings → General →
+To put `allowancebar` on your PATH, use **Settings → General →
 Install Command-Line Tool…**. The app remains the only process that touches
 credentials or provider APIs — the CLI is a thin, read-only client.
 
@@ -193,7 +224,7 @@ To teach your coding agent to check its own budget before big tasks, install
 the bundled skill (Codex, Claude Code, and Cursor all read this format):
 
 ```bash
-mkdir -p ~/.codex/skills/agentmeter && agentmeter skill > ~/.codex/skills/agentmeter/SKILL.md
+mkdir -p ~/.codex/skills/allowancebar && allowancebar skill > ~/.codex/skills/allowancebar/SKILL.md
 ```
 
 Full schema, skill, and security model in
@@ -210,29 +241,31 @@ Full schema, skill, and security model in
 - `Sources/AgentMeter/MenuContent.swift` + `ProviderUsageSections.swift` — dropdown UI (shared with the Usage Details window); `SettingsWindow.swift` — native tabbed Settings.
 - `Sources/AgentMeter/CredentialAssessment.swift` — key-type detection and plain-language explainers.
 - `Sources/AgentMeter/SubscriptionRenewal.swift` — renewal-date model and reminder math.
-- `Sources/AgentMeter/StatusSnapshotWriter.swift` — opt-in `status.json`; `Sources/AgentMeterStatusKit/` — shared snapshot schema, CLI parsing, embedded agent skill; `Sources/agentmeter-cli/` — the read-only CLI.
+- `Sources/AgentMeter/StatusSnapshotWriter.swift` — opt-in `status.json`; `Sources/AgentMeterStatusKit/` — shared snapshot schema, CLI parsing, embedded agent skill; `Sources/agentmeter-cli/` — the read-only CLI (built as `allowancebar`).
 - `Sources/AgentMeter/Updater.swift` — Sparkle auto-updates.
 - `docs/` — [agent interface](docs/AGENT_INTERFACE.md), [Codex accounts guide](docs/CODEX_ACCOUNTS.md), [agent skill](docs/agent-skill/SKILL.md), [releasing](docs/RELEASING.md).
-- `scripts/bundle.sh` / `scripts/release.sh` — bundling and signed/notarized release.
-- `.github/workflows/` — CI (build + tests); releases are built and notarized locally.
+- `scripts/bundle.sh` / `scripts/release.sh` — bundling and signed release with a Sparkle appcast.
+- `.github/workflows/` — CI (build + tests); releases are built locally.
+
+Source folders and Swift modules keep the original `AgentMeter` names so
+upstream changes stay easy to merge.
 
 ## En español
 
-AgentMeter habla español — la interfaz sigue el idioma de macOS. Translations
+Allowance Bar habla español — la interfaz sigue el idioma de macOS. Translations
 for other languages are welcome: all strings live in a single
 [String Catalog](Sources/AgentMeter/Resources/Localizable.xcstrings), so adding
 a language is a JSON-only pull request.
 
 <p align="center">
-  <img src="Resources/screenshot-dropdown-es.png" alt="AgentMeter en español: medidores de uso con tiempos de restablecimiento" width="360" />
+  <img src="Resources/screenshot-dropdown-es.png" alt="Allowance Bar en español: medidores de uso con tiempos de restablecimiento" width="360" />
 </p>
 
-## Support
-
-If AgentMeter saves you from a surprise rate limit, you can
-[buy me a coffee](https://www.buymeacoffee.com/fdtorres). Entirely optional.
-
 ## Credits
+
+Allowance Bar is a fork of [AgentMeter](https://github.com/fdtorres1/AgentMeter)
+by Felix Torres, released under the MIT License. If you like the original,
+you can [support its author](https://www.buymeacoffee.com/fdtorres).
 
 Endpoint formats were validated against the excellent open-source
 [CodexBar](https://github.com/steipete/CodexBar) by Peter Steinberger.

@@ -3,14 +3,14 @@ import Foundation
 public enum AgentSkill {
     public static let markdown: String = #"""
 ---
-name: agentmeter
-description: Check remaining AI coding usage limits and API balances (Codex, Cursor, Claude Code, Gemini, OpenRouter, DeepSeek, Kimi, Z.ai, Venice) through the local AgentMeter menu bar app before starting large or long-running tasks. Use when planning work that will consume significant model quota, when choosing between providers, when a rate-limit or quota error occurs, or when the user asks how much usage they have left.
+name: allowancebar
+description: Check remaining AI coding usage limits and API balances (Codex, Cursor, Claude Code, Gemini, OpenRouter, DeepSeek, Kimi, Z.ai, Venice) through the local Allowance Bar menu bar app before starting large or long-running tasks. Use when planning work that will consume significant model quota, when choosing between providers, when a rate-limit or quota error occurs, or when the user asks how much usage they have left.
 ---
 
-# AgentMeter usage check
+# Allowance Bar usage check
 
-AgentMeter is a macOS menu bar app that tracks AI coding usage limits. It
-exposes a read-only snapshot through the `agentmeter` CLI. Use it to avoid
+Allowance Bar is a macOS menu bar app that tracks AI coding usage limits. It
+exposes a read-only snapshot through the `allowancebar` CLI. Use it to avoid
 starting work you cannot finish within the user's remaining quota.
 
 ## When to use
@@ -26,15 +26,15 @@ Check once per task, not once per step. The app refreshes itself.
 ## Command
 
 ```bash
-agentmeter status --json
+allowancebar status --json
 ```
 
-If `agentmeter` is not on PATH, try these in order:
+If `allowancebar` is not on PATH, try these in order:
 
 ```bash
-/opt/homebrew/bin/agentmeter
-/usr/local/bin/agentmeter
-/Applications/AgentMeter.app/Contents/Helpers/agentmeter
+/opt/homebrew/bin/allowancebar
+/usr/local/bin/allowancebar
+"/Applications/Allowance Bar.app/Contents/Helpers/allowancebar"
 ```
 
 Exit codes:
@@ -42,9 +42,9 @@ Exit codes:
 | Code | Meaning | What to do |
 |------|---------|------------|
 | 0 | Success | Read the JSON. |
-| 2 | No snapshot | Tell the user to turn on Settings → General → "Enable agent & CLI access" in AgentMeter, then retry. |
-| 3 | App not running (`refresh` only) | Ask the user to launch AgentMeter. |
-| 127 / not found | CLI not installed | Suggest `brew install --cask fdtorres1/tap/agentmeter` or the Settings → General "Install Command-Line Tool" button. |
+| 2 | No snapshot | Tell the user to turn on Settings → General → "Enable agent & CLI access" in Allowance Bar, then retry. |
+| 3 | App not running (`refresh` only) | Ask the user to launch Allowance Bar. |
+| 127 / not found | CLI not installed | Suggest the Settings → General "Install Command-Line Tool" button in Allowance Bar. |
 
 If the snapshot is unavailable, say so and proceed with the task as normal.
 Never work around a missing snapshot by reading `~/.codex`, `~/.claude`,
@@ -89,7 +89,7 @@ you were started with); when unsure, report the most constrained Codex
 account and say which email it is.
 
 Freshness: if `generatedAt` is more than 10 minutes old, run
-`agentmeter refresh --wait 15` once, then read the snapshot again. Do not
+`allowancebar refresh --wait 15` once, then read the snapshot again. Do not
 refresh more than once per task.
 
 ## Decision guidance
@@ -109,7 +109,7 @@ fine to proceed, but OpenRouter is nearly empty."
 ## Do not
 
 - Do not modify `status.json` or anything under
-  `~/Library/Application Support/AgentMeter/`.
+  `~/Library/Application Support/AllowanceBar/`.
 - Do not read credentials or call provider APIs to get usage yourself.
 - Do not nag: one check per task is enough.
 

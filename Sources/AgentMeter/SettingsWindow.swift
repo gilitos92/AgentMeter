@@ -53,7 +53,7 @@ private struct GeneralSettingsTab: View {
 
                 cliToolInstallSection
             } footer: {
-                Text(L("Writes a machine-readable usage snapshot (never credentials) to Application Support for the agentmeter command-line tool and other local agents."))
+                Text(L("Writes a machine-readable usage snapshot (never credentials) to Application Support for the allowancebar command-line tool and other local agents."))
                     .font(.callout)
                     .foregroundStyle(.secondary)
             }
@@ -87,7 +87,7 @@ private struct GeneralSettingsTab: View {
                     .foregroundStyle(.secondary)
             }
             Section {
-                Button(L("About AgentMeter")) {
+                Button(L("About Allowance Bar")) {
                     openWindow(id: "about")
                     NSApp.activate(ignoringOtherApps: true)
                 }
@@ -122,7 +122,7 @@ private struct GeneralSettingsTab: View {
                 installCLITool()
             }
         } else {
-            Text(L("Run from AgentMeter.app to install the command-line tool."))
+            Text(L("Run from Allowance Bar.app to install the command-line tool."))
                 .font(.callout)
                 .foregroundStyle(.secondary)
         }
@@ -138,7 +138,7 @@ private struct GeneralSettingsTab: View {
         switch CLIToolInstaller.install() {
         case .success:
             refreshCLIInstallStatus()
-            let message = L("Installed. Open a new terminal and run agentmeter --help.")
+            let message = L("Installed. Open a new terminal and run allowancebar --help.")
             cliInstallResultMessage = message
             AccessibilityNotification.Announcement(message).post()
         case .failure(_ as CancellationError):
@@ -291,7 +291,7 @@ private struct CodexAccountsSection: View {
                 refreshDiscovered()
             }
             .font(.callout)
-            .help(L("Adds this account to AgentMeter using the folder name as its label."))
+            .help(L("Adds this account to Allowance Bar using the folder name as its label."))
         }
         .accessibilityElement(children: .combine)
         .accessibilityLabel(String(format: L("Found signed-in Codex home: %@"), candidate.homePath))
@@ -406,7 +406,7 @@ private struct CodexAccountsSection: View {
             .accessibilityLabel(L("Copy login command"))
             .accessibilityHint(L("Copies the Terminal command to sign in this Codex account"))
 
-            Text(L("Run this in Terminal to sign in that account. AgentMeter never handles your login or tokens — the Codex CLI does."))
+            Text(L("Run this in Terminal to sign in that account. Allowance Bar never handles your login or tokens — the Codex CLI does."))
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
 

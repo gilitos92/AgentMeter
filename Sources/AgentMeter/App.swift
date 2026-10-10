@@ -27,7 +27,7 @@ struct AgentMeterApp: App {
         }
         .windowResizability(.contentSize)
 
-        Window("About AgentMeter", id: "about") {
+        Window("About Allowance Bar", id: "about") {
             AboutView()
         }
         .windowResizability(.contentSize)
@@ -41,7 +41,7 @@ struct AgentMeterApp: App {
 
 /// The menu bar label is the only view guaranteed to exist for the app's whole
 /// lifetime, so it also hosts the observer that opens the Usage Details window
-/// for agentmeter://details (MenuContent only exists while the dropdown is open).
+/// for allowancebar://details (MenuContent only exists while the dropdown is open).
 private struct MenuBarLabel: View {
     @ObservedObject var store: UsageStore
     @ObservedObject var settings: SettingsStore
@@ -86,7 +86,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         NSApp.setActivationPolicy(.accessory)
     }
 
-    /// URL-scheme callbacks (agentmeter://...) arrive here; MenuBarExtra views
+    /// URL-scheme callbacks (allowancebar://...) arrive here; MenuBarExtra views
     /// may not exist at that moment, so this cannot live in onOpenURL.
     func application(_ application: NSApplication, open urls: [URL]) {
         Task { @MainActor in

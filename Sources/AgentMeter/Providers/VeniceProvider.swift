@@ -234,7 +234,7 @@ struct VeniceProvider: UsageProvider {
             return CredentialAssessment(
                 keyTypeLabel: L("Admin key"),
                 summary: L("Full access including billing and key management."),
-                detail: L("An Admin key can see billing details and manage other keys. AgentMeter only reads your balance; it cannot spend credits or change settings. An Inference key is safer and also works with AgentMeter."),
+                detail: L("An Admin key can see billing details and manage other keys. Allowance Bar only reads your balance; it cannot spend credits or change settings. An Inference key is safer and also works with Allowance Bar."),
                 upgradeHint: nil,
                 manageURL: manageKeysURL
             )
@@ -242,7 +242,7 @@ struct VeniceProvider: UsageProvider {
             return CredentialAssessment(
                 keyTypeLabel: L("Inference key"),
                 summary: L("Balance works through the limited rate-limits endpoint."),
-                detail: L("An Inference key is the safer default — it lets apps run models but limits access to billing and key management. AgentMeter only reads your balance through a read-only endpoint; it cannot spend credits."),
+                detail: L("An Inference key is the safer default — it lets apps run models but limits access to billing and key management. Allowance Bar only reads your balance through a read-only endpoint; it cannot spend credits."),
                 upgradeHint: L("An Admin key shows richer billing detail but is more powerful — only switch if you need that extra detail."),
                 manageURL: manageKeysURL
             )

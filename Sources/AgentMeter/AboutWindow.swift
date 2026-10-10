@@ -13,7 +13,7 @@ struct AboutView: View {
                     .frame(width: 72, height: 72)
                     .accessibilityHidden(true)
             }
-            Text("AgentMeter")
+            Text("Allowance Bar")
                 .font(.title2.bold())
             Text(L("Version \(version)"))
                 .font(.callout)
@@ -26,15 +26,15 @@ struct AboutView: View {
             Divider().padding(.horizontal, 24)
 
             VStack(spacing: 4) {
-                Link(L("Website & source code"), destination: URL(string: "https://github.com/fdtorres1/AgentMeter")!)
-                Link(L("Report an issue"), destination: URL(string: "https://github.com/fdtorres1/AgentMeter/issues")!)
-                Link(L("Support ♥"), destination: URL(string: "https://www.buymeacoffee.com/fdtorres")!)
+                Link(L("Website & source code"), destination: URL(string: "https://github.com/gilitos92/AllowanceBar")!)
+                Link(L("Report an issue"), destination: URL(string: "https://github.com/gilitos92/AllowanceBar/issues")!)
             }
             .font(.callout)
 
             Divider().padding(.horizontal, 24)
 
             VStack(spacing: 2) {
+                Text(L("Based on Allowance Bar by Felix Torres (MIT License)."))
                 Text(L("Auto-updates powered by Sparkle (MIT License)."))
                 Text(L("Provider endpoint research credits CodexBar by Peter Steinberger."))
             }
@@ -42,7 +42,7 @@ struct AboutView: View {
             .foregroundStyle(.secondary)
             .multilineTextAlignment(.center)
 
-            Text("© 2026 Felix Torres · MIT License")
+            Text("© 2026 Felix Torres, gilitos92 · MIT License")
                 .font(.subheadline)
                 .foregroundStyle(.tertiary)
         }

@@ -6,7 +6,7 @@ enum LocalizationBundleError: Error, CustomStringConvertible {
     var description: String {
         switch self {
         case .missingPackagedResources(let appURL):
-            return "AgentMeter localization resources are missing from \(appURL.path)/Contents/Resources/AgentMeter_AgentMeter.bundle"
+            return "Allowance Bar localization resources are missing from \(appURL.path)/Contents/Resources/AgentMeter_AgentMeter.bundle"
         }
     }
 }
@@ -36,7 +36,7 @@ private enum LocalizationResources {
         do {
             return try resolveLocalizationBundle(mainBundle: .main) { .module }
         } catch {
-            fatalError("AgentMeter startup failed: \(error)")
+            fatalError("Allowance Bar startup failed: \(error)")
         }
     }()
 }

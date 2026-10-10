@@ -100,9 +100,9 @@ final class LocalizationTests: XCTestCase {
         let bundleURL = resourcesURL.appendingPathComponent("AgentMeter_AgentMeter.bundle", isDirectory: true)
         let englishURL = bundleURL.appendingPathComponent("en.lproj", isDirectory: true)
         try FileManager.default.createDirectory(at: englishURL, withIntermediateDirectories: true)
-        let info = "<?xml version=\"1.0\"?><!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\"><plist version=\"1.0\"><dict><key>CFBundleIdentifier</key><string>test.agentmeter.resources</string><key>CFBundlePackageType</key><string>BNDL</string></dict></plist>"
+        let info = "<?xml version=\"1.0\"?><!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\"><plist version=\"1.0\"><dict><key>CFBundleIdentifier</key><string>test.allowancebar.resources</string><key>CFBundlePackageType</key><string>BNDL</string></dict></plist>"
         try Data(info.utf8).write(to: bundleURL.appendingPathComponent("Info.plist"))
-        let appInfo = "<?xml version=\"1.0\"?><!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\"><plist version=\"1.0\"><dict><key>CFBundleIdentifier</key><string>test.agentmeter.app</string><key>CFBundlePackageType</key><string>APPL</string></dict></plist>"
+        let appInfo = "<?xml version=\"1.0\"?><!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\"><plist version=\"1.0\"><dict><key>CFBundleIdentifier</key><string>test.allowancebar.app</string><key>CFBundlePackageType</key><string>APPL</string></dict></plist>"
         try Data(appInfo.utf8).write(to: appURL.appendingPathComponent("Contents/Info.plist"))
         try Data("\"Packaged probe\" = \"From packaged bundle\";".utf8)
             .write(to: englishURL.appendingPathComponent("Localizable.strings"))

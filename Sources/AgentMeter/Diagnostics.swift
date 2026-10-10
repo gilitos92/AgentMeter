@@ -4,7 +4,7 @@ import Foundation
 enum Diagnostics {
     static func report(store: UsageStore, settings: SettingsStore) -> String {
         var lines: [String] = []
-        lines.append("# AgentMeter Diagnostics")
+        lines.append("# Allowance Bar Diagnostics")
         lines.append("")
         lines.append("## Environment")
         lines.append("- Version: \(appVersion)")

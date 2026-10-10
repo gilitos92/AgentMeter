@@ -6,7 +6,7 @@ extension Notification.Name {
 }
 
 enum AgentMeterURLRouter {
-    /// Handles agentmeter:// URLs that are not OAuth callbacks.
+    /// Handles allowancebar:// URLs that are not OAuth callbacks.
     /// Returns true when the URL was consumed.
     @MainActor
     static func handle(_ url: URL, settings: SettingsStore) -> Bool {

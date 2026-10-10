@@ -187,7 +187,7 @@ final class UsageStore: ObservableObject {
     /// Colored menu bar segments with per-provider severity.
     var menuBarEntries: [(text: String, severity: MenuBarSeverity)] {
         let providers = titleProviders
-        guard !providers.isEmpty else { return [("AgentMeter", .normal)] }
+        guard !providers.isEmpty else { return [("Allowance Bar", .normal)] }
 
         switch settings.menuBarStyle {
         case .full:
