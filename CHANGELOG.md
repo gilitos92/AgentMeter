@@ -3,6 +3,26 @@
 All notable changes to AgentMeter. Format follows [Keep a Changelog](https://keepachangelog.com);
 versions follow semantic-ish `MAJOR.MINOR.PATCH`.
 
+## [1.15.0] — 2026-10-10
+
+### Added
+- On macOS 26 and later, the Usage Details window uses Liquid Glass. Its
+  content sits inside the glass, so macOS keeps text readable over whatever
+  is behind the window.
+- A Regular / Clear glass choice replaces the opacity slider on macOS 26 and
+  later. Clear glass dims what is behind it and uses light text. Earlier
+  macOS versions keep the opacity slider.
+- The expanded window's buttons float together in one Liquid Glass capsule.
+
+### Changed
+- Normal usage percentages, bars and healthy balances use the main text
+  color instead of green. High and critical usage keep yellow and red.
+- Provider titles show as plain text instead of blue links; they still open
+  each provider's dashboard.
+- Window option toggles show "on" with a filled gray symbol instead of blue.
+- The faintest text (reset details, "Data as of") is a step darker.
+- The compact panel shows the time until reset in parentheses.
+
 ## [1.14.2] — 2026-10-09
 
 ### Fixed
