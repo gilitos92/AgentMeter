@@ -27,6 +27,7 @@ struct ProviderSection: View {
     let provider: any UsageProvider
     let state: ProviderState
     @ObservedObject var settings: SettingsStore
+    @Environment(\.openURL) private var openURL
 
     var body: some View {
         sectionContent
@@ -43,11 +44,17 @@ struct ProviderSection: View {
                     HStack(spacing: 6) {
                         ProviderBadge(provider: provider, size: 18)
                         if let url = provider.dashboardURL {
-                            Link(destination: url) {
+                            // A plain button rather than a Link, so the title
+                            // reads as text instead of an accent-colored link.
+                            Button {
+                                openURL(url)
+                            } label: {
                                 Text(provider.displayName)
                                     .font(.headline)
                                     .foregroundStyle(.primary)
                             }
+                            .buttonStyle(.plain)
+                            .accessibilityAddTraits(.isLink)
                         } else {
                             Text(provider.displayName).font(.headline)
                         }
