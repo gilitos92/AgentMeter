@@ -195,7 +195,7 @@ struct UsageMetersView: View {
                      ? L("Data as of \(asOf.formatted(date: .omitted, time: .shortened))")
                      : L("Last checked \(asOf.formatted(date: .omitted, time: .shortened))"))
                     .font(.subheadline.weight(.medium))
-                    .foregroundStyle(.tertiary)
+                    .foregroundStyle(.secondary)
             }
         }
     }
@@ -235,7 +235,7 @@ private struct APIUsageRows: View {
                 .fixedSize(horizontal: false, vertical: true)
             Text(L("Reporting may lag the Anthropic website. Priority Tier costs excluded."))
                 .font(.subheadline.weight(.medium))
-                .foregroundStyle(.tertiary)
+                .foregroundStyle(.secondary)
                 .fixedSize(horizontal: false, vertical: true)
         }
         .frame(maxWidth: .infinity, alignment: .leading)

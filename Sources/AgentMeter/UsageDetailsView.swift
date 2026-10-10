@@ -18,14 +18,20 @@ struct UsageDetailsView: View {
                     isPointerInside: isPointerInside,
                     close: { dismissWindow(id: "usage-details") }
                 )
-                // The window still reserves title bar space even with the
-                // toolbar hidden; give it back so the panel hugs its rows.
-                .padding(.bottom, -titleBarInset)
             } else {
                 expandedContent
             }
         }
-        .background(MenuMaterialBackground(opacity: settings.usageDetailsBackgroundOpacity).ignoresSafeArea())
+        .modifier(UsageDetailsBackground(
+            opacity: settings.usageDetailsBackgroundOpacity,
+            clearGlass: settings.usageDetailsClearGlass,
+            topInset: settings.usageDetailsCompact ? 0 : titleBarInset
+        ))
+        // The window still reserves title bar space even with the toolbar
+        // hidden. Content that extends under the title bar (the compact panel,
+        // and any content on glass) gives that space back so the window hugs it.
+        .padding(.bottom, settings.usageDetailsCompact || UsageDetailsBackground.extendsUnderTitleBar
+                 ? -titleBarInset : 0)
         .background {
             GeometryReader { proxy in
                 Color.clear
@@ -59,7 +65,11 @@ struct UsageDetailsView: View {
                 )
                 .disabled(!settings.usageDetailsAlwaysOnTop)
 
-                OpacityButton(opacity: $settings.usageDetailsBackgroundOpacity, compact: false)
+                BackgroundButton(
+                    opacity: $settings.usageDetailsBackgroundOpacity,
+                    clearGlass: $settings.usageDetailsClearGlass,
+                    compact: false
+                )
 
                 WindowOptionButton(
                     title: L("Compact View"),
@@ -156,8 +166,9 @@ private struct CompactUsageView: View {
                 isOn: settings.usageDetailsOnAllSpaces
             ) { settings.usageDetailsOnAllSpaces.toggle() }
             .disabled(!settings.usageDetailsAlwaysOnTop)
-            OpacityButton(
+            BackgroundButton(
                 opacity: $settings.usageDetailsBackgroundOpacity,
+                clearGlass: $settings.usageDetailsClearGlass,
                 compact: true,
                 isPresented: $isAdjustingOpacity
             )
@@ -267,7 +278,7 @@ private struct CompactWindowMeter: View {
                 if let remaining = window.shortRemainingDescription(now: now) {
                     Text(remaining)
                         .monospacedDigit()
-                        .foregroundStyle(.tertiary)
+                        .foregroundStyle(.secondary)
                 }
             }
             .font(.callout.weight(.medium))
@@ -279,14 +290,9 @@ private struct CompactWindowMeter: View {
                 }
             }
             .frame(width: labelWidth, alignment: .leading)
-            Capsule()
-                .fill(.quaternary)
-                .frame(width: Self.barWidth, height: 5)
-                .overlay(alignment: .leading) {
-                    Capsule()
-                        .fill(severity.color)
-                        .frame(width: Self.barWidth * min(1, max(0, countDirection.displayPercent(window.usedPercent) / 100)))
-                }
+            ProgressView(value: min(100, max(0, countDirection.displayPercent(window.usedPercent))), total: 100)
+                .tint(severity.color)
+                .frame(width: Self.barWidth)
             HStack(spacing: 3) {
                 Text(countDirection.percentLabel(window.usedPercent, menuBar: true))
                     .font(.callout.monospacedDigit().weight(.semibold))
@@ -359,10 +365,12 @@ private struct UsageDetailsContentHeightKey: PreferenceKey {
     }
 }
 
-/// Opens a slider for the window background's opacity. The toolbar and the
-/// compact panel's hover controls each show one.
-private struct OpacityButton: View {
+/// Opens the window background options: the glass variant on macOS 26 and
+/// later, the background opacity before that. The toolbar and the compact
+/// panel's hover controls each show one.
+private struct BackgroundButton: View {
     @Binding var opacity: Double
+    @Binding var clearGlass: Bool
     let compact: Bool
     var isPresented: Binding<Bool>?
     @State private var localIsPresented = false
@@ -371,25 +379,55 @@ private struct OpacityButton: View {
         isPresented ?? $localIsPresented
     }
 
+    private var title: String {
+        UsageDetailsBackground.extendsUnderTitleBar ? L("Glass") : L("Opacity")
+    }
+
     var body: some View {
         Group {
             if compact {
-                CompactControlButton(title: L("Opacity"), symbol: "circle.lefthalf.filled", isOn: false) {
+                CompactControlButton(title: title, symbol: "circle.lefthalf.filled", isOn: false) {
                     presented.wrappedValue.toggle()
                 }
             } else {
                 Button {
                     presented.wrappedValue.toggle()
                 } label: {
-                    Label(L("Opacity"), systemImage: "circle.lefthalf.filled")
+                    Label(title, systemImage: "circle.lefthalf.filled")
                         .foregroundStyle(.secondary)
                 }
-                .help(L("Adjust how see-through the window background is."))
+                .help(UsageDetailsBackground.extendsUnderTitleBar
+                      ? L("Choose regular or clear glass for the window background.")
+                      : L("Adjust how see-through the window background is."))
             }
         }
         .popover(isPresented: presented, arrowEdge: .bottom) {
-            OpacitySlider(opacity: $opacity)
+            if #available(macOS 26, *) {
+                GlassPicker(clearGlass: $clearGlass)
+            } else {
+                OpacitySlider(opacity: $opacity)
+            }
         }
+    }
+}
+
+private struct GlassPicker: View {
+    @Binding var clearGlass: Bool
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Picker(L("Glass"), selection: $clearGlass) {
+                Text(L("Regular")).tag(false)
+                Text(L("Clear")).tag(true)
+            }
+            .pickerStyle(.segmented)
+            Text(L("Clear glass dims what is behind it to keep text readable."))
+                .font(.subheadline.weight(.medium))
+                .foregroundStyle(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
+        }
+        .padding(12)
+        .frame(width: 240)
     }
 }
 
@@ -414,6 +452,42 @@ private struct OpacitySlider: View {
         }
         .padding(12)
         .frame(width: 220)
+    }
+}
+
+/// The window background. On macOS 26 and later the content sits inside
+/// Liquid Glass, so the system keeps text legible over anything behind the
+/// window: regular glass adapts its tint and the content's light or dark
+/// appearance; clear glass gets a dimming layer and light content, as Apple's
+/// guidelines require. Earlier systems use the menu material.
+private struct UsageDetailsBackground: ViewModifier {
+    let opacity: Double
+    let clearGlass: Bool
+    /// Title bar height the content must clear once it extends under it.
+    let topInset: CGFloat
+    @Environment(\.colorScheme) private var colorScheme
+
+    static var extendsUnderTitleBar: Bool {
+        if #available(macOS 26, *) { true } else { false }
+    }
+
+    func body(content: Content) -> some View {
+        if #available(macOS 26, *) {
+            // The glass spans the whole window, title bar included, so the
+            // content extends under it and pads itself back down.
+            content
+                .padding(.top, topInset)
+                .environment(\.colorScheme, clearGlass ? .dark : colorScheme)
+                .glassEffect(clearGlass ? .clear : .regular, in: ConcentricRectangle())
+                .background {
+                    if clearGlass {
+                        ConcentricRectangle().fill(.black.opacity(0.35))
+                    }
+                }
+                .ignoresSafeArea()
+        } else {
+            content.background(MenuMaterialBackground(opacity: opacity).ignoresSafeArea())
+        }
     }
 }
 
