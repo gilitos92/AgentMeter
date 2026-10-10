@@ -53,9 +53,9 @@ final class ThresholdTrackerTests: XCTestCase {
         XCTAssertEqual(crossings.count, 1)
     }
 
-    func testRearmsWhenResetsAtMovesLater() {
+    func testRearmsWhenExpiredWindowMovesLater() {
         var tracker = ThresholdTracker(defaults: testDefaults)
-        let early = Date().addingTimeInterval(3600)
+        let early = Date().addingTimeInterval(-3600)
         let later = Date().addingTimeInterval(86400)
 
         XCTAssertEqual(
@@ -72,6 +72,86 @@ final class ThresholdTrackerTests: XCTestCase {
             threshold: 80
         )
         XCTAssertEqual(crossings.count, 1)
+    }
+
+    func testExhaustedClaudeWindowDoesNotRepeatWhenResetTimestampDrifts() {
+        var tracker = ThresholdTracker(defaults: testDefaults)
+        let now = Date()
+        let reset = now.addingTimeInterval(41 * 60)
+        for refresh in 0..<100 {
+            let current = usage(percent: 100, resetsAt: reset.addingTimeInterval(Double(refresh)))
+            XCTAssertEqual(tracker.crossings(providerID: "claude", usage: current, threshold: 80).count,
+                           refresh == 0 ? 1 : 0)
+        }
+        var restarted = ThresholdTracker(defaults: testDefaults)
+        XCTAssertTrue(restarted.crossings(providerID: "claude",
+            usage: usage(percent: 100, resetsAt: reset.addingTimeInterval(200)), threshold: 80).isEmpty)
+    }
+
+    func testSameWindowDoesNotRearmAfterUsageFluctuates() {
+        var tracker = ThresholdTracker(defaults: testDefaults)
+        let reset = Date().addingTimeInterval(3600)
+        for (index, percent) in [100.0, 85, 79, 100].enumerated() {
+            XCTAssertEqual(tracker.crossings(providerID: "claude",
+                usage: usage(percent: percent, resetsAt: reset), threshold: 80).count, index == 0 ? 1 : 0)
+        }
+    }
+
+    func testDropAboveThresholdWithoutResetDateDoesNotRepeat() {
+        var tracker = ThresholdTracker(defaults: testDefaults)
+        XCTAssertEqual(tracker.crossings(providerID: providerID, usage: usage(percent: 100), threshold: 80).count, 1)
+        XCTAssertTrue(tracker.crossings(providerID: providerID, usage: usage(percent: 85), threshold: 80).isEmpty)
+    }
+
+    func testNewWindowCanNotifyAfterRestartWithoutBelowThresholdObservation() {
+        var tracker = ThresholdTracker(defaults: testDefaults)
+        let expired = Date().addingTimeInterval(-3600)
+        XCTAssertEqual(tracker.crossings(providerID: providerID,
+            usage: usage(percent: 100, resetsAt: expired), threshold: 80).count, 1)
+        var restarted = ThresholdTracker(defaults: testDefaults)
+        XCTAssertEqual(restarted.crossings(providerID: providerID,
+            usage: usage(percent: 100, resetsAt: Date().addingTimeInterval(3600)), threshold: 80).count, 1)
+    }
+
+    func testResetBoundaryRearmsExactlyOnceAndPersistsNextWindow() {
+        var tracker = ThresholdTracker(defaults: testDefaults)
+        let now = Date(timeIntervalSince1970: 1_800_000_000)
+        let reset = now.addingTimeInterval(3600)
+        let nextReset = reset.addingTimeInterval(5 * 3600)
+        XCTAssertEqual(tracker.crossings(providerID: "claude",
+            usage: usage(percent: 100, resetsAt: reset), threshold: 80, now: now).count, 1)
+        XCTAssertTrue(tracker.crossings(providerID: "claude",
+            usage: usage(percent: 100, resetsAt: nextReset), threshold: 80,
+            now: reset.addingTimeInterval(-1)).isEmpty)
+        XCTAssertEqual(tracker.crossings(providerID: "claude",
+            usage: usage(percent: 100, resetsAt: nextReset), threshold: 80, now: reset).count, 1)
+        var restarted = ThresholdTracker(defaults: testDefaults)
+        XCTAssertTrue(restarted.crossings(providerID: "claude",
+            usage: usage(percent: 100, resetsAt: nextReset), threshold: 80, now: reset).isEmpty)
+    }
+
+    func testLegacySavedAlertAcquiresResetDateWithoutRepeating() {
+        testDefaults.set(["claude|\(windowLabel)": 100.0], forKey: "thresholdTrackerState")
+        var tracker = ThresholdTracker(defaults: testDefaults)
+        let reset = Date().addingTimeInterval(3600)
+        XCTAssertTrue(tracker.crossings(providerID: "claude",
+            usage: usage(percent: 100, resetsAt: reset), threshold: 80).isEmpty)
+        var restarted = ThresholdTracker(defaults: testDefaults)
+        XCTAssertTrue(restarted.crossings(providerID: "claude",
+            usage: usage(percent: 100, resetsAt: reset.addingTimeInterval(60)), threshold: 80).isEmpty)
+    }
+
+    func testMissingResetDateDoesNotForgetNotifiedWindow() {
+        var tracker = ThresholdTracker(defaults: testDefaults)
+        let reset = Date().addingTimeInterval(3600)
+        XCTAssertEqual(tracker.crossings(providerID: "claude",
+            usage: usage(percent: 100, resetsAt: reset), threshold: 80).count, 1)
+        XCTAssertTrue(tracker.crossings(providerID: "claude",
+            usage: usage(percent: 5), threshold: 80).isEmpty)
+        XCTAssertTrue(tracker.crossings(providerID: "claude",
+            usage: usage(percent: 100, resetsAt: reset), threshold: 80).isEmpty)
+        XCTAssertEqual(tracker.crossings(providerID: "codex",
+            usage: usage(percent: 100, resetsAt: reset), threshold: 80).count, 1)
     }
 
     /// Window resets while the app is not running: fired-state persisted, but

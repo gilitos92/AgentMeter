@@ -5,6 +5,12 @@ All notable changes to Allowance Bar (formerly AgentMeter). Format follows
 `MAJOR.MINOR.PATCH`. Entries before 2.0.0 are AgentMeter releases (upstream
 through 1.12.1, then this fork's 1.12.2–1.15.0).
 
+## [Unreleased]
+
+### Fixed
+- Usage alerts fire once per known limit window, even when reset estimates
+  drift or usage fluctuates. Alerted windows remain remembered after restart.
+
 ## [2.0.2] — 2026-10-10
 
 ### Fixed
