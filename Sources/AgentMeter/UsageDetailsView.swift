@@ -336,7 +336,7 @@ private struct CompactWindowMeter: View {
                 Text(window.label)
                     .foregroundStyle(.secondary)
                 if let remaining = window.shortRemainingDescription(now: now) {
-                    Text(remaining)
+                    Text(verbatim: "(\(remaining))")
                         .monospacedDigit()
                         .foregroundStyle(.secondary)
                 }
