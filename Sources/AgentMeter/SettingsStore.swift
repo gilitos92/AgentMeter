@@ -73,8 +73,8 @@ final class SettingsStore: ObservableObject {
         didSet { defaults.set(usageDetailsBackgroundOpacity, forKey: Keys.usageDetailsBackgroundOpacity) }
     }
 
-    /// Clear instead of regular Liquid Glass for the Usage Details window.
-    /// Only applies on macOS 26 and later.
+    /// Legacy background preference, retained for compatibility with older
+    /// builds. The window now uses standard material with adjustable opacity.
     @Published var usageDetailsClearGlass: Bool {
         didSet { defaults.set(usageDetailsClearGlass, forKey: Keys.usageDetailsClearGlass) }
     }

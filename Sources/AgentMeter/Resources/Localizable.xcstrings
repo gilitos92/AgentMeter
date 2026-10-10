@@ -3777,6 +3777,22 @@
         }
       }
     },
+    "Window Options": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Window Options"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Opciones de ventana"
+          }
+        }
+      }
+    },
     "Works for usage monitoring.": {
       "localizations": {
         "en": {

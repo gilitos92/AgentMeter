@@ -42,3 +42,27 @@ extension UsageMeterSeverity {
         }
     }
 }
+
+/// Horizontal usage bar. Drawn with SwiftUI shapes rather than a tinted
+/// `ProgressView`: AppKit resolves the tint once, so `.primary` stayed black in
+/// dark mode and colors went stale after an appearance change.
+struct UsageMeterBar: View {
+    /// 0...100.
+    let percent: Double
+    let severity: UsageMeterSeverity
+
+    var body: some View {
+        GeometryReader { proxy in
+            ZStack(alignment: .leading) {
+                Capsule().fill(.quaternary)
+                Capsule()
+                    .fill(severity.color)
+                    .frame(width: proxy.size.width * min(1, max(0, percent / 100)))
+            }
+        }
+        .frame(height: 6)
+        // Matches the spacing the system progress bar used to reserve.
+        .padding(.vertical, 6)
+        .accessibilityHidden(true)
+    }
+}

@@ -18,31 +18,22 @@ struct UsageDetailsView: View {
                     isPointerInside: isPointerInside,
                     close: { dismissWindow(id: "usage-details") }
                 )
+                // Give back the title bar space reserved while compact so
+                // the window hugs its rows.
+                .padding(.bottom, -titleBarInset)
             } else {
                 expandedContent
             }
         }
-        .modifier(UsageDetailsBackground(
-            opacity: settings.usageDetailsBackgroundOpacity,
-            clearGlass: settings.usageDetailsClearGlass,
-            topInset: settings.usageDetailsCompact ? 0 : titleBarInset
-        ))
-        // The window still reserves title bar space even with the toolbar
-        // hidden. Content that extends under the title bar (the compact panel,
-        // and any content on glass) gives that space back so the window hugs it.
-        .padding(.bottom, settings.usageDetailsCompact || UsageDetailsBackground.extendsUnderTitleBar
-                 ? -titleBarInset : 0)
-        .background {
-            GeometryReader { proxy in
-                Color.clear
-                    .onAppear { titleBarInset = proxy.safeAreaInsets.top }
-                    .onChange(of: proxy.safeAreaInsets.top) { _, inset in titleBarInset = inset }
-            }
-        }
+        // Standard material provides a stable window capture appearance.
+        // Only the background extends under the expanded window's title bar;
+        // its content stays in the normal safe area.
+        .background(MenuMaterialBackground(opacity: settings.usageDetailsBackgroundOpacity).ignoresSafeArea())
         .background(WindowLevelSetter(alwaysOnTop: settings.usageDetailsAlwaysOnTop,
                                       onAllSpaces: settings.usageDetailsOnAllSpaces,
                                       compact: settings.usageDetailsCompact,
-                                      onPointerInsideChange: { isPointerInside = $0 }))
+                                      onPointerInsideChange: { isPointerInside = $0 },
+                                      onTitleBarHeightChange: { titleBarInset = $0 }))
         // The compact panel has no title bar controls; its own hover controls
         // replace the toolbar.
         .toolbar(settings.usageDetailsCompact ? .hidden : .visible, for: .windowToolbar)
@@ -84,7 +75,6 @@ struct UsageDetailsView: View {
                 .disabled(!settings.usageDetailsAlwaysOnTop)
                 BackgroundButton(
                     opacity: $settings.usageDetailsBackgroundOpacity,
-                    clearGlass: $settings.usageDetailsClearGlass,
                     compact: true,
                     large: true
                 )
@@ -99,6 +89,10 @@ struct UsageDetailsView: View {
             .padding(.horizontal, 6)
             .padding(.vertical, 2)
             .glassEffect(.regular.interactive(), in: Capsule())
+            // One toolbar item hosts all four buttons; without its own label
+            // the item's first label ("Keep on Top") was read for every button.
+            .accessibilityElement(children: .contain)
+            .accessibilityLabel(L("Window Options"))
         }
         .sharedBackgroundVisibility(.hidden)
     }
@@ -124,7 +118,6 @@ struct UsageDetailsView: View {
 
             BackgroundButton(
                 opacity: $settings.usageDetailsBackgroundOpacity,
-                clearGlass: $settings.usageDetailsClearGlass,
                 compact: false
             )
 
@@ -224,7 +217,6 @@ private struct CompactUsageView: View {
             .disabled(!settings.usageDetailsAlwaysOnTop)
             BackgroundButton(
                 opacity: $settings.usageDetailsBackgroundOpacity,
-                clearGlass: $settings.usageDetailsClearGlass,
                 compact: true,
                 isPresented: $isAdjustingOpacity
             )
@@ -350,8 +342,7 @@ private struct CompactWindowMeter: View {
                 }
             }
             .frame(width: labelWidth, alignment: .leading)
-            ProgressView(value: min(100, max(0, countDirection.displayPercent(window.usedPercent))), total: 100)
-                .tint(severity.color)
+            UsageMeterBar(percent: countDirection.displayPercent(window.usedPercent), severity: severity)
                 .frame(width: Self.barWidth)
             HStack(spacing: 3) {
                 Text(countDirection.percentLabel(window.usedPercent, menuBar: true))
@@ -425,12 +416,10 @@ private struct UsageDetailsContentHeightKey: PreferenceKey {
     }
 }
 
-/// Opens the window background options: the glass variant on macOS 26 and
-/// later, the background opacity before that. The toolbar and the compact
-/// panel's hover controls each show one.
+/// Adjusts the window background opacity. The toolbar and the compact panel's
+/// hover controls each show one; content stays opaque as the material fades.
 private struct BackgroundButton: View {
     @Binding var opacity: Double
-    @Binding var clearGlass: Bool
     let compact: Bool
     var large = false
     var isPresented: Binding<Bool>?
@@ -441,13 +430,11 @@ private struct BackgroundButton: View {
     }
 
     private var title: String {
-        UsageDetailsBackground.extendsUnderTitleBar ? L("Glass") : L("Opacity")
+        L("Opacity")
     }
 
     private var helpText: String {
-        UsageDetailsBackground.extendsUnderTitleBar
-            ? L("Choose regular or clear glass for the window background.")
-            : L("Adjust how see-through the window background is.")
+        L("Adjust how see-through the window background is.")
     }
 
     var body: some View {
@@ -473,32 +460,8 @@ private struct BackgroundButton: View {
             }
         }
         .popover(isPresented: presented, arrowEdge: .bottom) {
-            if #available(macOS 26, *) {
-                GlassPicker(clearGlass: $clearGlass)
-            } else {
-                OpacitySlider(opacity: $opacity)
-            }
+            OpacitySlider(opacity: $opacity)
         }
-    }
-}
-
-private struct GlassPicker: View {
-    @Binding var clearGlass: Bool
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Picker(L("Glass"), selection: $clearGlass) {
-                Text(L("Regular")).tag(false)
-                Text(L("Clear")).tag(true)
-            }
-            .pickerStyle(.segmented)
-            Text(L("Clear glass dims what is behind it to keep text readable."))
-                .font(.subheadline.weight(.medium))
-                .foregroundStyle(.secondary)
-                .fixedSize(horizontal: false, vertical: true)
-        }
-        .padding(12)
-        .frame(width: 240)
     }
 }
 
@@ -523,42 +486,6 @@ private struct OpacitySlider: View {
         }
         .padding(12)
         .frame(width: 220)
-    }
-}
-
-/// The window background. On macOS 26 and later the content sits inside
-/// Liquid Glass, so the system keeps text legible over anything behind the
-/// window: regular glass adapts its tint and the content's light or dark
-/// appearance; clear glass gets a dimming layer and light content, as Apple's
-/// guidelines require. Earlier systems use the menu material.
-private struct UsageDetailsBackground: ViewModifier {
-    let opacity: Double
-    let clearGlass: Bool
-    /// Title bar height the content must clear once it extends under it.
-    let topInset: CGFloat
-    @Environment(\.colorScheme) private var colorScheme
-
-    static var extendsUnderTitleBar: Bool {
-        if #available(macOS 26, *) { true } else { false }
-    }
-
-    func body(content: Content) -> some View {
-        if #available(macOS 26, *) {
-            // The glass spans the whole window, title bar included, so the
-            // content extends under it and pads itself back down.
-            content
-                .padding(.top, topInset)
-                .environment(\.colorScheme, clearGlass ? .dark : colorScheme)
-                .glassEffect(clearGlass ? .clear : .regular, in: ConcentricRectangle())
-                .background {
-                    if clearGlass {
-                        ConcentricRectangle().fill(.black.opacity(0.35))
-                    }
-                }
-                .ignoresSafeArea()
-        } else {
-            content.background(MenuMaterialBackground(opacity: opacity).ignoresSafeArea())
-        }
     }
 }
 
@@ -594,6 +521,12 @@ struct WindowLevelSetter: NSViewRepresentable {
     /// `onHover` lost the pointer over the compact panel's top strip, which
     /// hid its controls as soon as the pointer reached them.
     var onPointerInsideChange: (Bool) -> Void = { _ in }
+    /// Reports the height of the title bar and toolbar the content extends
+    /// under. Read from the window, not from SwiftUI's safe area: the safe area
+    /// depends on the very padding this height feeds, and while the compact
+    /// panel grew right after launch that loop could settle on a wrong value,
+    /// leaving a blank strip over clipped content.
+    var onTitleBarHeightChange: (CGFloat) -> Void = { _ in }
 
     func makeNSView(context: Context) -> ProbeView {
         ProbeView()
@@ -601,6 +534,7 @@ struct WindowLevelSetter: NSViewRepresentable {
 
     func updateNSView(_ nsView: ProbeView, context: Context) {
         nsView.onPointerInsideChange = onPointerInsideChange
+        nsView.onTitleBarHeightChange = onTitleBarHeightChange
         nsView.alwaysOnTop = alwaysOnTop
         nsView.onAllSpaces = onAllSpaces
         nsView.compact = compact
@@ -626,8 +560,13 @@ struct WindowLevelSetter: NSViewRepresentable {
         private var pointerTrackingArea: NSTrackingArea?
         private weak var pointerTrackingView: NSView?
         var onPointerInsideChange: (Bool) -> Void = { _ in }
+        var onTitleBarHeightChange: (CGFloat) -> Void = { _ in }
+        private var reportedTitleBarHeight: CGFloat?
+
+        private var chromeObservers: [NSObjectProtocol] = []
 
         deinit {
+            chromeObservers.forEach(NotificationCenter.default.removeObserver)
             if let dragMonitor { NSEvent.removeMonitor(dragMonitor) }
             if let pointerTrackingArea { pointerTrackingView?.removeTrackingArea(pointerTrackingArea) }
         }
@@ -635,7 +574,58 @@ struct WindowLevelSetter: NSViewRepresentable {
         override func viewDidMoveToWindow() {
             super.viewDidMoveToWindow()
             applyLevel()
+            observeChromeResets()
+            reportTitleBarHeight()
             installPointerTracking()
+        }
+
+        /// When the window opens right after launch, SwiftUI can finish
+        /// configuring it later and bring the title bar back, leaving the
+        /// compact panel with a title bar over clipped content. Restore the
+        /// compact chrome whenever it drifts, and keep the reported title bar
+        /// height current.
+        private func observeChromeResets() {
+            chromeObservers.forEach(NotificationCenter.default.removeObserver)
+            chromeObservers = []
+            guard let window else { return }
+            for name in [NSWindow.didUpdateNotification, NSWindow.didResizeNotification] {
+                chromeObservers.append(NotificationCenter.default.addObserver(
+                    forName: name, object: window, queue: .main
+                ) { [weak self] _ in
+                    MainActor.assumeIsolated {
+                        self?.restoreCompactChromeIfNeeded()
+                        self?.reportTitleBarHeight()
+                    }
+                })
+            }
+        }
+
+        private func restoreCompactChromeIfNeeded() {
+            guard compact, let window else { return }
+            let drifted = window.titleVisibility != .hidden
+                || !window.titlebarAppearsTransparent
+                || !window.styleMask.contains(.fullSizeContentView)
+                || window.standardWindowButton(.closeButton)?.isHidden == false
+                || titlebarIsAboveContent(in: window)
+            if drifted { applyLevel() }
+        }
+
+        private func reportTitleBarHeight() {
+            guard let window else { return }
+            let height = max(0, window.frame.height - window.contentLayoutRect.height)
+            guard height != reportedTitleBarHeight else { return }
+            reportedTitleBarHeight = height
+            // Reported outside the current view update.
+            DispatchQueue.main.async { [weak self] in self?.onTitleBarHeightChange(height) }
+        }
+
+        private func titlebarIsAboveContent(in window: NSWindow) -> Bool {
+            guard let container = window.standardWindowButton(.closeButton)?.superview?.superview,
+                  let contentView = window.contentView,
+                  let frameView = container.superview,
+                  let containerIndex = frameView.subviews.firstIndex(of: container),
+                  let contentIndex = frameView.subviews.firstIndex(of: contentView) else { return false }
+            return containerIndex > contentIndex
         }
 
         /// Tracks the whole window frame, title bar included, independent of
