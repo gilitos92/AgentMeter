@@ -5,6 +5,21 @@ All notable changes to Allowance Bar (formerly AgentMeter). Format follows
 `MAJOR.MINOR.PATCH`. Entries before 2.0.0 are AgentMeter releases (upstream
 through 1.12.1, then this fork's 1.12.2–1.15.0).
 
+## [2.0.2] — 2026-10-10
+
+### Fixed
+- Usage bars now follow light and dark appearance changes correctly.
+- The mini window keeps its title bar hidden when it opens at launch.
+- Each Usage Details toolbar button has its own VoiceOver label.
+- The full and mini Usage Details windows use a standard frosted background
+  that captures correctly in window screenshots. The opacity control is
+  available on all supported macOS versions; the full-window toolbar keeps
+  Liquid Glass on macOS 26 and later.
+
+### Changed
+- The README opens with Why Allowance Bar and fresh light and dark previews
+  of the menu bar dropdown, full window, and mini window.
+
 ## [2.0.1] — 2026-10-10
 
 ### Removed
