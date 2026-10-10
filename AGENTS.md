@@ -5,7 +5,7 @@ limits for Codex (multiple accounts), Cursor, Claude Code, Gemini, Claude API re
 pay-as-you-go balances for OpenRouter, DeepSeek, Kimi, Z.ai, and Venice.
 Public repo: https://github.com/gilitos92/AllowanceBar, a fork of
 https://github.com/fdtorres1/AgentMeter (MIT; remote `origin` = upstream,
-read-only). Rebranded to Allowance Bar at 1.0.0 (bundle ID
+read-only). Rebranded to Allowance Bar at 2.0.0 (bundle ID
 `com.ggv.AllowanceBar`, URL scheme `allowancebar://`, CLI `allowancebar`).
 Source folders, Swift targets/modules, and type names deliberately keep the
 `AgentMeter` naming to ease upstream merges; only user-facing names changed.

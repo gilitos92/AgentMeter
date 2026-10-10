@@ -2,14 +2,17 @@
 
 All notable changes to Allowance Bar (formerly AgentMeter). Format follows
 [Keep a Changelog](https://keepachangelog.com); versions follow semantic-ish
-`MAJOR.MINOR.PATCH`. Entries before 1.0.0 are AgentMeter releases (upstream
+`MAJOR.MINOR.PATCH`. Entries before 2.0.0 are AgentMeter releases (upstream
 through 1.12.1, then this fork's 1.12.2–1.15.0).
 
-## [1.0.0] — Unreleased
+## [2.0.0] — Unreleased
 
 Allowance Bar is the new name for this fork of
 [AgentMeter](https://github.com/fdtorres1/AgentMeter) by Felix Torres. It is a
 separate app and does not replace or update the original AgentMeter.
+Versions continue from this fork's last AgentMeter release (1.15.0); the
+major bump marks the rename and keeps tags and releases from colliding with
+the shared AgentMeter history.
 
 ### Changed
 - New name and identity: **Allowance Bar** (`com.ggv.AllowanceBar`), URL

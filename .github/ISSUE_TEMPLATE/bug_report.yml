@@ -14,7 +14,7 @@ body:
     attributes:
       label: Allowance Bar version
       description: Shown by "Check for Updates…" in the dropdown.
-      placeholder: e.g. 1.0.0
+      placeholder: e.g. 2.0.0
     validations:
       required: true
   - type: checkboxes
