@@ -169,11 +169,11 @@ Releases are cut locally. Full detail in [docs/RELEASING.md](docs/RELEASING.md).
 Credentials (do NOT prompt for them; never print them):
 - Signing identity: self-signed `GGV` certificate in the login keychain
   (default `SIGN_IDENTITY` in `release.sh`). No Developer ID, so builds are
-  NOT notarized. Backup: 1Password vault Personal, "Allowance Bar Code
-  Signing Certificate (GGV).p12" + "… p12 password".
+  NOT notarized.
 - Sparkle EdDSA key: login keychain, account `AllowanceBar`
-  (`generate_keys --account AllowanceBar`). Backup: 1Password vault Personal,
-  "Allowance Bar Sparkle EdDSA Private Key".
+  (`generate_keys --account AllowanceBar`).
+- Backup of both: 1Password vault Personal, item "Allowance Bar Release Keys"
+  (Sparkle keys, attached `GGV.p12`, and its password).
 - Never sign public builds with the Apple Development certificate: it embeds
   the owner's legal name.
 

@@ -15,7 +15,7 @@
 #
 # The appcast is signed with the Sparkle EdDSA key stored in the login
 # keychain under account "AllowanceBar" (backup in 1Password, vault Personal,
-# item "Allowance Bar Sparkle EdDSA Private Key").
+# item "Allowance Bar Release Keys").
 set -euo pipefail
 
 cd "$(dirname "$0")/.."

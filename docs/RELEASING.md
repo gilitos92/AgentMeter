@@ -23,10 +23,14 @@ updates install afterwards without that step.
 
 Nothing is stored in GitHub or the repo.
 
-| Credential | Location | Backup (1Password, vault Personal) |
-|------------|----------|------------------------------------|
-| Code-signing identity `GGV` (self-signed, CN=GGV, no Team ID) | login Keychain | "Allowance Bar Code Signing Certificate (GGV).p12" + "… p12 password" |
-| Sparkle EdDSA private key | login Keychain, account `AllowanceBar` | "Allowance Bar Sparkle EdDSA Private Key" |
+| Credential | Location |
+|------------|----------|
+| Code-signing identity `GGV` (self-signed, CN=GGV, no Team ID) | login Keychain |
+| Sparkle EdDSA private key | login Keychain, account `AllowanceBar` |
+
+Both are backed up in one 1Password item, **"Allowance Bar Release Keys"**
+(vault Personal): the Sparkle private and public keys, the attached
+`GGV.p12`, and its password.
 
 Restore on a new Mac:
 
