@@ -2,12 +2,21 @@ import XCTest
 @testable import AgentMeter
 
 final class LocalizationTests: XCTestCase {
+    private let sampleKeys = [
+        "Refresh",
+        "Weekly limit",
+        "resets soon",
+        "% left",
+        "Balance",
+    ]
+
     func testSpanishTranslationsExistInCatalog() throws {
-        let catalogURL = Bundle.module.url(
-            forResource: "Localizable",
-            withExtension: "xcstrings"
-        )
-        let url = try XCTUnwrap(catalogURL)
+        // The catalog is excluded from the package resources (only the
+        // compiled .lproj strings ship), so read it from the source tree.
+        let url = URL(fileURLWithPath: #filePath)
+            .deletingLastPathComponent()
+            .appendingPathComponent("../../Sources/AgentMeter/Resources/Localizable.xcstrings")
+            .standardizedFileURL
         let data = try Data(contentsOf: url)
 
         struct StringUnit: Decodable {
@@ -28,13 +37,6 @@ final class LocalizationTests: XCTestCase {
         }
 
         let catalog = try JSONDecoder().decode(Catalog.self, from: data)
-        let sampleKeys = [
-            "Refresh",
-            "Weekly limit",
-            "resets soon",
-            "% left",
-            "Balance",
-        ]
 
         for key in sampleKeys {
             let entry = try XCTUnwrap(catalog.strings[key], "Missing catalog entry for \(key)")
@@ -43,6 +45,20 @@ final class LocalizationTests: XCTestCase {
                 "Missing Spanish translation for \(key)"
             )
             XCTAssertFalse(spanish.isEmpty, "Empty Spanish translation for \(key)")
+        }
+    }
+
+    func testShippedSpanishStringsAreTranslated() throws {
+        let path = try XCTUnwrap(
+            Bundle.module.path(forResource: "es", ofType: "lproj"),
+            "es.lproj is missing from the resource bundle"
+        )
+        let spanish = try XCTUnwrap(Bundle(path: path))
+
+        for key in sampleKeys {
+            let value = spanish.localizedString(forKey: key, value: nil, table: nil)
+            XCTAssertNotEqual(value, key, "Shipped es.lproj has no Spanish for \(key)")
+            XCTAssertFalse(value.isEmpty, "Empty shipped Spanish string for \(key)")
         }
     }
 

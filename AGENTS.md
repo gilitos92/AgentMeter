@@ -198,8 +198,6 @@ Gotchas:
 - `.build/`, `*.app/`, `HANDOFF.md` are gitignored.
 - Running the app binary directly from a shell (for `ALLOWANCEBAR_DEBUG`) can
   leave the initial refresh incomplete; verify behavior with `open`.
-- Known failing test: `LocalizationTests.testSpanishTranslationsExistInCatalog`
-  (the catalog is excluded from the package since 1.14.1); not a regression.
 
 ## Conventions
 
