@@ -211,6 +211,10 @@ Gotchas:
   `xcrun xcstringstool compile Sources/AgentMeter/Resources/Localizable.xcstrings
   --output-directory Sources/AgentMeter/Resources` (bundle.sh does this too).
   CLI output and docs are English-only.
+- App icon: `Resources/AppIcon.svg` is canonical (drawn for Allowance Bar;
+  never reuse AgentMeter artwork). After editing it run `scripts/make-icon.sh`
+  (needs `brew install librsvg`) to regenerate `AppIcon.icns` and
+  `AppIcon-source.png`.
 - Agent skill: `docs/agent-skill/SKILL.md` is canonical; after editing it,
   regenerate `Sources/AgentMeterStatusKit/AgentSkill.swift` so the raw-string
   constant is byte-identical (`AgentSkillTests` fails otherwise).
