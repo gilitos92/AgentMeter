@@ -8,6 +8,13 @@ and balances. Keep every limit on screen in a floating window that stays
 above your work, full size or as a compact mini panel. Your coding agents can
 read the same numbers through a small read-only CLI.
 
+<a href="https://www.buymeacoffee.com/gilitos92">
+  <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy me a coffee" width="217" height="60" />
+</a>
+
+If Allowance Bar saves you from a surprise rate limit, a coffee is always
+appreciated. Entirely optional.
+
 ## Why Allowance Bar
 
 | App view | Light mode | Dark mode |
@@ -258,11 +265,6 @@ Allowance Bar habla español — la interfaz sigue el idioma de macOS. Translati
 for other languages are welcome: all strings live in a single
 [String Catalog](Sources/AgentMeter/Resources/Localizable.xcstrings), so adding
 a language is a JSON-only pull request.
-
-## Support
-
-If Allowance Bar saves you from a surprise rate limit, you can
-[buy me a coffee](https://www.buymeacoffee.com/gilitos92). Entirely optional.
 
 ## Credits
 
