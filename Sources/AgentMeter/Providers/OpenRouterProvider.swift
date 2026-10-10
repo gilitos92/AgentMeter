@@ -134,8 +134,8 @@ struct OpenRouterProvider: UsageProvider {
         if facts.isManagementKey || facts.isProvisioningKey {
             return CredentialAssessment(
                 keyTypeLabel: L("Management key"),
-                summary: L("Full account access — more powerful than AgentMeter needs."),
-                detail: L("A management key can control your whole OpenRouter account, including creating and deleting other API keys. AgentMeter only reads usage and balance — it cannot spend credits or change anything. A regular API key is safer; use Connect to get a dedicated key for AgentMeter that you can revoke anytime."),
+                summary: L("Full account access — more powerful than Allowance Bar needs."),
+                detail: L("A management key can control your whole OpenRouter account, including creating and deleting other API keys. Allowance Bar only reads usage and balance — it cannot spend credits or change anything. A regular API key is safer; use Connect to get a dedicated key for Allowance Bar that you can revoke anytime."),
                 upgradeHint: nil,
                 manageURL: manageKeysURL
             )
@@ -144,8 +144,8 @@ struct OpenRouterProvider: UsageProvider {
         if let limit = facts.limit, limit > 0 {
             return CredentialAssessment(
                 keyTypeLabel: L("Limited key"),
-                summary: L("Spending capped — AgentMeter can read usage within this limit."),
-                detail: L("This API key lets apps use your OpenRouter credits up to a spending limit you set. AgentMeter only reads how much has been used; it cannot spend money or change your account. If you used Connect, OpenRouter created a dedicated key just for AgentMeter that you can revoke anytime."),
+                summary: L("Spending capped — Allowance Bar can read usage within this limit."),
+                detail: L("This API key lets apps use your OpenRouter credits up to a spending limit you set. Allowance Bar only reads how much has been used; it cannot spend money or change your account. If you used Connect, OpenRouter created a dedicated key just for Allowance Bar that you can revoke anytime."),
                 upgradeHint: nil,
                 manageURL: manageKeysURL
             )
@@ -154,7 +154,7 @@ struct OpenRouterProvider: UsageProvider {
         return CredentialAssessment(
             keyTypeLabel: L("Standard key"),
             summary: L("Works for usage monitoring."),
-            detail: L("This API key lets apps use your OpenRouter credits. AgentMeter only reads usage; it cannot spend money or change your account. If you used Connect, OpenRouter created a dedicated key just for AgentMeter that you can revoke anytime."),
+            detail: L("This API key lets apps use your OpenRouter credits. Allowance Bar only reads usage; it cannot spend money or change your account. If you used Connect, OpenRouter created a dedicated key just for Allowance Bar that you can revoke anytime."),
             upgradeHint: nil,
             manageURL: manageKeysURL
         )
@@ -222,10 +222,10 @@ enum OpenRouterError: LocalizedError {
     }
 }
 
-/// OpenRouter OAuth PKCE flow. Provisions a dedicated API key for AgentMeter.
+/// OpenRouter OAuth PKCE flow. Provisions a dedicated API key for Allowance Bar.
 ///
 /// Flow: generate a code verifier, open openrouter.ai/auth in the browser with
-/// its SHA-256 challenge and `agentmeter://openrouter` as the callback; on
+/// its SHA-256 challenge and `allowancebar://openrouter` as the callback; on
 /// approval the browser opens that URL with a `code`, which we exchange for an
 /// API key and store in the Keychain. The verifier never leaves this process.
 @MainActor
@@ -238,7 +238,7 @@ final class OpenRouterAuthFlow: ObservableObject {
     }
 
     static let shared = OpenRouterAuthFlow()
-    static let callbackScheme = "agentmeter"
+    static let callbackScheme = "allowancebar"
     static let callbackHost = "openrouter"
     private static let verifierDefaultsKey = "openRouter.pendingPKCEVerifier"
 
@@ -259,7 +259,7 @@ final class OpenRouterAuthFlow: ObservableObject {
         NSWorkspace.shared.open(components.url!)
     }
 
-    /// Handles the agentmeter://openrouter?code=... callback.
+    /// Handles the allowancebar://openrouter?code=... callback.
     /// Returns true if the URL was consumed.
     func handleCallback(_ url: URL, onComplete: @escaping (Result<Void, Error>) -> Void) -> Bool {
         guard url.scheme == Self.callbackScheme, url.host == Self.callbackHost else { return false }

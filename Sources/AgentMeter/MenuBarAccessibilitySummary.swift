@@ -12,7 +12,7 @@ enum MenuBarAccessibilitySummary {
         countDirection: CountDirection,
         balanceThreshold: Double
     ) -> String {
-        guard !providers.isEmpty else { return L("AgentMeter") }
+        guard !providers.isEmpty else { return L("Allowance Bar") }
 
         let segments = providers.map {
             providerSegment(
@@ -22,7 +22,7 @@ enum MenuBarAccessibilitySummary {
                 balanceThreshold: balanceThreshold
             )
         }
-        return ([L("AgentMeter")] + segments).joined(separator: ". ")
+        return ([L("Allowance Bar")] + segments).joined(separator: ". ")
     }
 
     nonisolated static func providerSegment(

@@ -102,7 +102,7 @@ struct MoonshotProvider: UsageProvider {
         CredentialAssessment(
             keyTypeLabel: L("Valid key"),
             summary: L("Reads prepaid balance only."),
-            detail: L("This key lets apps call Kimi models using your prepaid balance. AgentMeter only reads how much balance is left; it cannot spend money or change your account."),
+            detail: L("This key lets apps call Kimi models using your prepaid balance. Allowance Bar only reads how much balance is left; it cannot spend money or change your account."),
             upgradeHint: nil,
             manageURL: manageKeysURL
         )

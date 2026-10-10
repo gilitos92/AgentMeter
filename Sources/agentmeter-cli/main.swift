@@ -3,7 +3,7 @@ import AppKit
 import AgentMeterStatusKit
 
 enum AgentMeterCLI {
-    /// The CLI ships inside AgentMeter.app/Contents/Helpers, where Bundle.main
+    /// The CLI ships inside Allowance Bar.app/Contents/Helpers, where Bundle.main
     /// does not resolve to the app bundle; walk up from the executable to the
     /// enclosing .app to report the app's version. "dev" for bare builds.
     static let version: String = {
@@ -32,7 +32,7 @@ enum AgentMeterCLI {
             fputs(CLIHelp.text + "\n", stdout)
             return 0
         case .success(.version):
-            print("agentmeter \(version)")
+            print("allowancebar \(version)")
             return 0
         case .success(.status(let json)):
             return runStatus(json: json)
@@ -51,7 +51,7 @@ enum AgentMeterCLI {
         guard FileManager.default.fileExists(atPath: url.path) else {
             fputs(
                 "error: no snapshot at \(url.path)\n" +
-                "AgentMeter must be running with \"Enable agent & CLI access\" " +
+                "Allowance Bar must be running with \"Enable agent & CLI access\" " +
                 "turned on in Settings → General.\n",
                 stderr
             )
@@ -82,12 +82,12 @@ enum AgentMeterCLI {
 
     private static func runRefresh(waitSeconds: Int) -> Int32 {
         guard isAppRunning() else {
-            fputs("error: AgentMeter is not running\n", stderr)
+            fputs("error: Allowance Bar is not running\n", stderr)
             return 3
         }
 
         let previousGeneratedAt = currentSnapshotGeneratedAt()
-        openURL("agentmeter://refresh")
+        openURL("allowancebar://refresh")
 
         guard waitSeconds > 0 else { return 0 }
 
@@ -106,12 +106,12 @@ enum AgentMeterCLI {
 
     private static func runDoctor() -> Int32 {
         var lines: [String] = []
-        lines.append("agentmeter CLI version: \(version)")
+        lines.append("allowancebar CLI version: \(version)")
 
         let running = isAppRunning()
-        lines.append("AgentMeter running: \(running ? "yes" : "no")")
+        lines.append("Allowance Bar running: \(running ? "yes" : "no")")
         if let appVersion = runningAppVersion() {
-            lines.append("AgentMeter app version: \(appVersion)")
+            lines.append("Allowance Bar app version: \(appVersion)")
         }
 
         let url = StatusPaths.snapshotFileURL

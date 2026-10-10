@@ -25,7 +25,7 @@ final class AccessibilityTests: XCTestCase {
             balanceThreshold: 5
         )
 
-        XCTAssertTrue(summary.contains("AgentMeter"))
+        XCTAssertTrue(summary.contains("Allowance Bar"))
         XCTAssertTrue(summary.contains("Codex"))
         XCTAssertTrue(summary.contains("25% used"))
         XCTAssertTrue(summary.contains("Cursor"))
@@ -110,7 +110,7 @@ final class AccessibilityTests: XCTestCase {
             countDirection: .used,
             balanceThreshold: 5
         )
-        XCTAssertEqual(summary, "AgentMeter")
+        XCTAssertEqual(summary, "Allowance Bar")
     }
 
     func testUsageMeterSeverityThresholds() {

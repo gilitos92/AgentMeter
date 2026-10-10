@@ -47,7 +47,7 @@ struct CodexAccountConfig: Codable, Equatable, Identifiable, Sendable {
 }
 
 /// Finds `~/.codex-*` homes that already contain a Codex login but are not
-/// configured in AgentMeter yet, so Settings can offer one-click adds.
+/// configured in Allowance Bar yet, so Settings can offer one-click adds.
 enum CodexAccountDiscovery {
     struct Candidate: Equatable, Identifiable {
         var id: String { homePath }

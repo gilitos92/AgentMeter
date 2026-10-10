@@ -79,27 +79,27 @@ public enum CLIUsageError: Error, Equatable {
 
 public enum CLIHelp {
     public static let text = """
-    agentmeter — read AgentMeter usage snapshots (read-only)
+    allowancebar — read Allowance Bar usage snapshots (read-only)
 
     Usage:
-      agentmeter status [--json]
-      agentmeter refresh [--wait SECONDS]
-      agentmeter doctor
-      agentmeter skill
-      agentmeter --version
-      agentmeter --help
+      allowancebar status [--json]
+      allowancebar refresh [--wait SECONDS]
+      allowancebar doctor
+      allowancebar skill
+      allowancebar --version
+      allowancebar --help
 
     Commands:
       status    Print the usage snapshot (table by default, --json for raw JSON)
-      refresh   Ask the running app to refresh (agentmeter://refresh)
+      refresh   Ask the running app to refresh (allowancebar://refresh)
       doctor    Print a redacted environment and snapshot report
-      skill     Print the agent skill markdown (e.g. agentmeter skill > ~/.codex/skills/agentmeter/SKILL.md)
+      skill     Print the agent skill markdown (e.g. allowancebar skill > ~/.codex/skills/allowancebar/SKILL.md)
 
     Exit codes:
       0  success
       1  usage error
-      2  no snapshot (enable agent access in AgentMeter Settings → General)
-      3  AgentMeter app is not running
+      2  no snapshot (enable agent access in Allowance Bar Settings → General)
+      3  Allowance Bar app is not running
       4  refresh timed out waiting for an updated snapshot
     """
 }

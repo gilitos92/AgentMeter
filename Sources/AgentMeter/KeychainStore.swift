@@ -4,11 +4,11 @@ import Security
 /// App-scoped Keychain storage for user-pasted provider API keys.
 ///
 /// Items are generic passwords under this app's service name; the Keychain ACL
-/// ties them to AgentMeter's code signature, so other apps cannot read them
+/// ties them to Allowance Bar's code signature, so other apps cannot read them
 /// without an explicit user approval prompt. Reading our own items never
 /// prompts, which keeps `isDetected` checks safe.
 enum KeychainStore {
-    static let service = "com.felixtorres.agentmeter"
+    static let service = "com.ggv.AllowanceBar"
 
     static func get(_ account: String) -> String? {
         let query: [String: Any] = [

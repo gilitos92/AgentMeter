@@ -9,7 +9,8 @@ struct MenuContent: View {
     @State private var providerContentHeight: CGFloat?
     @State private var providerContentBottom: CGFloat = 0
 
-    private let tipJarURL = URL(string: "https://www.buymeacoffee.com/fdtorres")!
+    private let tipJarURL = URL(string: "https://www.buymeacoffee.com/gilitos92")!
+
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
@@ -139,7 +140,6 @@ struct MenuContent: View {
                     Self.closeMenuBarWindow()
                     Updater.shared.checkForUpdates()
                 }
-                .disabled(Bundle.main.object(forInfoDictionaryKey: "AgentMeterLocalAuthRepair") as? Bool == true)
                 .buttonStyle(.plain)
                 .font(.callout.weight(.medium))
                 .help(L("Check for Updates…"))

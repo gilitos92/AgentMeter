@@ -151,7 +151,7 @@ struct ZaiProvider: UsageProvider {
             return CredentialAssessment(
                 keyTypeLabel: L("GLM Coding Plan key"),
                 summary: L("Shows your 5-hour and token quotas."),
-                detail: L("This key is tied to a GLM Coding Plan subscription. AgentMeter reads your time and token quotas (they reset every few hours). It cannot spend money, call models, or change your account."),
+                detail: L("This key is tied to a GLM Coding Plan subscription. Allowance Bar reads your time and token quotas (they reset every few hours). It cannot spend money, call models, or change your account."),
                 upgradeHint: nil,
                 manageURL: manageKeysURL
             )
@@ -159,7 +159,7 @@ struct ZaiProvider: UsageProvider {
             return CredentialAssessment(
                 keyTypeLabel: L("Standard API key"),
                 summary: L("Valid key, but Z.ai only exposes usage for GLM Coding Plans"),
-                detail: L("Your key is valid, but Z.ai does not publish usage or balance data for pay-as-you-go API keys. AgentMeter can only show numbers for GLM Coding Plan keys. Your key is fine for calling models — AgentMeter just has nothing to display."),
+                detail: L("Your key is valid, but Z.ai does not publish usage or balance data for pay-as-you-go API keys. Allowance Bar can only show numbers for GLM Coding Plan keys. Your key is fine for calling models — Allowance Bar just has nothing to display."),
                 upgradeHint: nil,
                 manageURL: manageKeysURL
             )

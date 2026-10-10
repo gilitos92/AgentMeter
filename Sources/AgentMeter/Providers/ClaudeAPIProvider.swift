@@ -178,7 +178,7 @@ struct ClaudeAPIProvider: UsageProvider {
             request.setValue(key, forHTTPHeaderField: "x-api-key")
             request.setValue("2023-06-01", forHTTPHeaderField: "anthropic-version")
             request.setValue("application/json", forHTTPHeaderField: "Accept")
-            request.setValue("AgentMeter/1.0", forHTTPHeaderField: "User-Agent")
+            request.setValue("AllowanceBar/1.0", forHTTPHeaderField: "User-Agent")
 
             let data: Data
             let response: URLResponse
