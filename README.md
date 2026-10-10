@@ -86,9 +86,10 @@ every limit visible while you work:
   apps.
 - **Show on All Desktops.** It follows you to every desktop (Space) and over
   full-screen apps.
-- **Made to sit on top of your work.** On macOS 26 and later it uses Liquid
-  Glass (Regular or Clear) so text stays readable over anything behind it;
-  earlier macOS versions get an opacity slider.
+- **Made to sit on top of your work.** A standard frosted background keeps
+  text readable and captures cleanly in window screenshots. Adjust its
+  opacity without fading the text; on macOS 26 and later, the toolbar uses
+  Liquid Glass.
 
 Your choices are remembered, so the window comes back the way you left it.
 
