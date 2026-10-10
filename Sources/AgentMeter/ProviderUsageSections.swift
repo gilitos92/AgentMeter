@@ -300,7 +300,7 @@ private struct BalanceRow: View {
         case .spent:
             return .secondary
         case .remaining:
-            return isLowBalance ? .orange : .green
+            return isLowBalance ? .orange : .primary
         }
     }
 
