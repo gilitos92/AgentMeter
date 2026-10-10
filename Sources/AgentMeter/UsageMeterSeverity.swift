@@ -36,7 +36,7 @@ extension UsageMeterSeverity {
     /// Progress bar and percent tint.
     var color: Color {
         switch self {
-        case .normal: return .green
+        case .normal: return .primary
         case .warning: return .yellow
         case .critical: return .red
         }
