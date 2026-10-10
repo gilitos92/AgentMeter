@@ -3,6 +3,14 @@
 All notable changes to AgentMeter. Format follows [Keep a Changelog](https://keepachangelog.com);
 versions follow semantic-ish `MAJOR.MINOR.PATCH`.
 
+## [1.14.2] — 2026-10-09
+
+### Fixed
+- The compact Usage Details panel's controls no longer disappear when the
+  pointer moves onto them, so they can be clicked again.
+- The expanded Usage Details window shows its title, window buttons and
+  toolbar buttons again; the window background had been covering them.
+
 ## [1.14.1] — 2026-10-09
 
 ### Changed
