@@ -46,39 +46,95 @@ struct UsageDetailsView: View {
         // The compact panel has no title bar controls; its own hover controls
         // replace the toolbar.
         .toolbar(settings.usageDetailsCompact ? .hidden : .visible, for: .windowToolbar)
-        .toolbar {
-            ToolbarItemGroup(placement: .primaryAction) {
-                WindowOptionButton(
+        .toolbar { windowOptions }
+    }
+
+    /// The window option buttons. On macOS 26 and later they share one Liquid
+    /// Glass background, like a floating toolbar.
+    @ToolbarContentBuilder
+    private var windowOptions: some ToolbarContent {
+        if #available(macOS 26, *) {
+            floatingToolbar
+        } else {
+            windowOptionsGroup
+        }
+    }
+
+    /// The window's transparent title bar keeps the system from drawing its
+    /// own toolbar glass, so the buttons carry their own glass capsule.
+    @available(macOS 26, *)
+    private var floatingToolbar: some ToolbarContent {
+        ToolbarItem(placement: .primaryAction) {
+            HStack(spacing: 2) {
+                CompactControlButton(
                     title: L("Keep on Top"),
+                    symbol: settings.usageDetailsAlwaysOnTop ? "pin.fill" : "pin",
+                    isOn: settings.usageDetailsAlwaysOnTop,
                     help: L("Keep this window above other windows, even when you switch apps."),
-                    offSymbol: "pin",
-                    onSymbol: "pin.fill",
-                    isOn: $settings.usageDetailsAlwaysOnTop
-                )
-
-                WindowOptionButton(
+                    large: true
+                ) { settings.usageDetailsAlwaysOnTop.toggle() }
+                CompactControlButton(
                     title: L("Show on All Desktops"),
+                    symbol: settings.usageDetailsOnAllSpaces
+                        ? "rectangle.fill.on.rectangle.fill" : "rectangle.on.rectangle",
+                    isOn: settings.usageDetailsOnAllSpaces,
                     help: L("Also show this window on every desktop and over full-screen apps. Requires Keep on Top."),
-                    offSymbol: "rectangle.on.rectangle",
-                    onSymbol: "rectangle.fill.on.rectangle.fill",
-                    isOn: $settings.usageDetailsOnAllSpaces
-                )
+                    large: true
+                ) { settings.usageDetailsOnAllSpaces.toggle() }
                 .disabled(!settings.usageDetailsAlwaysOnTop)
-
                 BackgroundButton(
                     opacity: $settings.usageDetailsBackgroundOpacity,
                     clearGlass: $settings.usageDetailsClearGlass,
-                    compact: false
+                    compact: true,
+                    large: true
                 )
-
-                WindowOptionButton(
+                CompactControlButton(
                     title: L("Compact View"),
+                    symbol: "rectangle.compress.vertical",
+                    isOn: false,
                     help: L("Collapse into a small panel with each provider's limits."),
-                    offSymbol: "rectangle.compress.vertical",
-                    onSymbol: "rectangle.compress.vertical",
-                    isOn: $settings.usageDetailsCompact
-                )
+                    large: true
+                ) { settings.usageDetailsCompact = true }
             }
+            .padding(.horizontal, 6)
+            .padding(.vertical, 2)
+            .glassEffect(.regular.interactive(), in: Capsule())
+        }
+        .sharedBackgroundVisibility(.hidden)
+    }
+
+    private var windowOptionsGroup: some ToolbarContent {
+        ToolbarItemGroup(placement: .primaryAction) {
+            WindowOptionButton(
+                title: L("Keep on Top"),
+                help: L("Keep this window above other windows, even when you switch apps."),
+                offSymbol: "pin",
+                onSymbol: "pin.fill",
+                isOn: $settings.usageDetailsAlwaysOnTop
+            )
+
+            WindowOptionButton(
+                title: L("Show on All Desktops"),
+                help: L("Also show this window on every desktop and over full-screen apps. Requires Keep on Top."),
+                offSymbol: "rectangle.on.rectangle",
+                onSymbol: "rectangle.fill.on.rectangle.fill",
+                isOn: $settings.usageDetailsOnAllSpaces
+            )
+            .disabled(!settings.usageDetailsAlwaysOnTop)
+
+            BackgroundButton(
+                opacity: $settings.usageDetailsBackgroundOpacity,
+                clearGlass: $settings.usageDetailsClearGlass,
+                compact: false
+            )
+
+            WindowOptionButton(
+                title: L("Compact View"),
+                help: L("Collapse into a small panel with each provider's limits."),
+                offSymbol: "rectangle.compress.vertical",
+                onSymbol: "rectangle.compress.vertical",
+                isOn: $settings.usageDetailsCompact
+            )
         }
     }
 
@@ -187,19 +243,23 @@ private struct CompactControlButton: View {
     let title: String
     let symbol: String
     let isOn: Bool
+    /// Tooltip; defaults to the title.
+    var help: String?
+    /// Larger symbols for the expanded window's floating toolbar.
+    var large = false
     let action: () -> Void
     @Environment(\.isEnabled) private var isEnabled
 
     var body: some View {
         Button(action: action) {
             Image(systemName: symbol)
-                .font(.system(size: 12, weight: .semibold))
-                .frame(width: 20, height: 20)
+                .font(.system(size: large ? 15 : 12, weight: .semibold))
+                .frame(width: large ? 30 : 20, height: large ? 28 : 20)
                 .contentShape(Rectangle())
-                .foregroundStyle(isOn && isEnabled ? AnyShapeStyle(.tint) : AnyShapeStyle(.secondary))
+                .foregroundStyle(isOn && isEnabled ? AnyShapeStyle(.primary) : AnyShapeStyle(.secondary))
         }
         .buttonStyle(.plain)
-        .help(title)
+        .help(help ?? title)
         .accessibilityLabel(title)
         .accessibilityAddTraits(isOn ? .isSelected : [])
     }
@@ -329,7 +389,7 @@ private struct CompactLabelWidthKey: PreferenceKey {
 
 /// A plain toolbar button that toggles a window option. Toolbar `Toggle`s draw
 /// as filled accent-colored buttons when on; this keeps the standard toolbar
-/// look and shows the state through a filled, accent-tinted symbol instead.
+/// look and shows the state through a filled symbol in the primary color instead.
 private struct WindowOptionButton: View {
     let title: String
     let help: String
@@ -343,7 +403,7 @@ private struct WindowOptionButton: View {
             isOn.toggle()
         } label: {
             Label(title, systemImage: isOn ? onSymbol : offSymbol)
-                .foregroundStyle(isOn && isEnabled ? AnyShapeStyle(.tint) : AnyShapeStyle(.secondary))
+                .foregroundStyle(isOn && isEnabled ? AnyShapeStyle(.primary) : AnyShapeStyle(.secondary))
         }
         .help(help)
         .accessibilityValue(isOn ? L("On") : L("Off"))
@@ -372,6 +432,7 @@ private struct BackgroundButton: View {
     @Binding var opacity: Double
     @Binding var clearGlass: Bool
     let compact: Bool
+    var large = false
     var isPresented: Binding<Bool>?
     @State private var localIsPresented = false
 
@@ -383,10 +444,22 @@ private struct BackgroundButton: View {
         UsageDetailsBackground.extendsUnderTitleBar ? L("Glass") : L("Opacity")
     }
 
+    private var helpText: String {
+        UsageDetailsBackground.extendsUnderTitleBar
+            ? L("Choose regular or clear glass for the window background.")
+            : L("Adjust how see-through the window background is.")
+    }
+
     var body: some View {
         Group {
             if compact {
-                CompactControlButton(title: title, symbol: "circle.lefthalf.filled", isOn: false) {
+                CompactControlButton(
+                    title: title,
+                    symbol: "circle.lefthalf.filled",
+                    isOn: false,
+                    help: large ? helpText : nil,
+                    large: large
+                ) {
                     presented.wrappedValue.toggle()
                 }
             } else {
@@ -396,9 +469,7 @@ private struct BackgroundButton: View {
                     Label(title, systemImage: "circle.lefthalf.filled")
                         .foregroundStyle(.secondary)
                 }
-                .help(UsageDetailsBackground.extendsUnderTitleBar
-                      ? L("Choose regular or clear glass for the window background.")
-                      : L("Adjust how see-through the window background is."))
+                .help(helpText)
             }
         }
         .popover(isPresented: presented, arrowEdge: .bottom) {
