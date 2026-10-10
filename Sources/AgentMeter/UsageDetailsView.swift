@@ -99,6 +99,10 @@ struct UsageDetailsView: View {
             .padding(.horizontal, 6)
             .padding(.vertical, 2)
             .glassEffect(.regular.interactive(), in: Capsule())
+            // One toolbar item hosts all four buttons; without its own label
+            // the item's first label ("Keep on Top") was read for every button.
+            .accessibilityElement(children: .contain)
+            .accessibilityLabel(L("Window Options"))
         }
         .sharedBackgroundVisibility(.hidden)
     }

@@ -558,6 +558,8 @@
 	<string>Límite semanal</string>
 	<key>Window</key>
 	<string>Ventana</string>
+	<key>Window Options</key>
+	<string>Opciones de ventana</string>
 	<key>Works for usage monitoring.</key>
 	<string>Funciona para monitorear el uso.</string>
 	<key>Writes a machine-readable usage snapshot (never credentials) to Application Support for the allowancebar command-line tool and other local agents.</key>
