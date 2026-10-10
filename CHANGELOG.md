@@ -5,7 +5,7 @@ All notable changes to Allowance Bar (formerly AgentMeter). Format follows
 `MAJOR.MINOR.PATCH`. Entries before 2.0.0 are AgentMeter releases (upstream
 through 1.12.1, then this fork's 1.12.2–1.15.0).
 
-## [2.0.0] — Unreleased
+## [2.0.0] — 2026-10-10
 
 Allowance Bar is the new name for this fork of
 [AgentMeter](https://github.com/fdtorres1/AgentMeter) by Felix Torres. It is a
