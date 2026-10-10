@@ -24,6 +24,8 @@ the shared AgentMeter history.
   macOS remembers Keychain "Always Allow" choices across updates. Builds are
   not notarized; the first launch needs **Open Anyway** in System Settings →
   Privacy & Security.
+- New app icon: three usage bars on a floating glass panel, in warm orange.
+  The editable source is `Resources/AppIcon.svg`.
 - The About window and README credit the original AgentMeter, link to this
   project, and highlight the floating Usage Details window.
 - The "Support ♥" link in the menu and About window now opens this
