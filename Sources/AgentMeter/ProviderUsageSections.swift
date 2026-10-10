@@ -27,6 +27,7 @@ struct ProviderSection: View {
     let provider: any UsageProvider
     let state: ProviderState
     @ObservedObject var settings: SettingsStore
+    @Environment(\.openURL) private var openURL
 
     var body: some View {
         sectionContent
@@ -43,11 +44,17 @@ struct ProviderSection: View {
                     HStack(spacing: 6) {
                         ProviderBadge(provider: provider, size: 18)
                         if let url = provider.dashboardURL {
-                            Link(destination: url) {
+                            // A plain button rather than a Link, so the title
+                            // reads as text instead of an accent-colored link.
+                            Button {
+                                openURL(url)
+                            } label: {
                                 Text(provider.displayName)
                                     .font(.headline)
                                     .foregroundStyle(.primary)
                             }
+                            .buttonStyle(.plain)
+                            .accessibilityAddTraits(.isLink)
                         } else {
                             Text(provider.displayName).font(.headline)
                         }
@@ -195,7 +202,7 @@ struct UsageMetersView: View {
                      ? L("Data as of \(asOf.formatted(date: .omitted, time: .shortened))")
                      : L("Last checked \(asOf.formatted(date: .omitted, time: .shortened))"))
                     .font(.subheadline.weight(.medium))
-                    .foregroundStyle(.tertiary)
+                    .foregroundStyle(.secondary)
             }
         }
     }
@@ -235,7 +242,7 @@ private struct APIUsageRows: View {
                 .fixedSize(horizontal: false, vertical: true)
             Text(L("Reporting may lag the Anthropic website. Priority Tier costs excluded."))
                 .font(.subheadline.weight(.medium))
-                .foregroundStyle(.tertiary)
+                .foregroundStyle(.secondary)
                 .fixedSize(horizontal: false, vertical: true)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -300,7 +307,7 @@ private struct BalanceRow: View {
         case .spent:
             return .secondary
         case .remaining:
-            return isLowBalance ? .orange : .green
+            return isLowBalance ? .orange : .primary
         }
     }
 

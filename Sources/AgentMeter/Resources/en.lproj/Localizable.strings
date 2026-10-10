@@ -90,6 +90,8 @@
 	<string>Checking key…</string>
 	<key>Choose a path other than ~/.codex</key>
 	<string>Choose a path other than ~/.codex</string>
+	<key>Choose regular or clear glass for the window background.</key>
+	<string>Choose regular or clear glass for the window background.</string>
 	<key>Claude API reporting access denied (HTTP 403); check key scope and account eligibility</key>
 	<string>Claude API reporting access denied (HTTP 403); check key scope and account eligibility</string>
 	<key>Claude API reporting key rejected (HTTP 401)</key>
@@ -98,6 +100,10 @@
 	<string>Claude API reporting rate limited (HTTP 429)</string>
 	<key>Claude API reporting returned HTTP %@</key>
 	<string>Claude API reporting returned HTTP %@</string>
+	<key>Clear</key>
+	<string>Clear</string>
+	<key>Clear glass dims what is behind it to keep text readable.</key>
+	<string>Clear glass dims what is behind it to keep text readable.</string>
 	<key>Close</key>
 	<string>Close</string>
 	<key>Codex CLI not found</key>
@@ -158,6 +164,8 @@
 	<string>GLM Coding Plan API key</string>
 	<key>GLM Coding Plan key</key>
 	<string>GLM Coding Plan key</string>
+	<key>Glass</key>
+	<string>Glass</string>
 	<key>Google Play</key>
 	<string>Google Play</string>
 	<key>Home path</key>
@@ -238,6 +246,8 @@
 	<string>Provider endpoint research credits CodexBar by Peter Steinberger.</string>
 	<key>Reads prepaid balance only.</key>
 	<string>Reads prepaid balance only.</string>
+	<key>Regular</key>
+	<string>Regular</string>
 	<key>Reinstall Command-Line Tool…</key>
 	<string>Reinstall Command-Line Tool…</string>
 	<key>Remind me</key>

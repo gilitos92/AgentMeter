@@ -73,6 +73,12 @@ final class SettingsStore: ObservableObject {
         didSet { defaults.set(usageDetailsBackgroundOpacity, forKey: Keys.usageDetailsBackgroundOpacity) }
     }
 
+    /// Clear instead of regular Liquid Glass for the Usage Details window.
+    /// Only applies on macOS 26 and later.
+    @Published var usageDetailsClearGlass: Bool {
+        didSet { defaults.set(usageDetailsClearGlass, forKey: Keys.usageDetailsClearGlass) }
+    }
+
     /// Only applies while `usageDetailsAlwaysOnTop` is on.
     @Published var usageDetailsOnAllSpaces: Bool {
         didSet { defaults.set(usageDetailsOnAllSpaces, forKey: Keys.usageDetailsOnAllSpaces) }
@@ -133,6 +139,7 @@ final class SettingsStore: ObservableObject {
         static let usageDetailsOnAllSpaces = "usageDetailsOnAllSpaces"
         static let usageDetailsCompact = "usageDetailsCompact"
         static let usageDetailsBackgroundOpacity = "usageDetailsBackgroundOpacity"
+        static let usageDetailsClearGlass = "usageDetailsClearGlass"
         static let codexExtraAccounts = "codexExtraAccounts"
         static let subscriptionRenewals = "subscriptionRenewals"
         static let compactMenuBar = "compactMenuBar"
@@ -174,6 +181,7 @@ final class SettingsStore: ObservableObject {
         } else {
             self.usageDetailsBackgroundOpacity = 1
         }
+        self.usageDetailsClearGlass = defaults.bool(forKey: Keys.usageDetailsClearGlass)
         self.agentAccessEnabled = defaults.bool(forKey: Keys.agentAccessEnabled)
         if let data = defaults.data(forKey: Keys.codexExtraAccounts),
            let accounts = try? JSONDecoder().decode([CodexAccountConfig].self, from: data) {

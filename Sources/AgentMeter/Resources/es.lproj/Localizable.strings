@@ -150,6 +150,8 @@
 	<string>Verificando clave…</string>
 	<key>Choose a path other than ~/.codex</key>
 	<string>Elige una ruta distinta de ~/.codex</string>
+	<key>Choose regular or clear glass for the window background.</key>
+	<string>Elige cristal normal o transparente para el fondo de la ventana.</string>
 	<key>Claude API reporting access denied (HTTP 403); check key scope and account eligibility</key>
 	<string>Acceso a informes de Claude API denegado (HTTP 403); comprueba el alcance de la clave y los requisitos de la cuenta</string>
 	<key>Claude API reporting key rejected (HTTP 401)</key>
@@ -158,6 +160,10 @@
 	<string>Límite de solicitudes de informes de Claude API alcanzado (HTTP 429)</string>
 	<key>Claude API reporting returned HTTP %@</key>
 	<string>Los informes de Claude API devolvieron HTTP %@</string>
+	<key>Clear</key>
+	<string>Transparente</string>
+	<key>Clear glass dims what is behind it to keep text readable.</key>
+	<string>El cristal transparente oscurece lo que hay detrás para que el texto se lea bien.</string>
 	<key>Close</key>
 	<string>Cerrar</string>
 	<key>Codex CLI not found</key>
@@ -268,6 +274,8 @@
 	<string>General</string>
 	<key>Get key</key>
 	<string>Obtener clave</string>
+	<key>Glass</key>
+	<string>Cristal</string>
 	<key>Google Play</key>
 	<string>Google Play</string>
 	<key>Google returned HTTP %lld</key>
@@ -410,6 +418,8 @@
 	<string>Actualizar</string>
 	<key>Refresh interval</key>
 	<string>Intervalo de actualización</string>
+	<key>Regular</key>
+	<string>Normal</string>
 	<key>Reinstall Command-Line Tool…</key>
 	<string>Reinstalar herramienta de línea de comandos…</string>
 	<key>Relative</key>
