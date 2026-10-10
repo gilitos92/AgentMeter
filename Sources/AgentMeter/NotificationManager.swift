@@ -3,37 +3,42 @@ import UserNotifications
 
 /// Tracks which usage windows have crossed a notification threshold.
 struct ThresholdTracker {
-    private var lastSeenPercents: [String: Double] = [:]
-    private var lastSeenResetsAt: [String: Date] = [:]
+    private var notifiedResetsAt: [String: Date]
     private var lastNotifiedPercents: [String: Double]
     private let defaults: UserDefaults
 
     private static let stateKey = "thresholdTrackerState"
+    private static let resetsKey = "thresholdTrackerNotifiedResetsAt"
 
     init(defaults: UserDefaults = .standard) {
         self.defaults = defaults
         self.lastNotifiedPercents = defaults.dictionary(forKey: Self.stateKey) as? [String: Double] ?? [:]
+        let resets = defaults.dictionary(forKey: Self.resetsKey) as? [String: Double] ?? [:]
+        self.notifiedResetsAt = resets.mapValues { Date(timeIntervalSince1970: $0) }
     }
 
     mutating func crossings(
         providerID: String,
         usage: ProviderUsage,
-        threshold: Double
+        threshold: Double,
+        now: Date = Date()
     ) -> [UsageWindow] {
         var result: [UsageWindow] = []
 
         for window in usage.windows {
             let key = "\(providerID)|\(window.label)"
-            let reset = windowDidReset(
-                key: key,
-                newPercent: window.usedPercent,
-                newResetsAt: window.resetsAt
-            )
-            // Any observation below the threshold re-arms, in addition to the
-            // drop/reset heuristics. This covers windows that reset while the
-            // app wasn't running, where the in-memory last-seen state is empty
-            // but the fired-state persisted.
-            if reset || window.usedPercent < threshold {
+            // Reset estimates can drift while a limit remains exhausted. Only
+            // a later window after the notified deadline has elapsed re-arms.
+            // Keep the deadline on disk so this also works across app restarts.
+            if let notifiedReset = notifiedResetsAt[key] {
+                if notifiedReset <= now,
+                   let newReset = window.resetsAt,
+                   newReset > notifiedReset {
+                    lastNotifiedPercents.removeValue(forKey: key)
+                    notifiedResetsAt.removeValue(forKey: key)
+                }
+            } else if window.usedPercent < threshold {
+                // Providers without a reset date can only re-arm from usage.
                 lastNotifiedPercents.removeValue(forKey: key)
             }
 
@@ -43,13 +48,16 @@ struct ThresholdTracker {
                 lastNotifiedPercents[key] = window.usedPercent
             }
 
-            lastSeenPercents[key] = window.usedPercent
-            if let resetsAt = window.resetsAt {
-                lastSeenResetsAt[key] = resetsAt
+            // Seed a deadline for existing saved alerts and windows whose reset
+            // date was temporarily unavailable, without sending another alert.
+            if lastNotifiedPercents[key] != nil, notifiedResetsAt[key] == nil,
+               let resetsAt = window.resetsAt {
+                notifiedResetsAt[key] = resetsAt
             }
         }
 
         defaults.set(lastNotifiedPercents, forKey: Self.stateKey)
+        defaults.set(notifiedResetsAt.mapValues { $0.timeIntervalSince1970 }, forKey: Self.resetsKey)
         return result
     }
 
@@ -74,22 +82,6 @@ struct ThresholdTracker {
         }
 
         defaults.set(lastNotifiedPercents, forKey: Self.stateKey)
-        return false
-    }
-
-    private func windowDidReset(
-        key: String,
-        newPercent: Double,
-        newResetsAt: Date?
-    ) -> Bool {
-        if let lastSeen = lastSeenPercents[key], lastSeen - newPercent > 10 {
-            return true
-        }
-        if let lastResets = lastSeenResetsAt[key],
-           let newResets = newResetsAt,
-           newResets > lastResets {
-            return true
-        }
         return false
     }
 }
