@@ -22,7 +22,7 @@ enum CredentialAssessmentSupport {
         CredentialAssessment(
             keyTypeLabel: L("Couldn't check key"),
             summary: L("Verification failed — your key may still work."),
-            detail: L("AgentMeter could not reach the provider to check this key. That is usually a network issue or a temporary API change. Your saved key was not removed."),
+            detail: L("Allowance Bar could not reach the provider to check this key. That is usually a network issue or a temporary API change. Your saved key was not removed."),
             upgradeHint: nil,
             manageURL: manageURL
         )

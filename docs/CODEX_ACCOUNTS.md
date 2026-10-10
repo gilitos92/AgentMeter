@@ -1,13 +1,13 @@
 # Codex: multiple accounts and renewal dates
 
-AgentMeter can monitor several ChatGPT/Codex subscriptions side by side —
+Allowance Bar can monitor several ChatGPT/Codex subscriptions side by side —
 for example a personal account, a work account, and an older one — each with
 its own meter, menu bar entry, and (optionally) a tracked billing renewal
 date. This guide explains how it works and how to set it up.
 
-## How AgentMeter reads Codex usage
+## How Allowance Bar reads Codex usage
 
-Since 1.11.0, AgentMeter gets Codex numbers from your own Codex CLI rather
+Since 1.11.0, Allowance Bar gets Codex numbers from your own Codex CLI rather
 than from session logs alone. Every five minutes per account it launches
 `codex app-server` for about a second, asks two questions over Codex's
 documented JSON-RPC protocol (`account/read` for the signed-in email and plan,
@@ -15,9 +15,9 @@ documented JSON-RPC protocol (`account/read` for the signed-in email and plan,
 
 What this means for trust:
 
-- **AgentMeter never touches your tokens.** Codex reads its own credentials,
-  refreshes them, and talks to OpenAI. AgentMeter only sees the answer.
-- **AgentMeter never signs you in.** You run `codex login` yourself, in
+- **Allowance Bar never touches your tokens.** Codex reads its own credentials,
+  refreshes them, and talks to OpenAI. Allowance Bar only sees the answer.
+- **Allowance Bar never signs you in.** You run `codex login` yourself, in
   Terminal, for each account.
 - **No background processes.** The helper runs for roughly a second and exits.
 - **Offline fallback.** For the default account, the newest session log is
@@ -43,7 +43,7 @@ will happily reuse whichever account is already signed in, so sign out first
 or paste the login URL into a private window if you are adding several
 accounts in a row.
 
-Then open **AgentMeter → Settings → Providers → Codex accounts**. Any
+Then open **Allowance Bar → Settings → Providers → Codex accounts**. Any
 `~/.codex-*` folder that contains a login appears as
 "Found signed-in Codex home: work" with an **Add** button. Click it. The
 account shows "Loading…" and, within a few seconds, resolves to its email
@@ -81,7 +81,7 @@ homes, set the duplicate to **Off** in Settings → Providers.
 ## Tracking subscription renewal dates
 
 OpenAI does not publish consumer subscription renewal dates through any API,
-so AgentMeter lets you record them and keeps them clearly separate from usage
+so Allowance Bar lets you record them and keeps them clearly separate from usage
 windows. A renewal is about billing; a usage window is about rate limits. The
 two never share a meter.
 
@@ -103,7 +103,7 @@ The dropdown shows a calendar row such as "Renews Oct 3 · Apple (confirmed)".
 Monthly renewals are computed on the anniversary day with correct month-end
 clamping (a Jan 31 anchor renews Feb 28/29, then Mar 31).
 
-Renewal data is stored in AgentMeter's preferences and exposed to agents via
+Renewal data is stored in Allowance Bar's preferences and exposed to agents via
 the snapshot's `renewal` field (see [AGENT_INTERFACE.md](AGENT_INTERFACE.md)).
 
 ## Troubleshooting
@@ -112,7 +112,7 @@ the snapshot's `renewal` field (see [AGENT_INTERFACE.md](AGENT_INTERFACE.md)).
 |---------|-------------|
 | `Error loading configuration: CODEX_HOME points to … does not exist` | Create the folder first: `mkdir -p <home>`. |
 | Account shows "Not signed in" | The home has no `auth.json`. Run the login command for that home. |
-| Account shows "Codex CLI not found" | AgentMeter could not find `codex`. Install it via Homebrew or make sure it is in `/opt/homebrew/bin`, `/usr/local/bin`, `~/.local/bin`, or your login shell's PATH. |
-| Numbers seem stale | Live polling happens every 5 minutes. Open the dropdown and press Refresh, or run `agentmeter refresh --wait 15`. |
+| Account shows "Codex CLI not found" | Allowance Bar could not find `codex`. Install it via Homebrew or make sure it is in `/opt/homebrew/bin`, `/usr/local/bin`, `~/.local/bin`, or your login shell's PATH. |
+| Numbers seem stale | Live polling happens every 5 minutes. Open the dropdown and press Refresh, or run `allowancebar refresh --wait 15`. |
 | Two sections show the same email | Your default `~/.codex` and an extra home are the same account. Turn one Off in Settings → Providers. |
 | Nothing found under "Codex accounts" after logging in | Discovery only lists folders named `~/.codex-*` that contain `auth.json`. For other locations use **Add account…** and enter the path. |

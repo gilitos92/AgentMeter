@@ -6,11 +6,14 @@ let package = Package(
     defaultLocalization: "en",
     platforms: [.macOS(.v14)],
     products: [
-        // Named case-distinct from the AgentMeter app binary: on the default
-        // case-insensitive APFS, products "AgentMeter" and "agentmeter" would
-        // clobber each other in .build. bundle.sh installs it into the app
-        // bundle as Contents/Helpers/agentmeter.
-        .executable(name: "agentmeter-cli", targets: ["agentmeter-cli"]),
+        // The app binary ("Allowance Bar.app/Contents/MacOS/AllowanceBar").
+        // Target and module names keep the original AgentMeter naming.
+        .executable(name: "AllowanceBar", targets: ["AgentMeter"]),
+        // Named case-distinct from the AllowanceBar app binary: on the default
+        // case-insensitive APFS, products "AllowanceBar" and "allowancebar"
+        // would clobber each other in .build. bundle.sh installs it into the
+        // app bundle as Contents/Helpers/allowancebar.
+        .executable(name: "allowancebar-cli", targets: ["agentmeter-cli"]),
     ],
     dependencies: [
         .package(url: "https://github.com/sparkle-project/Sparkle", from: "2.6.0"),

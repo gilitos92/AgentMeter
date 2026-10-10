@@ -312,7 +312,7 @@ enum CodexAppServerClient {
         appVersion: String
     ) async throws -> CodexAccountReading {
         let initialize = """
-        {"id":1,"method":"initialize","params":{"clientInfo":{"name":"AgentMeter","version":"\(appVersion)"}}}
+        {"id":1,"method":"initialize","params":{"clientInfo":{"name":"AllowanceBar","version":"\(appVersion)"}}}
         """
         let initialized = #"{"method":"initialized"}"#
         let accountRead = #"{"id":2,"method":"account/read","params":{}}"#

@@ -68,8 +68,8 @@
 	<string>Límite de 5 h</string>
 	<key>7 days before</key>
 	<string>7 días antes</string>
-	<key>A management key can control your whole OpenRouter account, including creating and deleting other API keys. AgentMeter only reads usage and balance — it cannot spend credits or change anything. A regular API key is safer; use Connect to get a dedicated key for AgentMeter that you can revoke anytime.</key>
-	<string>Una clave de administración puede controlar toda tu cuenta de OpenRouter, incluida la creación y eliminación de otras claves API. AgentMeter solo lee el uso y el saldo; no puede gastar créditos ni cambiar nada. Una clave API normal es más segura; usa Conectar para obtener una clave dedicada para AgentMeter que puedas revocar en cualquier momento.</string>
+	<key>A management key can control your whole OpenRouter account, including creating and deleting other API keys. Allowance Bar only reads usage and balance — it cannot spend credits or change anything. A regular API key is safer; use Connect to get a dedicated key for Allowance Bar that you can revoke anytime.</key>
+	<string>Una clave de administración puede controlar toda tu cuenta de OpenRouter, incluida la creación y eliminación de otras claves API. Allowance Bar solo lee el uso y el saldo; no puede gastar créditos ni cambiar nada. Una clave API normal es más segura; usa Conectar para obtener una clave dedicada para Allowance Bar que puedas revocar en cualquier momento.</string>
 	<key>API key</key>
 	<string>Clave de API</string>
 	<key>API key removed</key>
@@ -80,24 +80,20 @@
 	<string>Gasto de API</string>
 	<key>API usage</key>
 	<string>Uso de API</string>
-	<key>About AgentMeter</key>
-	<string>Acerca de AgentMeter</string>
+	<key>About Allowance Bar</key>
+	<string>Acerca de Allowance Bar</string>
 	<key>About this key</key>
 	<string>Acerca de esta clave</string>
 	<key>Add</key>
 	<string>Agregar</string>
 	<key>Add account…</key>
 	<string>Agregar cuenta…</string>
-	<key>Adds this account to AgentMeter using the folder name as its label.</key>
-	<string>Agrega esta cuenta a AgentMeter usando el nombre de la carpeta como etiqueta.</string>
+	<key>Adds this account to Allowance Bar using the folder name as its label.</key>
+	<string>Agrega esta cuenta a Allowance Bar usando el nombre de la carpeta como etiqueta.</string>
 	<key>Adjust how see-through the window background is.</key>
 	<string>Ajusta qué tan transparente es el fondo de la ventana.</string>
 	<key>Admin key</key>
 	<string>Clave de administrador</string>
-	<key>AgentMeter</key>
-	<string>AgentMeter</string>
-	<key>AgentMeter could not reach the provider to check this key. That is usually a network issue or a temporary API change. Your saved key was not removed.</key>
-	<string>AgentMeter no pudo contactar al proveedor para verificar esta clave. Suele ser un problema de red o un cambio temporal en la API. Tu clave guardada no se eliminó.</string>
 	<key>Alert when remaining falls below</key>
 	<string>Avisar cuando lo restante baje de</string>
 	<key>Alert when usage crosses threshold</key>
@@ -106,14 +102,18 @@
 	<string>Avisar cuando el uso alcance</string>
 	<key>Alerts</key>
 	<string>Alertas</string>
+	<key>Allowance Bar</key>
+	<string>Allowance Bar</string>
+	<key>Allowance Bar could not reach the provider to check this key. That is usually a network issue or a temporary API change. Your saved key was not removed.</key>
+	<string>Allowance Bar no pudo contactar al proveedor para verificar esta clave. Suele ser un problema de red o un cambio temporal en la API. Tu clave guardada no se eliminó.</string>
 	<key>Also show this window on every desktop and over full-screen apps. Requires Keep on Top.</key>
 	<string>Muestra también esta ventana en todos los escritorios y sobre apps en pantalla completa. Requiere Mantener encima.</string>
-	<key>An Admin key can see billing details and manage other keys. AgentMeter only reads your balance; it cannot spend credits or change settings. An Inference key is safer and also works with AgentMeter.</key>
-	<string>Una clave de administrador puede ver detalles de facturación y administrar otras claves. AgentMeter solo lee tu saldo; no puede gastar créditos ni cambiar la configuración. Una clave de inferencia es más segura y también funciona con AgentMeter.</string>
+	<key>An Admin key can see billing details and manage other keys. Allowance Bar only reads your balance; it cannot spend credits or change settings. An Inference key is safer and also works with Allowance Bar.</key>
+	<string>Una clave de administrador puede ver detalles de facturación y administrar otras claves. Allowance Bar solo lee tu saldo; no puede gastar créditos ni cambiar la configuración. Una clave de inferencia es más segura y también funciona con Allowance Bar.</string>
 	<key>An Admin key shows richer billing detail but is more powerful — only switch if you need that extra detail.</key>
 	<string>Una clave de administrador muestra más detalle de facturación, pero es más poderosa — cámbiala solo si necesitas ese detalle extra.</string>
-	<key>An Inference key is the safer default — it lets apps run models but limits access to billing and key management. AgentMeter only reads your balance through a read-only endpoint; it cannot spend credits.</key>
-	<string>Una clave de inferencia es la opción más segura por defecto: permite que las apps ejecuten modelos, pero limita el acceso a facturación y administración de claves. AgentMeter solo lee tu saldo mediante un punto de acceso de solo lectura; no puede gastar créditos.</string>
+	<key>An Inference key is the safer default — it lets apps run models but limits access to billing and key management. Allowance Bar only reads your balance through a read-only endpoint; it cannot spend credits.</key>
+	<string>Una clave de inferencia es la opción más segura por defecto: permite que las apps ejecuten modelos, pero limita el acceso a facturación y administración de claves. Allowance Bar solo lee tu saldo mediante un punto de acceso de solo lectura; no puede gastar créditos.</string>
 	<key>Anthropic rate-limited the usage request</key>
 	<string>Anthropic limitó la solicitud de uso</string>
 	<key>Anthropic returned HTTP %lld</key>
@@ -264,8 +264,8 @@
 	<string>Completo</string>
 	<key>Full access including billing and key management.</key>
 	<string>Acceso completo, incluida la facturación y la administración de claves.</string>
-	<key>Full account access — more powerful than AgentMeter needs.</key>
-	<string>Acceso completo a la cuenta — más poderoso de lo que AgentMeter necesita.</string>
+	<key>Full account access — more powerful than Allowance Bar needs.</key>
+	<string>Acceso completo a la cuenta — más poderoso de lo que Allowance Bar necesita.</string>
 	<key>GLM Coding Plan API key</key>
 	<string>Clave de API del plan GLM Coding</string>
 	<key>GLM Coding Plan key</key>
@@ -298,8 +298,8 @@
 	<string>Tokens de entrada</string>
 	<key>Install Command-Line Tool…</key>
 	<string>Instalar herramienta de línea de comandos…</string>
-	<key>Installed. Open a new terminal and run agentmeter --help.</key>
-	<string>Instalada. Abre una terminal nueva y ejecuta agentmeter --help.</string>
+	<key>Installed. Open a new terminal and run allowancebar --help.</key>
+	<string>Instalada. Abre una terminal nueva y ejecuta allowancebar --help.</string>
 	<key>Keep on Top</key>
 	<string>Mantener encima</string>
 	<key>Keep this window above other windows, even when you switch apps.</key>
@@ -444,12 +444,12 @@
 	<string>Datos anteriores a %@ UTC</string>
 	<key>Reset times</key>
 	<string>Tiempos de restablecimiento</string>
-	<key>Run Claude Code to renew its credentials, then refresh AgentMeter</key>
-	<string>Ejecuta Claude Code para renovar sus credenciales y luego actualiza AgentMeter</string>
-	<key>Run from AgentMeter.app to install the command-line tool.</key>
-	<string>Ejecuta desde AgentMeter.app para instalar la herramienta de línea de comandos.</string>
-	<key>Run this in Terminal to sign in that account. AgentMeter never handles your login or tokens — the Codex CLI does.</key>
-	<string>Ejecuta esto en Terminal para iniciar sesión en esa cuenta. AgentMeter nunca maneja tu inicio de sesión ni tus tokens — eso lo hace la CLI de Codex.</string>
+	<key>Run Claude Code to renew its credentials, then refresh Allowance Bar</key>
+	<string>Ejecuta Claude Code para renovar sus credenciales y luego actualiza Allowance Bar</string>
+	<key>Run from Allowance Bar.app to install the command-line tool.</key>
+	<string>Ejecuta desde Allowance Bar.app para instalar la herramienta de línea de comandos.</string>
+	<key>Run this in Terminal to sign in that account. Allowance Bar never handles your login or tokens — the Codex CLI does.</key>
+	<string>Ejecuta esto en Terminal para iniciar sesión en esa cuenta. Allowance Bar nunca maneja tu inicio de sesión ni tus tokens — eso lo hace la CLI de Codex.</string>
 	<key>Save</key>
 	<string>Guardar</string>
 	<key>Saved</key>
@@ -462,8 +462,8 @@
 	<string>Mostrar en todos los escritorios</string>
 	<key>Shows your 5-hour and token quotas.</key>
 	<string>Muestra tus cuotas de 5 horas y de tokens.</string>
-	<key>Spending capped — AgentMeter can read usage within this limit.</key>
-	<string>Gasto limitado — AgentMeter puede leer el uso dentro de este límite.</string>
+	<key>Spending capped — Allowance Bar can read usage within this limit.</key>
+	<string>Gasto limitado — Allowance Bar puede leer el uso dentro de este límite.</string>
 	<key>Stale since %@</key>
 	<string>Obsoleto desde %@</string>
 	<key>Standard API key</key>
@@ -484,16 +484,16 @@
 	<string>Pool del equipo</string>
 	<key>The key was rejected by Venice.</key>
 	<string>Venice rechazó la clave.</string>
-	<key>This API key lets apps use your OpenRouter credits up to a spending limit you set. AgentMeter only reads how much has been used; it cannot spend money or change your account. If you used Connect, OpenRouter created a dedicated key just for AgentMeter that you can revoke anytime.</key>
-	<string>Esta clave API permite que las apps usen tus créditos de OpenRouter hasta un límite de gasto que tú defines. AgentMeter solo lee cuánto se ha usado; no puede gastar dinero ni cambiar tu cuenta. Si usaste Conectar, OpenRouter creó una clave dedicada solo para AgentMeter que puedes revocar en cualquier momento.</string>
-	<key>This API key lets apps use your OpenRouter credits. AgentMeter only reads usage; it cannot spend money or change your account. If you used Connect, OpenRouter created a dedicated key just for AgentMeter that you can revoke anytime.</key>
-	<string>Esta clave API permite que las apps usen tus créditos de OpenRouter. AgentMeter solo lee el uso; no puede gastar dinero ni cambiar tu cuenta. Si usaste Conectar, OpenRouter creó una clave dedicada solo para AgentMeter que puedes revocar en cualquier momento.</string>
-	<key>This key is tied to a GLM Coding Plan subscription. AgentMeter reads your time and token quotas (they reset every few hours). It cannot spend money, call models, or change your account.</key>
-	<string>Esta clave está vinculada a una suscripción GLM Coding Plan. AgentMeter lee tus cuotas de tiempo y de tokens (se restablecen cada pocas horas). No puede gastar dinero, llamar modelos ni cambiar tu cuenta.</string>
-	<key>This key lets apps call DeepSeek models using your prepaid balance. AgentMeter only reads how much balance is left; it cannot spend money or change your account.</key>
-	<string>Esta clave permite que las apps llamen modelos de DeepSeek usando tu saldo prepagado. AgentMeter solo lee cuánto saldo queda; no puede gastar dinero ni cambiar tu cuenta.</string>
-	<key>This key lets apps call Kimi models using your prepaid balance. AgentMeter only reads how much balance is left; it cannot spend money or change your account.</key>
-	<string>Esta clave permite que las apps llamen modelos de Kimi usando tu saldo prepagado. AgentMeter solo lee cuánto saldo queda; no puede gastar dinero ni cambiar tu cuenta.</string>
+	<key>This API key lets apps use your OpenRouter credits up to a spending limit you set. Allowance Bar only reads how much has been used; it cannot spend money or change your account. If you used Connect, OpenRouter created a dedicated key just for Allowance Bar that you can revoke anytime.</key>
+	<string>Esta clave API permite que las apps usen tus créditos de OpenRouter hasta un límite de gasto que tú defines. Allowance Bar solo lee cuánto se ha usado; no puede gastar dinero ni cambiar tu cuenta. Si usaste Conectar, OpenRouter creó una clave dedicada solo para Allowance Bar que puedes revocar en cualquier momento.</string>
+	<key>This API key lets apps use your OpenRouter credits. Allowance Bar only reads usage; it cannot spend money or change your account. If you used Connect, OpenRouter created a dedicated key just for Allowance Bar that you can revoke anytime.</key>
+	<string>Esta clave API permite que las apps usen tus créditos de OpenRouter. Allowance Bar solo lee el uso; no puede gastar dinero ni cambiar tu cuenta. Si usaste Conectar, OpenRouter creó una clave dedicada solo para Allowance Bar que puedes revocar en cualquier momento.</string>
+	<key>This key is tied to a GLM Coding Plan subscription. Allowance Bar reads your time and token quotas (they reset every few hours). It cannot spend money, call models, or change your account.</key>
+	<string>Esta clave está vinculada a una suscripción GLM Coding Plan. Allowance Bar lee tus cuotas de tiempo y de tokens (se restablecen cada pocas horas). No puede gastar dinero, llamar modelos ni cambiar tu cuenta.</string>
+	<key>This key lets apps call DeepSeek models using your prepaid balance. Allowance Bar only reads how much balance is left; it cannot spend money or change your account.</key>
+	<string>Esta clave permite que las apps llamen modelos de DeepSeek usando tu saldo prepagado. Allowance Bar solo lee cuánto saldo queda; no puede gastar dinero ni cambiar tu cuenta.</string>
+	<key>This key lets apps call Kimi models using your prepaid balance. Allowance Bar only reads how much balance is left; it cannot spend money or change your account.</key>
+	<string>Esta clave permite que las apps llamen modelos de Kimi usando tu saldo prepagado. Allowance Bar solo lee cuánto saldo queda; no puede gastar dinero ni cambiar tu cuenta.</string>
 	<key>Time quota</key>
 	<string>Cuota de tiempo</string>
 	<key>Today's totals are not yet fully reported by Anthropic.</key>
@@ -560,10 +560,10 @@
 	<string>Ventana</string>
 	<key>Works for usage monitoring.</key>
 	<string>Funciona para monitorear el uso.</string>
-	<key>Writes a machine-readable usage snapshot (never credentials) to Application Support for the agentmeter command-line tool and other local agents.</key>
-	<string>Escribe una instantánea de uso legible por máquina (nunca credenciales) en Application Support para la herramienta de línea de comandos agentmeter y otros agentes locales.</string>
-	<key>Your key is valid, but Z.ai does not publish usage or balance data for pay-as-you-go API keys. AgentMeter can only show numbers for GLM Coding Plan keys. Your key is fine for calling models — AgentMeter just has nothing to display.</key>
-	<string>Tu clave es válida, pero Z.ai no publica datos de uso ni de saldo para claves API de pago por uso. AgentMeter solo puede mostrar números para claves de planes GLM Coding. Tu clave sirve para llamar modelos — AgentMeter simplemente no tiene nada que mostrar.</string>
+	<key>Writes a machine-readable usage snapshot (never credentials) to Application Support for the allowancebar command-line tool and other local agents.</key>
+	<string>Escribe una instantánea de uso legible por máquina (nunca credenciales) en Application Support para la herramienta de línea de comandos allowancebar y otros agentes locales.</string>
+	<key>Your key is valid, but Z.ai does not publish usage or balance data for pay-as-you-go API keys. Allowance Bar can only show numbers for GLM Coding Plan keys. Your key is fine for calling models — Allowance Bar just has nothing to display.</key>
+	<string>Tu clave es válida, pero Z.ai no publica datos de uso ni de saldo para claves API de pago por uso. Allowance Bar solo puede mostrar números para claves de planes GLM Coding. Tu clave sirve para llamar modelos — Allowance Bar simplemente no tiene nada que mostrar.</string>
 	<key>Z.ai API returned code %lld</key>
 	<string>La API de Z.ai devolvió el código %lld</string>
 	<key>Z.ai API returned code %lld: %@</key>

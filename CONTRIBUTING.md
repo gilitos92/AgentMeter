@@ -1,4 +1,4 @@
-# Contributing to AgentMeter
+# Contributing to Allowance Bar
 
 Thanks for your interest! PRs are welcome. For anything beyond a small fix,
 please open an issue first so we can agree on the approach before you invest
@@ -9,7 +9,7 @@ time.
 ```bash
 swift build          # debug build
 swift test           # unit tests (network-dependent tests are opt-in and skip by default)
-scripts/bundle.sh    # produce AgentMeter.app in the repo root
+scripts/bundle.sh    # produce Allowance Bar.app in the repo root
 ```
 
 Requirements: macOS 14+, Xcode command line tools (Swift 5.10+).

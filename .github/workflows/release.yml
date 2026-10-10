@@ -52,7 +52,7 @@ jobs:
 
       - name: Build, sign, notarize
         env:
-          AGENTMETER_VERSION: ${{ steps.version.outputs.version }}
+          ALLOWANCEBAR_VERSION: ${{ steps.version.outputs.version }}
           APPLE_API_KEY_ID: ${{ secrets.APPLE_API_KEY_ID }}
           APPLE_API_ISSUER: ${{ secrets.APPLE_API_ISSUER }}
         run: scripts/release.sh
@@ -60,5 +60,5 @@ jobs:
       - name: Upload to GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          files: AgentMeter.zip
+          files: AllowanceBar.zip
           generate_release_notes: true

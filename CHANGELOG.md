@@ -1,7 +1,40 @@
 # Changelog
 
-All notable changes to AgentMeter. Format follows [Keep a Changelog](https://keepachangelog.com);
-versions follow semantic-ish `MAJOR.MINOR.PATCH`.
+All notable changes to Allowance Bar (formerly AgentMeter). Format follows
+[Keep a Changelog](https://keepachangelog.com); versions follow semantic-ish
+`MAJOR.MINOR.PATCH`. Entries before 2.0.0 are AgentMeter releases (upstream
+through 1.12.1, then this fork's 1.12.2–1.15.0).
+
+## [2.0.0] — 2026-10-10
+
+Allowance Bar is the new name for this fork of
+[AgentMeter](https://github.com/fdtorres1/AgentMeter) by Felix Torres. It is a
+separate app and does not replace or update the original AgentMeter.
+Versions continue from this fork's last AgentMeter release (1.15.0); the
+major bump marks the rename and keeps tags and releases from colliding with
+the shared AgentMeter history.
+
+### Changed
+- New name and identity: **Allowance Bar** (`com.ggv.AllowanceBar`), URL
+  scheme `allowancebar://`, command-line tool `allowancebar`, snapshot folder
+  `~/Library/Application Support/AllowanceBar/`.
+- Updates now come from this project's own GitHub releases, signed with its
+  own update key. The pause on automatic updates added in 1.12.2 is removed.
+- Releases are signed with a stable self-signed certificate ("GGV"), so
+  macOS remembers Keychain "Always Allow" choices across updates. Builds are
+  not notarized; the first launch needs **Open Anyway** in System Settings →
+  Privacy & Security.
+- New app icon: three usage bars on a floating glass panel, in warm orange.
+  The editable source is `Resources/AppIcon.svg`.
+- The About window and README credit the original AgentMeter, link to this
+  project, and highlight the floating Usage Details window.
+- The "Support ♥" link in the menu and About window now opens this
+  project's Buy Me a Coffee page. The README credits section still links to
+  the original author's page.
+
+### Upgrading from AgentMeter fork builds
+- Allowance Bar starts fresh: re-enter API keys, re-add extra Codex accounts,
+  and approve Keychain prompts. Then quit and delete the old AgentMeter app.
 
 ## [1.15.0] — 2026-10-10
 

@@ -2,8 +2,8 @@ import AppKit
 import Foundation
 
 enum CLIToolInstaller {
-    static let homebrewPath = "/opt/homebrew/bin/agentmeter"
-    static let localPath = "/usr/local/bin/agentmeter"
+    static let homebrewPath = "/opt/homebrew/bin/allowancebar"
+    static let localPath = "/usr/local/bin/allowancebar"
 
     static var isBundledApp: Bool {
         Bundle.main.bundleURL.pathExtension == "app"
@@ -11,7 +11,7 @@ enum CLIToolInstaller {
 
     static var bundledHelperPath: String {
         Bundle.main.bundleURL
-            .appendingPathComponent("Contents/Helpers/agentmeter")
+            .appendingPathComponent("Contents/Helpers/allowancebar")
             .path
     }
 
@@ -66,7 +66,7 @@ enum CLIToolInstaller {
         // AppleScript string literal (the app may live in an oddly named folder).
         let quotedSource = appleScriptStringEscape(shellQuote(sourcePath))
         let scriptSource = """
-        do shell script "mkdir -p /usr/local/bin && ln -sf \(quotedSource) /usr/local/bin/agentmeter" with administrator privileges
+        do shell script "mkdir -p /usr/local/bin && ln -sf \(quotedSource) /usr/local/bin/allowancebar" with administrator privileges
         """
         var error: NSDictionary?
         let script = NSAppleScript(source: scriptSource)

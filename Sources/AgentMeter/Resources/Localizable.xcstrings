@@ -753,18 +753,18 @@
         }
       }
     },
-    "A management key can control your whole OpenRouter account, including creating and deleting other API keys. AgentMeter only reads usage and balance — it cannot spend credits or change anything. A regular API key is safer; use Connect to get a dedicated key for AgentMeter that you can revoke anytime.": {
+    "A management key can control your whole OpenRouter account, including creating and deleting other API keys. Allowance Bar only reads usage and balance — it cannot spend credits or change anything. A regular API key is safer; use Connect to get a dedicated key for Allowance Bar that you can revoke anytime.": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "A management key can control your whole OpenRouter account, including creating and deleting other API keys. AgentMeter only reads usage and balance — it cannot spend credits or change anything. A regular API key is safer; use Connect to get a dedicated key for AgentMeter that you can revoke anytime."
+            "value": "A management key can control your whole OpenRouter account, including creating and deleting other API keys. Allowance Bar only reads usage and balance — it cannot spend credits or change anything. A regular API key is safer; use Connect to get a dedicated key for Allowance Bar that you can revoke anytime."
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Una clave de administración puede controlar toda tu cuenta de OpenRouter, incluida la creación y eliminación de otras claves API. AgentMeter solo lee el uso y el saldo; no puede gastar créditos ni cambiar nada. Una clave API normal es más segura; usa Conectar para obtener una clave dedicada para AgentMeter que puedas revocar en cualquier momento."
+            "value": "Una clave de administración puede controlar toda tu cuenta de OpenRouter, incluida la creación y eliminación de otras claves API. Allowance Bar solo lee el uso y el saldo; no puede gastar créditos ni cambiar nada. Una clave API normal es más segura; usa Conectar para obtener una clave dedicada para Allowance Bar que puedas revocar en cualquier momento."
           }
         }
       }
@@ -821,18 +821,18 @@
         }
       }
     },
-    "About AgentMeter": {
+    "About Allowance Bar": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "About AgentMeter"
+            "value": "About Allowance Bar"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Acerca de AgentMeter"
+            "value": "Acerca de Allowance Bar"
           }
         }
       }
@@ -885,18 +885,18 @@
         }
       }
     },
-    "Adds this account to AgentMeter using the folder name as its label.": {
+    "Adds this account to Allowance Bar using the folder name as its label.": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Adds this account to AgentMeter using the folder name as its label."
+            "value": "Adds this account to Allowance Bar using the folder name as its label."
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Agrega esta cuenta a AgentMeter usando el nombre de la carpeta como etiqueta."
+            "value": "Agrega esta cuenta a Allowance Bar usando el nombre de la carpeta como etiqueta."
           }
         }
       }
@@ -917,34 +917,34 @@
         }
       }
     },
-    "AgentMeter": {
+    "Allowance Bar": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "AgentMeter"
+            "value": "Allowance Bar"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "AgentMeter"
+            "value": "Allowance Bar"
           }
         }
       }
     },
-    "AgentMeter could not reach the provider to check this key. That is usually a network issue or a temporary API change. Your saved key was not removed.": {
+    "Allowance Bar could not reach the provider to check this key. That is usually a network issue or a temporary API change. Your saved key was not removed.": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "AgentMeter could not reach the provider to check this key. That is usually a network issue or a temporary API change. Your saved key was not removed."
+            "value": "Allowance Bar could not reach the provider to check this key. That is usually a network issue or a temporary API change. Your saved key was not removed."
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "AgentMeter no pudo contactar al proveedor para verificar esta clave. Suele ser un problema de red o un cambio temporal en la API. Tu clave guardada no se eliminó."
+            "value": "Allowance Bar no pudo contactar al proveedor para verificar esta clave. Suele ser un problema de red o un cambio temporal en la API. Tu clave guardada no se eliminó."
           }
         }
       }
@@ -989,18 +989,18 @@
         }
       }
     },
-    "An Admin key can see billing details and manage other keys. AgentMeter only reads your balance; it cannot spend credits or change settings. An Inference key is safer and also works with AgentMeter.": {
+    "An Admin key can see billing details and manage other keys. Allowance Bar only reads your balance; it cannot spend credits or change settings. An Inference key is safer and also works with Allowance Bar.": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "An Admin key can see billing details and manage other keys. AgentMeter only reads your balance; it cannot spend credits or change settings. An Inference key is safer and also works with AgentMeter."
+            "value": "An Admin key can see billing details and manage other keys. Allowance Bar only reads your balance; it cannot spend credits or change settings. An Inference key is safer and also works with Allowance Bar."
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Una clave de administrador puede ver detalles de facturación y administrar otras claves. AgentMeter solo lee tu saldo; no puede gastar créditos ni cambiar la configuración. Una clave de inferencia es más segura y también funciona con AgentMeter."
+            "value": "Una clave de administrador puede ver detalles de facturación y administrar otras claves. Allowance Bar solo lee tu saldo; no puede gastar créditos ni cambiar la configuración. Una clave de inferencia es más segura y también funciona con Allowance Bar."
           }
         }
       }
@@ -1021,18 +1021,18 @@
         }
       }
     },
-    "An Inference key is the safer default — it lets apps run models but limits access to billing and key management. AgentMeter only reads your balance through a read-only endpoint; it cannot spend credits.": {
+    "An Inference key is the safer default — it lets apps run models but limits access to billing and key management. Allowance Bar only reads your balance through a read-only endpoint; it cannot spend credits.": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "An Inference key is the safer default — it lets apps run models but limits access to billing and key management. AgentMeter only reads your balance through a read-only endpoint; it cannot spend credits."
+            "value": "An Inference key is the safer default — it lets apps run models but limits access to billing and key management. Allowance Bar only reads your balance through a read-only endpoint; it cannot spend credits."
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Una clave de inferencia es la opción más segura por defecto: permite que las apps ejecuten modelos, pero limita el acceso a facturación y administración de claves. AgentMeter solo lee tu saldo mediante un punto de acceso de solo lectura; no puede gastar créditos."
+            "value": "Una clave de inferencia es la opción más segura por defecto: permite que las apps ejecuten modelos, pero limita el acceso a facturación y administración de claves. Allowance Bar solo lee tu saldo mediante un punto de acceso de solo lectura; no puede gastar créditos."
           }
         }
       }
@@ -1235,18 +1235,18 @@
         }
       }
     },
-    "Run Claude Code to renew its credentials, then refresh AgentMeter": {
+    "Run Claude Code to renew its credentials, then refresh Allowance Bar": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Run Claude Code to renew its credentials, then refresh AgentMeter"
+            "value": "Run Claude Code to renew its credentials, then refresh Allowance Bar"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Ejecuta Claude Code para renovar sus credenciales y luego actualiza AgentMeter"
+            "value": "Ejecuta Claude Code para renovar sus credenciales y luego actualiza Allowance Bar"
           }
         }
       }
@@ -1801,18 +1801,18 @@
         }
       }
     },
-    "Full account access — more powerful than AgentMeter needs.": {
+    "Full account access — more powerful than Allowance Bar needs.": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Full account access — more powerful than AgentMeter needs."
+            "value": "Full account access — more powerful than Allowance Bar needs."
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Acceso completo a la cuenta — más poderoso de lo que AgentMeter necesita."
+            "value": "Acceso completo a la cuenta — más poderoso de lo que Allowance Bar necesita."
           }
         }
       }
@@ -2011,18 +2011,18 @@
         }
       }
     },
-    "Installed. Open a new terminal and run agentmeter --help.": {
+    "Installed. Open a new terminal and run allowancebar --help.": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Installed. Open a new terminal and run agentmeter --help."
+            "value": "Installed. Open a new terminal and run allowancebar --help."
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Instalada. Abre una terminal nueva y ejecuta agentmeter --help."
+            "value": "Instalada. Abre una terminal nueva y ejecuta allowancebar --help."
           }
         }
       }
@@ -2785,34 +2785,34 @@
         }
       }
     },
-    "Run from AgentMeter.app to install the command-line tool.": {
+    "Run from Allowance Bar.app to install the command-line tool.": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Run from AgentMeter.app to install the command-line tool."
+            "value": "Run from Allowance Bar.app to install the command-line tool."
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Ejecuta desde AgentMeter.app para instalar la herramienta de línea de comandos."
+            "value": "Ejecuta desde Allowance Bar.app para instalar la herramienta de línea de comandos."
           }
         }
       }
     },
-    "Run this in Terminal to sign in that account. AgentMeter never handles your login or tokens — the Codex CLI does.": {
+    "Run this in Terminal to sign in that account. Allowance Bar never handles your login or tokens — the Codex CLI does.": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Run this in Terminal to sign in that account. AgentMeter never handles your login or tokens — the Codex CLI does."
+            "value": "Run this in Terminal to sign in that account. Allowance Bar never handles your login or tokens — the Codex CLI does."
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Ejecuta esto en Terminal para iniciar sesión en esa cuenta. AgentMeter nunca maneja tu inicio de sesión ni tus tokens — eso lo hace la CLI de Codex."
+            "value": "Ejecuta esto en Terminal para iniciar sesión en esa cuenta. Allowance Bar nunca maneja tu inicio de sesión ni tus tokens — eso lo hace la CLI de Codex."
           }
         }
       }
@@ -2873,18 +2873,18 @@
         }
       }
     },
-    "Spending capped — AgentMeter can read usage within this limit.": {
+    "Spending capped — Allowance Bar can read usage within this limit.": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Spending capped — AgentMeter can read usage within this limit."
+            "value": "Spending capped — Allowance Bar can read usage within this limit."
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Gasto limitado — AgentMeter puede leer el uso dentro de este límite."
+            "value": "Gasto limitado — Allowance Bar puede leer el uso dentro de este límite."
           }
         }
       }
@@ -3025,82 +3025,82 @@
         }
       }
     },
-    "This API key lets apps use your OpenRouter credits up to a spending limit you set. AgentMeter only reads how much has been used; it cannot spend money or change your account. If you used Connect, OpenRouter created a dedicated key just for AgentMeter that you can revoke anytime.": {
+    "This API key lets apps use your OpenRouter credits up to a spending limit you set. Allowance Bar only reads how much has been used; it cannot spend money or change your account. If you used Connect, OpenRouter created a dedicated key just for Allowance Bar that you can revoke anytime.": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "This API key lets apps use your OpenRouter credits up to a spending limit you set. AgentMeter only reads how much has been used; it cannot spend money or change your account. If you used Connect, OpenRouter created a dedicated key just for AgentMeter that you can revoke anytime."
+            "value": "This API key lets apps use your OpenRouter credits up to a spending limit you set. Allowance Bar only reads how much has been used; it cannot spend money or change your account. If you used Connect, OpenRouter created a dedicated key just for Allowance Bar that you can revoke anytime."
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Esta clave API permite que las apps usen tus créditos de OpenRouter hasta un límite de gasto que tú defines. AgentMeter solo lee cuánto se ha usado; no puede gastar dinero ni cambiar tu cuenta. Si usaste Conectar, OpenRouter creó una clave dedicada solo para AgentMeter que puedes revocar en cualquier momento."
+            "value": "Esta clave API permite que las apps usen tus créditos de OpenRouter hasta un límite de gasto que tú defines. Allowance Bar solo lee cuánto se ha usado; no puede gastar dinero ni cambiar tu cuenta. Si usaste Conectar, OpenRouter creó una clave dedicada solo para Allowance Bar que puedes revocar en cualquier momento."
           }
         }
       }
     },
-    "This API key lets apps use your OpenRouter credits. AgentMeter only reads usage; it cannot spend money or change your account. If you used Connect, OpenRouter created a dedicated key just for AgentMeter that you can revoke anytime.": {
+    "This API key lets apps use your OpenRouter credits. Allowance Bar only reads usage; it cannot spend money or change your account. If you used Connect, OpenRouter created a dedicated key just for Allowance Bar that you can revoke anytime.": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "This API key lets apps use your OpenRouter credits. AgentMeter only reads usage; it cannot spend money or change your account. If you used Connect, OpenRouter created a dedicated key just for AgentMeter that you can revoke anytime."
+            "value": "This API key lets apps use your OpenRouter credits. Allowance Bar only reads usage; it cannot spend money or change your account. If you used Connect, OpenRouter created a dedicated key just for Allowance Bar that you can revoke anytime."
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Esta clave API permite que las apps usen tus créditos de OpenRouter. AgentMeter solo lee el uso; no puede gastar dinero ni cambiar tu cuenta. Si usaste Conectar, OpenRouter creó una clave dedicada solo para AgentMeter que puedes revocar en cualquier momento."
+            "value": "Esta clave API permite que las apps usen tus créditos de OpenRouter. Allowance Bar solo lee el uso; no puede gastar dinero ni cambiar tu cuenta. Si usaste Conectar, OpenRouter creó una clave dedicada solo para Allowance Bar que puedes revocar en cualquier momento."
           }
         }
       }
     },
-    "This key is tied to a GLM Coding Plan subscription. AgentMeter reads your time and token quotas (they reset every few hours). It cannot spend money, call models, or change your account.": {
+    "This key is tied to a GLM Coding Plan subscription. Allowance Bar reads your time and token quotas (they reset every few hours). It cannot spend money, call models, or change your account.": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "This key is tied to a GLM Coding Plan subscription. AgentMeter reads your time and token quotas (they reset every few hours). It cannot spend money, call models, or change your account."
+            "value": "This key is tied to a GLM Coding Plan subscription. Allowance Bar reads your time and token quotas (they reset every few hours). It cannot spend money, call models, or change your account."
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Esta clave está vinculada a una suscripción GLM Coding Plan. AgentMeter lee tus cuotas de tiempo y de tokens (se restablecen cada pocas horas). No puede gastar dinero, llamar modelos ni cambiar tu cuenta."
+            "value": "Esta clave está vinculada a una suscripción GLM Coding Plan. Allowance Bar lee tus cuotas de tiempo y de tokens (se restablecen cada pocas horas). No puede gastar dinero, llamar modelos ni cambiar tu cuenta."
           }
         }
       }
     },
-    "This key lets apps call DeepSeek models using your prepaid balance. AgentMeter only reads how much balance is left; it cannot spend money or change your account.": {
+    "This key lets apps call DeepSeek models using your prepaid balance. Allowance Bar only reads how much balance is left; it cannot spend money or change your account.": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "This key lets apps call DeepSeek models using your prepaid balance. AgentMeter only reads how much balance is left; it cannot spend money or change your account."
+            "value": "This key lets apps call DeepSeek models using your prepaid balance. Allowance Bar only reads how much balance is left; it cannot spend money or change your account."
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Esta clave permite que las apps llamen modelos de DeepSeek usando tu saldo prepagado. AgentMeter solo lee cuánto saldo queda; no puede gastar dinero ni cambiar tu cuenta."
+            "value": "Esta clave permite que las apps llamen modelos de DeepSeek usando tu saldo prepagado. Allowance Bar solo lee cuánto saldo queda; no puede gastar dinero ni cambiar tu cuenta."
           }
         }
       }
     },
-    "This key lets apps call Kimi models using your prepaid balance. AgentMeter only reads how much balance is left; it cannot spend money or change your account.": {
+    "This key lets apps call Kimi models using your prepaid balance. Allowance Bar only reads how much balance is left; it cannot spend money or change your account.": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "This key lets apps call Kimi models using your prepaid balance. AgentMeter only reads how much balance is left; it cannot spend money or change your account."
+            "value": "This key lets apps call Kimi models using your prepaid balance. Allowance Bar only reads how much balance is left; it cannot spend money or change your account."
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Esta clave permite que las apps llamen modelos de Kimi usando tu saldo prepagado. AgentMeter solo lee cuánto saldo queda; no puede gastar dinero ni cambiar tu cuenta."
+            "value": "Esta clave permite que las apps llamen modelos de Kimi usando tu saldo prepagado. Allowance Bar solo lee cuánto saldo queda; no puede gastar dinero ni cambiar tu cuenta."
           }
         }
       }
@@ -3793,34 +3793,34 @@
         }
       }
     },
-    "Writes a machine-readable usage snapshot (never credentials) to Application Support for the agentmeter command-line tool and other local agents.": {
+    "Writes a machine-readable usage snapshot (never credentials) to Application Support for the allowancebar command-line tool and other local agents.": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Writes a machine-readable usage snapshot (never credentials) to Application Support for the agentmeter command-line tool and other local agents."
+            "value": "Writes a machine-readable usage snapshot (never credentials) to Application Support for the allowancebar command-line tool and other local agents."
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Escribe una instantánea de uso legible por máquina (nunca credenciales) en Application Support para la herramienta de línea de comandos agentmeter y otros agentes locales."
+            "value": "Escribe una instantánea de uso legible por máquina (nunca credenciales) en Application Support para la herramienta de línea de comandos allowancebar y otros agentes locales."
           }
         }
       }
     },
-    "Your key is valid, but Z.ai does not publish usage or balance data for pay-as-you-go API keys. AgentMeter can only show numbers for GLM Coding Plan keys. Your key is fine for calling models — AgentMeter just has nothing to display.": {
+    "Your key is valid, but Z.ai does not publish usage or balance data for pay-as-you-go API keys. Allowance Bar can only show numbers for GLM Coding Plan keys. Your key is fine for calling models — Allowance Bar just has nothing to display.": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Your key is valid, but Z.ai does not publish usage or balance data for pay-as-you-go API keys. AgentMeter can only show numbers for GLM Coding Plan keys. Your key is fine for calling models — AgentMeter just has nothing to display."
+            "value": "Your key is valid, but Z.ai does not publish usage or balance data for pay-as-you-go API keys. Allowance Bar can only show numbers for GLM Coding Plan keys. Your key is fine for calling models — Allowance Bar just has nothing to display."
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Tu clave es válida, pero Z.ai no publica datos de uso ni de saldo para claves API de pago por uso. AgentMeter solo puede mostrar números para claves de planes GLM Coding. Tu clave sirve para llamar modelos — AgentMeter simplemente no tiene nada que mostrar."
+            "value": "Tu clave es válida, pero Z.ai no publica datos de uso ni de saldo para claves API de pago por uso. Allowance Bar solo puede mostrar números para claves de planes GLM Coding. Tu clave sirve para llamar modelos — Allowance Bar simplemente no tiene nada que mostrar."
           }
         }
       }

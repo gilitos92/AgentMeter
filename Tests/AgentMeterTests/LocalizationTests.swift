@@ -2,12 +2,21 @@ import XCTest
 @testable import AgentMeter
 
 final class LocalizationTests: XCTestCase {
+    private let sampleKeys = [
+        "Refresh",
+        "Weekly limit",
+        "resets soon",
+        "% left",
+        "Balance",
+    ]
+
     func testSpanishTranslationsExistInCatalog() throws {
-        let catalogURL = Bundle.module.url(
-            forResource: "Localizable",
-            withExtension: "xcstrings"
-        )
-        let url = try XCTUnwrap(catalogURL)
+        // The catalog is excluded from the package resources (only the
+        // compiled .lproj strings ship), so read it from the source tree.
+        let url = URL(fileURLWithPath: #filePath)
+            .deletingLastPathComponent()
+            .appendingPathComponent("../../Sources/AgentMeter/Resources/Localizable.xcstrings")
+            .standardizedFileURL
         let data = try Data(contentsOf: url)
 
         struct StringUnit: Decodable {
@@ -28,13 +37,6 @@ final class LocalizationTests: XCTestCase {
         }
 
         let catalog = try JSONDecoder().decode(Catalog.self, from: data)
-        let sampleKeys = [
-            "Refresh",
-            "Weekly limit",
-            "resets soon",
-            "% left",
-            "Balance",
-        ]
 
         for key in sampleKeys {
             let entry = try XCTUnwrap(catalog.strings[key], "Missing catalog entry for \(key)")
@@ -43,6 +45,20 @@ final class LocalizationTests: XCTestCase {
                 "Missing Spanish translation for \(key)"
             )
             XCTAssertFalse(spanish.isEmpty, "Empty Spanish translation for \(key)")
+        }
+    }
+
+    func testShippedSpanishStringsAreTranslated() throws {
+        let path = try XCTUnwrap(
+            Bundle.module.path(forResource: "es", ofType: "lproj"),
+            "es.lproj is missing from the resource bundle"
+        )
+        let spanish = try XCTUnwrap(Bundle(path: path))
+
+        for key in sampleKeys {
+            let value = spanish.localizedString(forKey: key, value: nil, table: nil)
+            XCTAssertNotEqual(value, key, "Shipped es.lproj has no Spanish for \(key)")
+            XCTAssertFalse(value.isEmpty, "Empty shipped Spanish string for \(key)")
         }
     }
 
@@ -100,9 +116,9 @@ final class LocalizationTests: XCTestCase {
         let bundleURL = resourcesURL.appendingPathComponent("AgentMeter_AgentMeter.bundle", isDirectory: true)
         let englishURL = bundleURL.appendingPathComponent("en.lproj", isDirectory: true)
         try FileManager.default.createDirectory(at: englishURL, withIntermediateDirectories: true)
-        let info = "<?xml version=\"1.0\"?><!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\"><plist version=\"1.0\"><dict><key>CFBundleIdentifier</key><string>test.agentmeter.resources</string><key>CFBundlePackageType</key><string>BNDL</string></dict></plist>"
+        let info = "<?xml version=\"1.0\"?><!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\"><plist version=\"1.0\"><dict><key>CFBundleIdentifier</key><string>test.allowancebar.resources</string><key>CFBundlePackageType</key><string>BNDL</string></dict></plist>"
         try Data(info.utf8).write(to: bundleURL.appendingPathComponent("Info.plist"))
-        let appInfo = "<?xml version=\"1.0\"?><!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\"><plist version=\"1.0\"><dict><key>CFBundleIdentifier</key><string>test.agentmeter.app</string><key>CFBundlePackageType</key><string>APPL</string></dict></plist>"
+        let appInfo = "<?xml version=\"1.0\"?><!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\"><plist version=\"1.0\"><dict><key>CFBundleIdentifier</key><string>test.allowancebar.app</string><key>CFBundlePackageType</key><string>APPL</string></dict></plist>"
         try Data(appInfo.utf8).write(to: appURL.appendingPathComponent("Contents/Info.plist"))
         try Data("\"Packaged probe\" = \"From packaged bundle\";".utf8)
             .write(to: englishURL.appendingPathComponent("Localizable.strings"))
