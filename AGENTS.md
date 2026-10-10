@@ -159,8 +159,8 @@ scripts/bundle.sh [--install]   # builds "Allowance Bar.app" (ad-hoc signed by d
 ```
 
 - CI (`.github/workflows/ci.yml`) runs build+test on `macos-15` for push/PR.
-- `.github/workflows/release.yml` is manual-dispatch only; releases are cut
-  LOCALLY (see runbook below), so its signing secrets are not configured.
+- There is no release workflow: releases are cut LOCALLY (see runbook below).
+  The inherited Developer ID/notarization workflow was removed in 2.0.1.
 
 ## Release runbook (the actual, tested end-to-end flow)
 
@@ -201,8 +201,7 @@ Gotchas:
 
 ## Conventions
 
-- Keep PR titles human-readable — the release workflow uses
-  `generate_release_notes: true`, so they become the changelog.
+- Keep PR titles human-readable; they show up in the repo history.
 - Public issue tracking only (no Discussions).
 - Avoid rewriting history (the upstream history was recreated once to strip a
   secret-scanner false positive).
