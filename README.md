@@ -261,6 +261,11 @@ a language is a JSON-only pull request.
   <img src="Resources/screenshot-dropdown-es.png" alt="Allowance Bar en español: medidores de uso con tiempos de restablecimiento" width="360" />
 </p>
 
+## Support
+
+If Allowance Bar saves you from a surprise rate limit, you can
+[buy me a coffee](https://www.buymeacoffee.com/gilitos92z). Entirely optional.
+
 ## Credits
 
 Allowance Bar is a fork of [AgentMeter](https://github.com/fdtorres1/AgentMeter)
