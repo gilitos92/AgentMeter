@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><defs>
+<linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFC24B"/><stop offset="1" stop-color="#FF6A3D"/></linearGradient>
+<linearGradient id="hl" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".28"/><stop offset=".5" stop-color="#fff" stop-opacity="0"/></linearGradient>
+<linearGradient id="glass" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".42"/><stop offset="1" stop-color="#fff" stop-opacity=".22"/></linearGradient>
+<filter id="lift" x="-30%" y="-30%" width="160%" height="175%"><feDropShadow dx="0" dy="34" stdDeviation="34" flood-color="#6B1E00" flood-opacity=".42"/></filter>
+<filter id="soft" x="-20%" y="-50%" width="140%" height="200%"><feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#7A2A00" flood-opacity=".22"/></filter>
+</defs>
+<rect x="100" y="100" width="824" height="824" rx="185" fill="url(#bg)"/>
+<rect x="100" y="100" width="824" height="824" rx="185" fill="url(#hl)"/><g filter="url(#lift)"><rect x="196" y="262" width="632" height="500" rx="96" fill="url(#glass)"/></g><rect x="198" y="264" width="628" height="496" rx="94" fill="none" stroke="#fff" stroke-opacity=".65" stroke-width="4"/><g filter="url(#soft)"><rect x="262" y="342" width="500" height="90" rx="45.0" fill="#fff" fill-opacity=".30"/><rect x="262" y="342" width="420" height="90" rx="45.0" fill="#fff"/><rect x="262" y="466" width="500" height="90" rx="45.0" fill="#fff" fill-opacity=".30"/><rect x="262" y="466" width="285" height="90" rx="45.0" fill="#fff"/><rect x="262" y="590" width="500" height="90" rx="45.0" fill="#fff" fill-opacity=".30"/><rect x="262" y="590" width="150" height="90" rx="45.0" fill="#fff"/></g></svg>
