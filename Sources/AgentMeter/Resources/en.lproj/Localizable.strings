@@ -332,6 +332,8 @@
 	<string>Waiting for browser authorization…</string>
 	<key>Website &amp; source code</key>
 	<string>Website &amp; source code</string>
+	<key>Window Options</key>
+	<string>Window Options</string>
 	<key>Works for usage monitoring.</key>
 	<string>Works for usage monitoring.</string>
 	<key>Writes a machine-readable usage snapshot (never credentials) to Application Support for the allowancebar command-line tool and other local agents.</key>

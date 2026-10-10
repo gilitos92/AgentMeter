@@ -8,6 +8,34 @@ and balances. Keep every limit on screen in a floating window that stays
 above your work, full size or as a compact mini panel. Your coding agents can
 read the same numbers through a small read-only CLI.
 
+## Why Allowance Bar
+
+| App view | Light mode | Dark mode |
+|---|---|---|
+| Menu bar dropdown | <img src="Resources/screenshot-dropdown-light.png" alt="Allowance Bar menu bar dropdown in light mode" width="360" /> | <img src="Resources/screenshot-dropdown-dark.png" alt="Allowance Bar menu bar dropdown in dark mode" width="360" /> |
+| Full window | <img src="Resources/screenshot-details-light.png" alt="Allowance Bar full Usage Details window in light mode" width="360" /> | <img src="Resources/screenshot-details-dark.png" alt="Allowance Bar full Usage Details window in dark mode" width="360" /> |
+| Mini window | <img src="Resources/screenshot-mini-light.png" alt="Allowance Bar compact mini window in light mode" width="360" /> | <img src="Resources/screenshot-mini-dark.png" alt="Allowance Bar compact mini window in dark mode" width="360" /> |
+
+**A floating usage window that stays where you can see it.** Most usage
+meters live only in the menu bar: you click, look, and the numbers disappear.
+Allowance Bar's Usage Details window (⌘D, or `allowancebar://details`) keeps
+every limit visible while you work:
+
+- **Two sizes.** The full window shows every provider's meters, reset times,
+  and balances. One click collapses it into a small, chrome-free **mini
+  panel** with one meter per limit (for example 5-hour and weekly) and the
+  time until each resets. Drag it anywhere; one click expands it again.
+- **Keep on Top.** The window stays above other windows, even when you switch
+  apps.
+- **Show on All Desktops.** It follows you to every desktop (Space) and over
+  full-screen apps.
+- **Made to sit on top of your work.** A standard frosted background keeps
+  text readable and captures cleanly in window screenshots. Adjust its
+  opacity without fading the text; on macOS 26 and later, the toolbar uses
+  Liquid Glass.
+
+Your choices are remembered, so the window comes back the way you left it.
+
 Allowance Bar is based on [AgentMeter](https://github.com/fdtorres1/AgentMeter)
 by Felix Torres (MIT License). It is an independent project, not affiliated
 with or endorsed by the original author.
@@ -17,11 +45,6 @@ The menu bar shows the most constrained window per enabled provider, e.g.:
 ```
 Cx 5% · CxW 62% · Cu 20% · Cl 40% · OR $8.06
 ```
-
-<p align="center">
-  <img src="Resources/screenshot-dropdown.png" alt="Allowance Bar dropdown showing Codex and Cursor usage meters with provider badges, percent-left display, and exact reset times" width="360" />
-  <img src="Resources/screenshot-settings.png" alt="Allowance Bar Settings window, Providers tab, with per-provider mode, menu bar visibility, and credential status" width="400" />
-</p>
 
 ## Providers
 
@@ -70,27 +93,6 @@ Each provider can be set to **Auto** (show only if detected on this machine),
 independently. Refresh runs every 30s/1m/5m (configurable); Codex also
 refreshes instantly after CLI activity via a file watcher, and the app
 refreshes on wake.
-
-## Why Allowance Bar
-
-**A floating usage window that stays where you can see it.** Most usage
-meters live only in the menu bar: you click, look, and the numbers disappear.
-Allowance Bar's Usage Details window (⌘D, or `allowancebar://details`) keeps
-every limit visible while you work:
-
-- **Two sizes.** The full window shows every provider's meters, reset times,
-  and balances. One click collapses it into a small, chrome-free **mini
-  panel** with one meter per limit (for example 5-hour and weekly) and the
-  time until each resets. Drag it anywhere; one click expands it again.
-- **Keep on Top.** The window stays above other windows, even when you switch
-  apps.
-- **Show on All Desktops.** It follows you to every desktop (Space) and over
-  full-screen apps.
-- **Made to sit on top of your work.** On macOS 26 and later it uses Liquid
-  Glass (Regular or Clear) so text stays readable over anything behind it;
-  earlier macOS versions get an opacity slider.
-
-Your choices are remembered, so the window comes back the way you left it.
 
 ## Highlights
 
@@ -256,10 +258,6 @@ Allowance Bar habla español — la interfaz sigue el idioma de macOS. Translati
 for other languages are welcome: all strings live in a single
 [String Catalog](Sources/AgentMeter/Resources/Localizable.xcstrings), so adding
 a language is a JSON-only pull request.
-
-<p align="center">
-  <img src="Resources/screenshot-dropdown-es.png" alt="Allowance Bar en español: medidores de uso con tiempos de restablecimiento" width="360" />
-</p>
 
 ## Support
 

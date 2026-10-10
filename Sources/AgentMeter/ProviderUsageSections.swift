@@ -352,9 +352,7 @@ private struct WindowMeter: View {
                     }
                 }
             }
-            ProgressView(value: progressValue, total: 100)
-                .tint(color)
-                .accessibilityHidden(true)
+            UsageMeterBar(percent: progressValue, severity: severity)
             if let reset = window.resetDescription(style: settings.resetTimeStyle, now: now) {
                 Text(reset)
                     .font(.subheadline.weight(.medium))
