@@ -6,6 +6,7 @@ struct UsageDetailsView: View {
     @ObservedObject var settings: SettingsStore
     @State private var contentHeight: CGFloat?
     @State private var titleBarInset: CGFloat = 0
+    @State private var isPointerInside = false
     @Environment(\.dismissWindow) private var dismissWindow
 
     var body: some View {
@@ -14,6 +15,7 @@ struct UsageDetailsView: View {
                 CompactUsageView(
                     entries: store.compactEntries,
                     settings: settings,
+                    isPointerInside: isPointerInside,
                     close: { dismissWindow(id: "usage-details") }
                 )
                 // The window still reserves title bar space even with the
@@ -33,7 +35,8 @@ struct UsageDetailsView: View {
         }
         .background(WindowLevelSetter(alwaysOnTop: settings.usageDetailsAlwaysOnTop,
                                       onAllSpaces: settings.usageDetailsOnAllSpaces,
-                                      compact: settings.usageDetailsCompact))
+                                      compact: settings.usageDetailsCompact,
+                                      onPointerInsideChange: { isPointerInside = $0 }))
         // The compact panel has no title bar controls; its own hover controls
         // replace the toolbar.
         .toolbar(settings.usageDetailsCompact ? .hidden : .visible, for: .windowToolbar)
@@ -100,14 +103,14 @@ struct UsageDetailsView: View {
 private struct CompactUsageView: View {
     let entries: [CompactUsageEntry]
     @ObservedObject var settings: SettingsStore
+    let isPointerInside: Bool
     let close: () -> Void
-    @State private var isHovering = false
     @State private var isAdjustingOpacity = false
     @State private var labelWidth: CGFloat?
     @Environment(\.accessibilityVoiceOverEnabled) private var voiceOverEnabled
 
     private var showsControls: Bool {
-        isHovering || isAdjustingOpacity || voiceOverEnabled
+        isPointerInside || isAdjustingOpacity || voiceOverEnabled
     }
 
     var body: some View {
@@ -132,10 +135,7 @@ private struct CompactUsageView: View {
                 .padding(6)
                 .opacity(showsControls ? 1 : 0)
                 .allowsHitTesting(showsControls)
-        }
-        .contentShape(Rectangle())
-        .onHover { hovering in
-            withAnimation(.easeOut(duration: 0.15)) { isHovering = hovering }
+                .animation(.easeOut(duration: 0.15), value: showsControls)
         }
         // The panel has no title bar, so it sits flush with the window edges.
         .ignoresSafeArea()
@@ -445,12 +445,17 @@ struct WindowLevelSetter: NSViewRepresentable {
     let alwaysOnTop: Bool
     let onAllSpaces: Bool
     var compact = false
+    /// Reports whether the pointer is anywhere over the window. SwiftUI's
+    /// `onHover` lost the pointer over the compact panel's top strip, which
+    /// hid its controls as soon as the pointer reached them.
+    var onPointerInsideChange: (Bool) -> Void = { _ in }
 
     func makeNSView(context: Context) -> ProbeView {
         ProbeView()
     }
 
     func updateNSView(_ nsView: ProbeView, context: Context) {
+        nsView.onPointerInsideChange = onPointerInsideChange
         nsView.alwaysOnTop = alwaysOnTop
         nsView.onAllSpaces = onAllSpaces
         nsView.compact = compact
@@ -472,14 +477,49 @@ struct WindowLevelSetter: NSViewRepresentable {
         }
         private var fullSizeContentBeforeCompact: Bool?
         private var dragMonitor: Any?
+        private var mouseDownLocation: NSPoint?
+        private var pointerTrackingArea: NSTrackingArea?
+        private weak var pointerTrackingView: NSView?
+        var onPointerInsideChange: (Bool) -> Void = { _ in }
 
         deinit {
             if let dragMonitor { NSEvent.removeMonitor(dragMonitor) }
+            if let pointerTrackingArea { pointerTrackingView?.removeTrackingArea(pointerTrackingArea) }
         }
 
         override func viewDidMoveToWindow() {
             super.viewDidMoveToWindow()
             applyLevel()
+            installPointerTracking()
+        }
+
+        /// Tracks the whole window frame, title bar included, independent of
+        /// which view is under the pointer.
+        private func installPointerTracking() {
+            if let pointerTrackingArea {
+                pointerTrackingView?.removeTrackingArea(pointerTrackingArea)
+                self.pointerTrackingArea = nil
+            }
+            guard let window, let frameView = window.contentView?.superview else { return }
+            let area = NSTrackingArea(
+                rect: .zero,
+                options: [.mouseEnteredAndExited, .activeAlways, .inVisibleRect],
+                owner: self,
+                userInfo: nil
+            )
+            frameView.addTrackingArea(area)
+            pointerTrackingArea = area
+            pointerTrackingView = frameView
+            let inside = window.frame.contains(NSEvent.mouseLocation)
+            DispatchQueue.main.async { [weak self] in self?.onPointerInsideChange(inside) }
+        }
+
+        override func mouseEntered(with event: NSEvent) {
+            onPointerInsideChange(true)
+        }
+
+        override func mouseExited(with event: NSEvent) {
+            onPointerInsideChange(false)
         }
 
         private func applyLevel() {
@@ -491,6 +531,7 @@ struct WindowLevelSetter: NSViewRepresentable {
             window.isOpaque = false
             window.backgroundColor = .clear
             applyCompactChrome(to: window)
+            orderTitlebar(of: window)
             // Over full-screen apps the window must also float, so all-Spaces
             // behavior only applies together with always-on-top.
             if alwaysOnTop && onAllSpaces {
@@ -508,14 +549,47 @@ struct WindowLevelSetter: NSViewRepresentable {
         /// inside the window moves it, even when another app is active.
         private func updateDragMonitor() {
             if compact, dragMonitor == nil {
-                dragMonitor = NSEvent.addLocalMonitorForEvents(matching: .leftMouseDragged) { [weak self] event in
-                    guard let window = self?.window, event.window === window else { return event }
+                dragMonitor = NSEvent.addLocalMonitorForEvents(
+                    matching: [.leftMouseDown, .leftMouseDragged]
+                ) { [weak self] event in
+                    guard let self, let window, event.window === window else { return event }
+                    if event.type == .leftMouseDown {
+                        mouseDownLocation = event.locationInWindow
+                        return event
+                    }
+                    // Small pointer jitter during a click must not start a drag,
+                    // or the click never reaches the panel's buttons.
+                    if let start = mouseDownLocation {
+                        let distance = hypot(event.locationInWindow.x - start.x, event.locationInWindow.y - start.y)
+                        guard distance >= 3 else { return event }
+                    }
                     window.performDrag(with: event)
                     return nil
                 }
             } else if !compact, let monitor = dragMonitor {
                 NSEvent.removeMonitor(monitor)
                 dragMonitor = nil
+            }
+        }
+
+        /// The full-size SwiftUI content can end up ordered above the title
+        /// bar, where its material hides the title, window buttons and toolbar.
+        /// Keep the title bar in front of the content in the expanded window,
+        /// and behind it in the compact panel, which draws its own controls.
+        private func orderTitlebar(of window: NSWindow) {
+            let compact = compact
+            DispatchQueue.main.async {
+                guard let container = window.standardWindowButton(.closeButton)?.superview?.superview,
+                      let contentView = window.contentView,
+                      let frameView = container.superview,
+                      contentView.superview === frameView,
+                      let containerIndex = frameView.subviews.firstIndex(of: container),
+                      let contentIndex = frameView.subviews.firstIndex(of: contentView) else { return }
+                if compact, containerIndex > contentIndex {
+                    frameView.addSubview(container, positioned: .below, relativeTo: contentView)
+                } else if !compact, containerIndex < contentIndex {
+                    frameView.addSubview(container, positioned: .above, relativeTo: contentView)
+                }
             }
         }
 
