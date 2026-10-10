@@ -264,7 +264,7 @@ a language is a JSON-only pull request.
 ## Support
 
 If Allowance Bar saves you from a surprise rate limit, you can
-[buy me a coffee](https://www.buymeacoffee.com/gilitos92z). Entirely optional.
+[buy me a coffee](https://www.buymeacoffee.com/gilitos92). Entirely optional.
 
 ## Credits
 

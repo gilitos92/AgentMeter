@@ -28,7 +28,7 @@ struct AboutView: View {
             VStack(spacing: 4) {
                 Link(L("Website & source code"), destination: URL(string: "https://github.com/gilitos92/AllowanceBar")!)
                 Link(L("Report an issue"), destination: URL(string: "https://github.com/gilitos92/AllowanceBar/issues")!)
-                Link(L("Support ♥"), destination: URL(string: "https://www.buymeacoffee.com/gilitos92z")!)
+                Link(L("Support ♥"), destination: URL(string: "https://www.buymeacoffee.com/gilitos92")!)
             }
             .font(.callout)
 

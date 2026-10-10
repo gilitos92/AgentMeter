@@ -9,7 +9,7 @@ struct MenuContent: View {
     @State private var providerContentHeight: CGFloat?
     @State private var providerContentBottom: CGFloat = 0
 
-    private let tipJarURL = URL(string: "https://www.buymeacoffee.com/gilitos92z")!
+    private let tipJarURL = URL(string: "https://www.buymeacoffee.com/gilitos92")!
 
 
     var body: some View {
