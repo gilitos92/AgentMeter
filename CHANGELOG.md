@@ -5,6 +5,14 @@ All notable changes to Allowance Bar (formerly AgentMeter). Format follows
 `MAJOR.MINOR.PATCH`. Entries before 2.0.0 are AgentMeter releases (upstream
 through 1.12.1, then this fork's 1.12.2–1.15.0).
 
+## [2.0.1] — 2026-10-10
+
+### Removed
+- The GitHub Actions release workflow inherited from AgentMeter. It needed a
+  paid Apple Developer ID certificate and notarization key that this project
+  does not use, so it could never run. Releases are built locally with
+  `scripts/release.sh`; the build-and-test CI workflow stays.
+
 ## [2.0.0] — 2026-10-10
 
 Allowance Bar is the new name for this fork of
