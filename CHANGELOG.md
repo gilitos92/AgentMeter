@@ -26,10 +26,9 @@ the shared AgentMeter history.
   Privacy & Security.
 - The About window and README credit the original AgentMeter, link to this
   project, and highlight the floating Usage Details window.
-
-### Removed
-- The "Support ♥" tip link from the menu and About window (it pointed to the
-  original author; the README credits section links there instead).
+- The "Support ♥" link in the menu and About window now opens this
+  project's Buy Me a Coffee page. The README credits section still links to
+  the original author's page.
 
 ### Upgrading from AgentMeter fork builds
 - Allowance Bar starts fresh: re-enter API keys, re-add extra Codex accounts,
