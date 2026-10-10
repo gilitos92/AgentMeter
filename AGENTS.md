@@ -4,8 +4,8 @@ macOS menu bar app (SwiftUI, Swift Package, macOS 14+) showing AI coding usage
 limits for Codex (multiple accounts), Cursor, Claude Code, Gemini, Claude API reporting, and
 pay-as-you-go balances for OpenRouter, DeepSeek, Kimi, Z.ai, and Venice.
 Public repo: https://github.com/gilitos92/AllowanceBar, a fork of
-https://github.com/fdtorres1/AgentMeter (MIT; remote `origin` = upstream,
-read-only). Rebranded to Allowance Bar at 2.0.0 (bundle ID
+https://github.com/fdtorres1/AgentMeter (MIT; remote `origin` = this
+repo; upstream has no remote). Rebranded to Allowance Bar at 2.0.0 (bundle ID
 `com.ggv.AllowanceBar`, URL scheme `allowancebar://`, CLI `allowancebar`).
 Source folders, Swift targets/modules, and type names deliberately keep the
 `AgentMeter` naming to ease upstream merges; only user-facing names changed.
@@ -183,7 +183,7 @@ Steps (bump `X.Y.Z`, keep `CHANGELOG.md` updated first):
 2. `ALLOWANCEBAR_VERSION=X.Y.Z scripts/release.sh` — builds, signs with GGV
    (inside-out incl. Sparkle), zips `AllowanceBar.zip`, writes a signed
    `appcast.xml`.
-3. `git tag vX.Y.Z` on `main`; `git push fork main Development vX.Y.Z`.
+3. `git tag vX.Y.Z` on `main`; `git push origin main Development vX.Y.Z`.
 4. `gh release create vX.Y.Z AllowanceBar.zip appcast.xml -R gilitos92/AllowanceBar
    --title "Allowance Bar X.Y.Z" --notes ...` — BOTH assets; the app's
    SUFeedURL is `releases/latest/download/appcast.xml`. Notes mention the
