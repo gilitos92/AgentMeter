@@ -7,9 +7,15 @@ through 1.12.1, then this fork's 1.12.2–1.15.0).
 
 ## [Unreleased]
 
+## [2.0.3] — 2026-10-10
+
 ### Fixed
 - Usage alerts fire once per known limit window, even when reset estimates
   drift or usage fluctuates. Alerted windows remain remembered after restart.
+
+### Changed
+- The README's Buy Me a Coffee link is now a visual button beneath the
+  introduction.
 
 ## [2.0.2] — 2026-10-10
 
