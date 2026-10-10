@@ -350,8 +350,7 @@ private struct CompactWindowMeter: View {
                 }
             }
             .frame(width: labelWidth, alignment: .leading)
-            ProgressView(value: min(100, max(0, countDirection.displayPercent(window.usedPercent))), total: 100)
-                .tint(severity.color)
+            UsageMeterBar(percent: countDirection.displayPercent(window.usedPercent), severity: severity)
                 .frame(width: Self.barWidth)
             HStack(spacing: 3) {
                 Text(countDirection.percentLabel(window.usedPercent, menuBar: true))
