@@ -20,7 +20,7 @@ struct ClaudeAPIProvider: UsageProvider {
         keyReader: @escaping @Sendable () -> String? = { KeychainStore.get("apikey.claude-api") },
         clock: @escaping @Sendable () -> Date = { Date() },
         transport: @escaping @Sendable (URLRequest) async throws -> (Data, URLResponse) = { request in
-            try await HTTP.session.data(for: request, delegate: ClaudeAPINoRedirectDelegate.shared)
+            try await HTTP.session.data(for: request)
         },
         cache: ClaudeAPIReportCache = ClaudeAPIProvider.sharedCache
     ) {
@@ -322,21 +322,6 @@ actor ClaudeAPIReportCache {
             }
             throw safe
         }
-    }
-}
-
-/// A redirect must never forward an Admin key to another origin.
-private final class ClaudeAPINoRedirectDelegate: NSObject, URLSessionTaskDelegate {
-    static let shared = ClaudeAPINoRedirectDelegate()
-
-    func urlSession(
-        _ session: URLSession,
-        task: URLSessionTask,
-        willPerformHTTPRedirection response: HTTPURLResponse,
-        newRequest request: URLRequest,
-        completionHandler: @escaping (URLRequest?) -> Void
-    ) {
-        completionHandler(nil)
     }
 }
 
