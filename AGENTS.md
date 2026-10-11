@@ -157,7 +157,7 @@ swift test                  # live-network tests are opt-in via env
 scripts/bundle.sh [--install]   # builds "Allowance Bar.app" (ad-hoc signed by default)
 ```
 
-- CI (`.github/workflows/ci.yml`) runs build+test on `macos-15` for push/PR.
+- CI (`.github/workflows/ci.yml`) runs build+test on `macos-26` (Xcode 26+ SDK, needed for Liquid Glass APIs) for push/PR.
 - There is no release workflow: releases are cut LOCALLY (see runbook below).
 - Every build is signed with the hardened runtime (blocks `DYLD_*` code
   injection that would inherit the app's Keychain access). Builds without a
