@@ -101,13 +101,12 @@ announcement drafts, environment specifics) and complements this file.
   (used/limit cents) for team/enterprise accounts.
 - **Claude**: OAuth creds from `~/.claude/.credentials.json`, falling back to
   Keychain item `Claude Code-credentials`. `expiresAt` is in **milliseconds**.
-  Refresh: POST form-encoded to `https://platform.claude.com/v1/oauth/token`
-  with client_id `9d1c250a-e61b-44d9-88ed-5944d1962f5e` (public). Usage:
-  `GET https://api.anthropic.com/api/oauth/usage` with
+  Usage: `GET https://api.anthropic.com/api/oauth/usage` with
   `anthropic-beta: oauth-2025-04-20` and a `claude-code/x.y.z` User-Agent;
   windows `five_hour`/`seven_day`/`seven_day_opus` with `utilization` percent
-  and `resets_at` ISO8601. NOTE: the token endpoint rate-limits aggressively
-  (HTTP 429 even for invalid tokens), so treat refresh failures gently.
+  and `resets_at` ISO8601. NEVER refresh these tokens: rotating them in memory
+  revokes Claude Code's saved refresh token and signs the user out. When they
+  have expired, show `refreshRequired` and ask the user to run Claude Code.
 - **Claude API** (`claude-api`, v1.12.0): separate from subscription Claude.
   Keychain API key must have organization reporting access. Read-only GET
   `/v1/organizations/cost_report` and `/v1/organizations/usage_report/messages`
@@ -160,6 +159,10 @@ scripts/bundle.sh [--install]   # builds "Allowance Bar.app" (ad-hoc signed by d
 
 - CI (`.github/workflows/ci.yml`) runs build+test on `macos-15` for push/PR.
 - There is no release workflow: releases are cut LOCALLY (see runbook below).
+- Every build is signed with the hardened runtime (blocks `DYLD_*` code
+  injection that would inherit the app's Keychain access). Builds without a
+  Team ID add `Resources/AllowanceBar.entitlements`
+  (disable-library-validation) so the self-signed Sparkle framework loads.
   The inherited Developer ID/notarization workflow was removed in 2.0.1.
 
 ## Release runbook (the actual, tested end-to-end flow)

@@ -75,4 +75,33 @@ final class DiagnosticsTests: XCTestCase {
         XCTAssertFalse(text.contains("keyURL"))
         XCTAssertFalse(text.contains("SUPER_SECRET_PLANTED"))
     }
+
+    func testFormatProviderRedactsErrorText() {
+        let key = "sk-or-v1-0123456789abcdef0123456789abcdef"
+        let error = Diagnostics.formatProvider(
+            id: "openrouter",
+            displayName: "OpenRouter",
+            detected: true,
+            authKindName: "apiKey",
+            mode: .on,
+            showsInMenuBar: true,
+            state: .error("Invalid key \(key)")
+        )
+        XCTAssertFalse(error.contains(key))
+
+        let stale = Diagnostics.formatProvider(
+            id: "openrouter",
+            displayName: "OpenRouter",
+            detected: true,
+            authKindName: "apiKey",
+            mode: .on,
+            showsInMenuBar: true,
+            state: .stale(
+                ProviderUsage(planName: nil, windows: [], asOf: nil),
+                error: "Bearer \(key) rejected",
+                since: Date(timeIntervalSince1970: 1_700_000_000)
+            )
+        )
+        XCTAssertFalse(stale.contains(key))
+    }
 }

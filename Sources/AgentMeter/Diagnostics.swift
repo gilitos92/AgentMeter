@@ -65,7 +65,7 @@ enum Diagnostics {
         case .loading:
             return "loading"
         case .error(let message):
-            return "error — \(message)"
+            return "error — \(ErrorRedaction.redact(message))"
         case .ready(let usage), .stale(let usage, _, _):
             var parts: [String] = []
             for window in usage.windows {
@@ -85,7 +85,7 @@ enum Diagnostics {
             var summary = parts.joined(separator: "; ")
             if case .stale(_, let error, let since) = state {
                 let timeFormatter = Date.FormatStyle().hour().minute()
-                summary += "; stale since \(since.formatted(timeFormatter)); error: \(error)"
+                summary += "; stale since \(since.formatted(timeFormatter)); error: \(ErrorRedaction.redact(error))"
             }
             return summary
         }

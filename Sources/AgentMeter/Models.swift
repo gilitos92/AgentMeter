@@ -2,14 +2,31 @@ import Foundation
 
 /// Shared cache-free HTTP session. Responses are tiny JSON blobs fetched once
 /// a minute; URLCache would only hold memory for data we never reuse.
+/// Redirects are refused: every request carries a credential (Authorization
+/// or Cursor's Cookie header), and none of the provider APIs redirect.
 enum HTTP {
     static let session: URLSession = {
         let config = URLSessionConfiguration.ephemeral
         config.urlCache = nil
         config.requestCachePolicy = .reloadIgnoringLocalCacheData
         config.httpCookieStorage = nil
-        return URLSession(configuration: config)
+        return URLSession(configuration: config, delegate: NoRedirectDelegate.shared, delegateQueue: nil)
     }()
+}
+
+/// A redirect must never forward a credential to another origin.
+final class NoRedirectDelegate: NSObject, URLSessionTaskDelegate, Sendable {
+    static let shared = NoRedirectDelegate()
+
+    func urlSession(
+        _ session: URLSession,
+        task: URLSessionTask,
+        willPerformHTTPRedirection response: HTTPURLResponse,
+        newRequest request: URLRequest,
+        completionHandler: @escaping (URLRequest?) -> Void
+    ) {
+        completionHandler(nil)
+    }
 }
 
 /// One rate-limit window (e.g. Codex 5h window, Cursor monthly plan usage).

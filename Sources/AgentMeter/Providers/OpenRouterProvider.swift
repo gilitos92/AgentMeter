@@ -240,13 +240,22 @@ final class OpenRouterAuthFlow: ObservableObject {
     static let shared = OpenRouterAuthFlow()
     static let callbackScheme = "allowancebar"
     static let callbackHost = "openrouter"
-    private static let verifierDefaultsKey = "openRouter.pendingPKCEVerifier"
+    /// Versions up to 2.0.3 kept the verifier in UserDefaults; removed on first use.
+    private static let legacyVerifierDefaultsKey = "openRouter.pendingPKCEVerifier"
 
     @Published private(set) var status: Status = .idle
 
+    /// Kept in memory only, so an abandoned flow leaves nothing on disk. If the
+    /// app quits mid-flow the callback fails and the user connects again.
+    private var pendingVerifier: String?
+
+    private init() {
+        UserDefaults.standard.removeObject(forKey: Self.legacyVerifierDefaultsKey)
+    }
+
     func start() {
         let verifier = Self.randomVerifier()
-        UserDefaults.standard.set(verifier, forKey: Self.verifierDefaultsKey)
+        pendingVerifier = verifier
         status = .connecting
         let challenge = Self.challenge(for: verifier)
 
@@ -263,7 +272,7 @@ final class OpenRouterAuthFlow: ObservableObject {
     /// Returns true if the URL was consumed.
     func handleCallback(_ url: URL, onComplete: @escaping (Result<Void, Error>) -> Void) -> Bool {
         guard url.scheme == Self.callbackScheme, url.host == Self.callbackHost else { return false }
-        guard let verifier = UserDefaults.standard.string(forKey: Self.verifierDefaultsKey),
+        guard let verifier = pendingVerifier,
               let code = URLComponents(url: url, resolvingAgainstBaseURL: false)?
                   .queryItems?.first(where: { $0.name == "code" })?.value else {
             let error = OpenRouterError.authFlowFailed(
@@ -273,7 +282,7 @@ final class OpenRouterAuthFlow: ObservableObject {
             onComplete(.failure(error))
             return true
         }
-        UserDefaults.standard.removeObject(forKey: Self.verifierDefaultsKey)
+        pendingVerifier = nil
 
         Task {
             do {
