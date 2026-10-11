@@ -174,7 +174,7 @@ final class UsageStore: ObservableObject {
             let previous = states[provider.id] ?? .loading
             states[provider.id] = ProviderState.nextState(
                 after: previous,
-                failure: error.localizedDescription,
+                failure: ErrorRedaction.redact(error.localizedDescription),
                 at: Date()
             )
         }

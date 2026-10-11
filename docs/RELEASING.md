@@ -86,7 +86,9 @@ Versioning: MINOR for features, PATCH for fixes and small UX follow-ups.
 
 With a Developer ID later: pass `SIGN_IDENTITY="Developer ID Application: …"`
 plus `NOTARY_PROFILE` (or `APPLE_API_KEY_ID`/`APPLE_API_ISSUER`/`APPLE_API_KEY`);
-`release.sh` then adds the hardened runtime, notarizes, and staples. Switching
+`release.sh` then adds a secure timestamp, notarizes, and staples. Every
+build already uses the hardened runtime; builds without a Team ID add
+`Resources/AllowanceBar.entitlements` so the self-signed Sparkle framework loads. Switching
 identity changes the designated requirement, so users see Keychain prompts once.
 
 ### Local packaging checks

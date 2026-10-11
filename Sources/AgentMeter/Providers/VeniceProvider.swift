@@ -170,9 +170,11 @@ struct VeniceProvider: UsageProvider {
         values: [String: Double?],
         preferred: String?
     ) -> (String, Double) {
-        let normalized = Dictionary(uniqueKeysWithValues: values.compactMap { key, value in
+        // Keys can differ only by case ("usd" and "USD"); keep the larger
+        // amount instead of trapping on the duplicate.
+        let normalized = Dictionary(values.compactMap { key, value in
             value.map { (key.uppercased(), $0) }
-        })
+        }, uniquingKeysWith: max)
         let preferredKey = preferred?.uppercased()
         let fallbacks = [preferredKey, "USD", "DIEM"].compactMap { $0 }
         for currency in fallbacks {

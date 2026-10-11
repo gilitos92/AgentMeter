@@ -6,10 +6,11 @@
 #     --install   also copy the app to /Applications
 #
 # Optional environment for signing (used by scripts/release.sh and CI):
-#   SIGN_IDENTITY   code-signing identity; defaults to ad-hoc "-". A Developer ID
-#                   identity also gets the hardened runtime + timestamp needed for
-#                   notarization; any other identity (e.g. the self-signed "GGV"
-#                   certificate) signs without them.
+#   SIGN_IDENTITY   code-signing identity; defaults to ad-hoc "-". Every build
+#                   gets the hardened runtime. A Developer ID identity also gets
+#                   the timestamp needed for notarization; any other identity
+#                   (e.g. the self-signed "GGV" certificate) gets the
+#                   library-validation entitlement so Sparkle still loads.
 set -euo pipefail
 
 cd "$(dirname "$0")/.."
@@ -110,33 +111,28 @@ cat > "$APP/Contents/Info.plist" <<PLIST
 PLIST
 
 # Sign inside-out (--deep is discouraged): Sparkle.framework, including its
-# XPC services, before the app. Only Developer ID builds get the hardened
-# runtime (--options runtime) and a secure timestamp, both needed for
-# notarization: Apple's timestamp server rejects other certificates, and
-# the runtime's library validation would refuse to load Sparkle when the
-# certificate has no Team ID (self-signed).
-if [[ "$SIGN_IDENTITY" != *"Developer ID"* ]]; then
-    for xpc in "$APP/Contents/Frameworks/Sparkle.framework/Versions/B/XPCServices/"*.xpc; do
-        codesign --force --sign "$SIGN_IDENTITY" "$xpc"
-    done
-    codesign --force --sign "$SIGN_IDENTITY" \
-        "$APP/Contents/Frameworks/Sparkle.framework/Versions/B/Autoupdate" \
-        "$APP/Contents/Frameworks/Sparkle.framework/Versions/B/Updater.app" \
-        "$APP/Contents/Frameworks/Sparkle.framework"
-    codesign --force --sign "$SIGN_IDENTITY" "$APP/Contents/Helpers/${CLI_NAME}"
-    codesign --force --sign "$SIGN_IDENTITY" "$APP"
+# XPC services, before the app. Every build gets the hardened runtime, which
+# makes the app ignore DYLD_* environment variables so other processes cannot
+# inject code that inherits its Keychain access. Only Developer ID builds get
+# a secure timestamp (needed for notarization; Apple's timestamp server
+# rejects other certificates). Builds without a Team ID (self-signed or
+# ad-hoc) also need the entitlement that turns off library validation, or the
+# runtime would refuse to load Sparkle.
+SIGN_FLAGS=(--force --options runtime --sign "$SIGN_IDENTITY")
+if [[ "$SIGN_IDENTITY" == *"Developer ID"* ]]; then
+    SIGN_FLAGS+=(--timestamp)
 else
-    for xpc in "$APP/Contents/Frameworks/Sparkle.framework/Versions/B/XPCServices/"*.xpc; do
-        codesign --force --options runtime --timestamp --sign "$SIGN_IDENTITY" "$xpc"
-    done
-    codesign --force --options runtime --timestamp --sign "$SIGN_IDENTITY" \
-        "$APP/Contents/Frameworks/Sparkle.framework/Versions/B/Autoupdate" \
-        "$APP/Contents/Frameworks/Sparkle.framework/Versions/B/Updater.app" \
-        "$APP/Contents/Frameworks/Sparkle.framework"
-    codesign --force --options runtime --timestamp --sign "$SIGN_IDENTITY" \
-        "$APP/Contents/Helpers/${CLI_NAME}"
-    codesign --force --options runtime --timestamp --sign "$SIGN_IDENTITY" "$APP"
+    SIGN_FLAGS+=(--entitlements Resources/AllowanceBar.entitlements)
 fi
+for xpc in "$APP/Contents/Frameworks/Sparkle.framework/Versions/B/XPCServices/"*.xpc; do
+    codesign "${SIGN_FLAGS[@]}" "$xpc"
+done
+codesign "${SIGN_FLAGS[@]}" \
+    "$APP/Contents/Frameworks/Sparkle.framework/Versions/B/Autoupdate" \
+    "$APP/Contents/Frameworks/Sparkle.framework/Versions/B/Updater.app" \
+    "$APP/Contents/Frameworks/Sparkle.framework"
+codesign "${SIGN_FLAGS[@]}" "$APP/Contents/Helpers/${CLI_NAME}"
+codesign "${SIGN_FLAGS[@]}" "$APP"
 
 echo "Built $PWD/$APP (version ${VERSION}, identity: ${SIGN_IDENTITY})"
 

@@ -140,11 +140,8 @@ struct GeminiProvider: UsageProvider {
         request.timeoutInterval = 20
         request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        if let projectId {
-            request.httpBody = Data("{\"project\": \"\(projectId)\"}".utf8)
-        } else {
-            request.httpBody = Data("{}".utf8)
-        }
+        let body: [String: String] = projectId.map { ["project": $0] } ?? [:]
+        request.httpBody = try JSONSerialization.data(withJSONObject: body)
 
         let (data, response) = try await HTTP.session.data(for: request)
         guard let http = response as? HTTPURLResponse else { throw GeminiError.badResponse }
