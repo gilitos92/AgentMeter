@@ -7,6 +7,21 @@ through 1.12.1, then this fork's 1.12.2–1.15.0).
 
 ## [Unreleased]
 
+### Security
+- Builds are signed with the hardened runtime, so other processes can no
+  longer inject code into Allowance Bar and borrow its Keychain access.
+- Network requests refuse redirects, so a credential is never forwarded to
+  another host.
+- Error text is redacted (keys, tokens, home folder paths) before it appears
+  in the menu, Copy Diagnostics, or the status file. Redaction now also
+  catches base64 tokens and short `key=` values.
+- The OpenRouter sign-in verifier stays in memory instead of preferences.
+- CI pins its checkout action by commit and uses a read-only token.
+
+### Fixed
+- A Venice balance response with currencies that differ only by case no
+  longer crashes the app.
+
 ## [2.0.3] — 2026-10-10
 
 ### Fixed
