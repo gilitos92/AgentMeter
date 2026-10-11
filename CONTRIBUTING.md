@@ -12,7 +12,7 @@ swift test           # unit tests (network-dependent tests are opt-in and skip b
 scripts/bundle.sh    # produce Allowance Bar.app in the repo root
 ```
 
-Requirements: macOS 14+, Xcode command line tools (Swift 5.10+).
+Requirements: macOS 14+ to run; building needs Xcode 26 or later (the macOS 26 SDK).
 
 ## Adding a provider
 
