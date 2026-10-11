@@ -61,4 +61,13 @@ final class VeniceProviderTests: XCTestCase {
         )
         XCTAssertEqual(VeniceProvider.usage(from: response, now: Date()).balance?.remaining, 2.5)
     }
+
+    func testChosenBalanceToleratesKeysThatDifferOnlyByCase() {
+        let (currency, amount) = VeniceProvider.chosenBalance(
+            values: ["usd": 1, "USD": 2],
+            preferred: nil
+        )
+        XCTAssertEqual(currency, "USD")
+        XCTAssertEqual(amount, 2)
+    }
 }
