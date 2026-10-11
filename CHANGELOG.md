@@ -7,6 +7,8 @@ through 1.12.1, then this fork's 1.12.2–1.15.0).
 
 ## [Unreleased]
 
+## [2.0.4] — 2026-10-10
+
 ### Security
 - Builds are signed with the hardened runtime, so other processes can no
   longer inject code into Allowance Bar and borrow its Keychain access.
